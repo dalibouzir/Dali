@@ -8,22 +8,21 @@ export type Certification = {
 
 export const certifications: Certification[] = [
   {
-    title: "Python for Data Science, AI & Development",
-    issuer: "IBM",
-    date: "Dec 3, 2023",
-    file: "/assets/certifications/images/ibm-python-ds-ai-dev.png",
+    title: "Fundamentals of Visualization with Tableau",
+    issuer: "University of California",
+    date: "Dec 23, 2023",
+    file: "/assets/certifications/images/tableau-fundamentals.pdf",
   },
   {
     title: "What is Data Science?",
     issuer: "IBM",
     date: "Dec 27, 2023",
-    file: "/assets/certifications/images/ibm-what-is-data-science.png",
+    file: "/assets/certifications/images/ibm-what-is-data-science.pdf",
   },
   {
-    title: "Fundamentals of Visualization with Tableau",
-    issuer: "University of California",
-    date: "Dec 23, 2023",
-    file: "/assets/certifications/images/tableau-fundamentals.png",
+    title: "Python for Data Science, AI & Development",
+    issuer: "IBM",
+    date: "Dec 3, 2023",
+    file: "/assets/certifications/images/ibm-python-ds-ai-dev.pdf",
   },
 ];
-

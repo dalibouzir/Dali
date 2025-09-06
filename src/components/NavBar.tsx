@@ -14,6 +14,7 @@ const sections = [
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -23,12 +24,8 @@ export default function NavBar() {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all ${
-        scrolled ? "backdrop-blur supports-[backdrop-filter]:bg-zinc-950/50" : "bg-transparent"
-      }`}
-    >
-      <nav className="container-wide flex items-center justify-between py-4">
+    <header className={`sticky top-0 z-50 transition-all ${scrolled ? "backdrop-blur" : ""}`}>
+      <nav className="container-wide glass rounded-xl flex items-center justify-between py-3 px-4 mt-2 border border-white/10">
         <Link href="#" className="text-sm font-semibold text-zinc-300 hover:text-white">
           Mohamed Ali
         </Link>
@@ -41,7 +38,34 @@ export default function NavBar() {
             </li>
           ))}
         </ul>
+        <button
+          aria-label="Menu"
+          className="md:hidden btn px-3 py-1"
+          onClick={() => setOpen((v) => !v)}
+        >
+          ☰
+        </button>
       </nav>
+      {/* Mobile Menu */}
+      {open && (
+        <div className="md:hidden container-wide px-0">
+          <div className="glass rounded-xl mt-2 border border-white/10 overflow-hidden">
+            <ul className="divide-y divide-white/5 text-zinc-200">
+              {sections.map((s) => (
+                <li key={s.href}>
+                  <a
+                    className="block px-4 py-3 active:bg-white/5 hover:bg-white/5"
+                    href={s.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

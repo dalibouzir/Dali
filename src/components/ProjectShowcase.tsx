@@ -42,7 +42,7 @@ export default function ProjectShowcase({
 
   return (
     <div
-      className="relative aspect-video overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 shadow-2xl shadow-black/30 group"
+      className="relative aspect-video overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 shadow-xl shadow-black/20 group"
       onMouseEnter={stop}
       onMouseLeave={start}
     >
@@ -63,11 +63,11 @@ export default function ProjectShowcase({
         )}
       </div>
 
-      {/* Controls */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2 opacity-0 transition-opacity group-hover:opacity-100">
+      {/* Controls: visible on mobile, fade in on hover for md+ */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2 opacity-100 md:opacity-0 transition-opacity md:group-hover:opacity-100">
         <button
           type="button"
-          className="pointer-events-auto btn !px-2 !py-1"
+          className="pointer-events-auto btn !px-3 !py-2 text-lg"
           onClick={(e) => {
             e.stopPropagation();
             stop();
@@ -79,7 +79,7 @@ export default function ProjectShowcase({
         </button>
         <button
           type="button"
-          className="pointer-events-auto btn !px-2 !py-1"
+          className="pointer-events-auto btn !px-3 !py-2 text-lg"
           onClick={(e) => {
             e.stopPropagation();
             stop();

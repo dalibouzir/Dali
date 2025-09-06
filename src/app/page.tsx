@@ -17,7 +17,7 @@ export default function Home() {
 
       {/* Hero / About */}
       <Section id="about" title="About Me" typeBlurb={false}>
-        <div className="card p-6">
+        <div className="card p-4 sm:p-6">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="md:w-44 md:self-start">
               <div className="relative h-44 w-44 overflow-hidden rounded-full border border-zinc-800">
