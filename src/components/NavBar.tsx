@@ -8,6 +8,7 @@ const sections = [
   { href: "#ml-research", label: "ML Research" },
   { href: "#development", label: "Development Projects" },
   { href: "#mlops", label: "MLOps & Systems" },
+  { href: "#certifications", label: "Certifications" },
   { href: "#contact", label: "Contact" },
 ];
 

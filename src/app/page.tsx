@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/RevealOnScroll";
+import CertificateCard from "@/components/CertificateCard";
+import { certifications } from "@/data/certifications";
 
 export default function Home() {
   return (
@@ -84,6 +86,7 @@ export default function Home() {
               <li>Clear metrics and iterative delivery</li>
               <li>Strong Python + ML stack</li>
               <li>Communicates trade-offs effectively</li>
+              <li>Certifications: IBM Python DS/AI, IBM What is DS, Tableau Fundamentals</li>
             </ul>
           </div>
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
@@ -93,6 +96,21 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </Section>
+
+      {/* Certifications */}
+      <Section
+        id="certifications"
+        title="Certifications"
+        blurb="Validated foundations in data science and visualization. Click to view certificates (images or PDFs)."
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {certifications.map((c) => (
+            <Reveal key={c.title}>
+              <CertificateCard {...c} />
+            </Reveal>
+          ))}
         </div>
       </Section>
 
