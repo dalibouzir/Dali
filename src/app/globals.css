@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  --accent: 186 100% 50%; /* teal/blue */
+  --accent-2: 259 94% 61%; /* purple */
+  --accent-3: 141 73% 42%; /* green */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Minimal resets layering on top of Tailwind */
+body {
+  @apply bg-zinc-950 text-zinc-100 selection:bg-cyan-500/30 selection:text-cyan-50;
+}
+
+/* Utility classes */
+.container-narrow {
+  @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto px-4 sm:px-8 lg:px-16;
+}
+
+.section {
+  @apply py-16 sm:py-20;
+}
+
+.section-title {
+  @apply text-2xl sm:text-3xl font-semibold tracking-tight mb-8;
+  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)) 60%, hsl(var(--accent-3)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card {
+  @apply rounded-2xl border border-zinc-800/70 bg-zinc-900/60 backdrop-blur-md shadow-2xl shadow-black/30 hover:shadow-black/40 transition-transform duration-300 will-change-transform hover:-translate-y-0.5;
+}
+
+.btn {
+  @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 shadow-lg shadow-black/20 hover:shadow-black/30;
+}
+
+.btn-accent {
+  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)) 60%, hsl(var(--accent-3)) 100%);
+  @apply text-white border-transparent hover:opacity-90;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-md border border-zinc-800 bg-zinc-900/60 px-2 py-1 text-xs text-zinc-200;
+}
+
+/* Reveal + animation helpers */
+.reveal { @apply opacity-0 translate-y-4; }
+.reveal.is-visible { @apply opacity-100 translate-y-0; transition: opacity .6s ease, transform .6s ease; }
+
+@keyframes fade-in {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+.animate-fade-in { animation: fade-in .6s ease both; }
+
+/* Animated gradient titles */
+.title-gradient {
+  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)) 60%, hsl(var(--accent-3)) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating animation for background blobs */
+@keyframes float {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-12px) }
+}
+.animate-float-slow { animation: float 10s ease-in-out infinite; }
+.animate-float-slower { animation: float 14s ease-in-out infinite; }
+.animate-float-slowest { animation: float 18s ease-in-out infinite; }
