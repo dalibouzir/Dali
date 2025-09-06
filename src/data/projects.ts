@@ -2,7 +2,7 @@ export const dataAI = [
   {
     title: "AFFA – Fantasy Football Assistant",
     description:
-      "Predictive assistant with ML models, MLOps, and Flask/FastAPI services. Provides performance analysis and personalized recommendations.",
+      "Personal ML assistant that helps fantasy football players make smarter lineup decisions. End-to-end pipeline: data collection/cleaning → modeling → FastAPI services → monitoring. Combines player performance forecasting with recommendation logic (NLTK + ML pipelines). Dockerized, tracked with MLflow, and monitored via Elastic/Kibana. Outperformed my own baseline strategy; realtime latency kept under ~2s/rec.",
     tech: ["Python", "Flask", "FastAPI", "NLTK", "MongoDB", "Docker", "MLflow", "ElasticSearch", "Kibana"],
     images: [
       { src: "/assets/projects/affa/images/cover.png", alt: "AFFA UI" },
@@ -24,7 +24,7 @@ export const mlResearch = [
   {
     title: "Speech Emotion Recognition (VAE + Diffusion)",
     description:
-      "Reproduction and exploration of synthetic data generation with VAEs and diffusion models to improve emotion recognition in speech.",
+      "Reproduced a university project on speech emotion recognition and used synthetic augmentation (VAE + diffusion) to expand limited datasets. Found synthetic data measurably improved recognition accuracy compared to baselines; explored trade-offs between sample quality and training stability.",
     tech: ["PyTorch", "VAE", "Diffusion", "Jupyter"],
     images: [
       { src: "/assets/projects/ser-vae-diffusion/images/cover.png", alt: "SER Notebook" },
@@ -39,7 +39,7 @@ export const mlResearch = [
   {
     title: "Climate Change Time Series (Colab)",
     description:
-      "Time series modeling and analysis for climate indicators with exploratory visualization.",
+      "Modeled climate indicators (temperature, CO₂, sea levels). Compared classical approaches (ARIMA/Prophet) vs ML methods; produced exploratory dashboards for trend visualization and forecasting.",
     tech: ["Python", "Colab", "Time Series"],
     images: [
       { src: "/assets/projects/time-series-climate/images/cover.png", alt: "Climate Time Series" },
@@ -54,7 +54,7 @@ export const mlResearch = [
   {
     title: "VGG vs CNN for Ligament Classification",
     description:
-      "Comparative study of VGG and CNN architectures on medical images with analysis of accuracy, overfitting, and complexity.",
+      "Worked on ~8GB MRI dataset for ligament diagnosis. Compared VGG vs custom CNN: CNN trained faster; VGG achieved higher accuracy but tended to overfit. Delivered insights on accuracy vs complexity for medical imaging tasks.",
     tech: ["TensorFlow", "Keras", "Matplotlib", "Colab"],
     images: [
       { src: "/assets/projects/vgg-vs-cnn/images/cover.png", alt: "VGG vs CNN" },
@@ -72,7 +72,7 @@ export const development = [
   {
     title: "ElyosDigital / PowerGym – Gym Management Platform",
     description:
-      "Full web application for members, subscriptions, schedules, and activity booking with responsive design and secure data handling.",
+      "Full gym management platform: member registration, subscriptions, scheduling, activity booking, and product sales. Multi-role auth (admins/trainers/members) with validation and secure data handling; streamlined operations and reduced manual work.",
     tech: ["Laravel", "MySQL", "Blade", "Bootstrap"],
     images: [
       { src: "/assets/projects/elyosdigital-powergym/images/img1.png", alt: "Dashboard" },
@@ -96,7 +96,7 @@ export const development = [
   {
     title: "MyMatch – Admin Panel",
     description:
-      "Admin dashboard for managing mobile app users with Laravel backend, Firebase integration, and real-time visualization.",
+      "Admin dashboard for real football app to manage players, stadiums, and matches. Integrated Firebase for realtime updates and delivered clear visualization of users, matches, and usage metrics.",
     tech: ["Laravel", "Firebase", "REST"],
     images: [
       { src: "/assets/projects/mymatch-admin/images/cover.png", alt: "MyMatch Admin" },
@@ -106,9 +106,9 @@ export const development = [
     ],
   },
   {
-    title: "QuirkHire (LLM-powered career recommender)",
+    title: "QuirkHire – LLM Career Recommender",
     description:
-      "Smart platform using NLP/LLM to match candidates with jobs. Semantic CV analysis with explainable recommendations and analytics.",
+      "LLM-powered career assistant: semantically analyzes CVs with embeddings for better job matching than keyword search. Adds explainability by highlighting skills and reasons behind each recommendation; delivers accurate, low-latency results.",
     tech: ["React", "Django", "DRF", "Supabase", "Redux Toolkit", "OpenRouter API"],
     images: [
       { src: "/assets/projects/quirkhire/images/cover.png", alt: "QuirkHire UI" },
@@ -121,13 +121,26 @@ export const development = [
       // { label: "Code", href: "", emoji: "💻" },
     ],
   },
+  {
+    title: "Therapist Funnel – Next.js + Supabase (Vercel)",
+    description:
+      "End-to-end content funnel for a therapist: upload educational books/videos; on download, clients complete a form and receive a no-reply email with a secure download link and a unique redeem code. The code unlocks a free call flow where clients pick a time, submit details, and a Google Meet is auto-generated with both parties invited via Google Calendar. Deployed on Vercel.",
+    tech: ["Next.js", "Supabase", "Postgres", "Vercel", "Google Calendar API", "Google Meet"],
+    images: [
+      { src: "/assets/projects/therapist-funnel/images/img1.jpeg", alt: "Content upload dashboard" },
+      { src: "/assets/projects/therapist-funnel/images/img2.png", alt: "Client download + form" },
+      { src: "/assets/projects/therapist-funnel/images/img3.png", alt: "Redeem code + scheduling" },
+      { src: "/assets/projects/therapist-funnel/images/img4.png", alt: "Calendar + Meet automation" },
+      { src: "/assets/projects/therapist-funnel/images/img5.png", alt: "Confirmation + follow-up" },
+    ],
+  },
 ];
 
 export const mlops = [
   {
-    title: "Production-ready MLOps stack (AFFA backend)",
+    title: "Production-ready MLOps (AFFA backend)",
     description:
-      "FastAPI services with MLflow tracking, Dockerized deployment, logging and monitoring via ElasticSearch and Kibana.",
+      "FastAPI microservices with MLflow experiment tracking, Dockerized deployments, and observability via ElasticSearch/Kibana (logs, metrics, model KPIs). Focused on reliability, reproducibility, and governance; multiple experiments and service versions tracked.",
     tech: ["FastAPI", "Docker", "MLflow", "ElasticSearch", "Kibana"],
     images: [
       { src: "/assets/projects/mlops-affa-backend/images/cover.png", alt: "MLOps Stack" },

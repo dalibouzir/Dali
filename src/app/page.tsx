@@ -76,17 +76,17 @@ export default function Home() {
       <Section
         id="data-ai"
         title="Data Science & AI"
-        blurb="I ship end-to-end, data-driven features: from data collection and pipelines to modeling and UIs/APIs. I balance scientific rigor with product sense, metrics, and collaborative delivery — autonomous, organized, rigorous, and team-oriented."
+        blurb="I ship end-to-end ML features: collection → cleaning → modeling → serving → monitoring. I balance scientific rigor with production constraints and always tie models to metrics."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-3 text-sm text-zinc-300">
             <div className="badge">Why I fit</div>
             <ul className="list-disc pl-5 space-y-1">
-              <li>Owns pipeline → model → product</li>
-              <li>Clear metrics and iterative delivery</li>
-              <li>Strong Python + ML stack</li>
-              <li>Communicates trade-offs effectively</li>
-              <li>Certifications: IBM Python DS/AI, IBM What is DS, Tableau Fundamentals</li>
+              <li>Owns pipeline → model → product lifecycle</li>
+              <li>Strong Python + ML stack incl. deep learning</li>
+              <li>Clear metrics mindset (accuracy, latency, adoption)</li>
+              <li>Communicates trade-offs across tech + product</li>
+              <li>Certified: IBM Python DS/AI, IBM “What is DS?”, Tableau</li>
             </ul>
           </div>
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
@@ -118,24 +118,24 @@ export default function Home() {
       <Section
         id="ml-research"
         title="Machine Learning Research"
-        blurb="I reproduce papers, design controlled experiments, and communicate results clearly. Comfortable with PyTorch, VAEs/diffusion, and rigorous evaluation. Strong documentation and collaboration skills."
+        blurb="I reproduce ML papers, design controlled experiments, and explore advanced generative approaches. Focus areas: speech, vision, time series, medical data."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="space-y-3 text-sm text-zinc-300">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Paper reproduction and baselines</li>
-              <li>Thoughtful experiment design</li>
-              <li>PyTorch, VAE/Diffusion comfort</li>
-              <li>Clear reporting + notebooks</li>
-            </ul>
-          </div>
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
             {mlResearch.map((p) => (
               <Reveal key={p.title}>
                 <ProjectCard {...p} showMedia={false} />
               </Reveal>
             ))}
+          </div>
+          <div className="space-y-3 text-sm text-zinc-300">
+            <div className="badge">Why I fit</div>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Experienced in paper reproduction & baselines</li>
+              <li>Skilled in PyTorch, VAE, diffusion models</li>
+              <li>Rigorous experiment design and reporting</li>
+              <li>Comfortable with notebooks + documentation</li>
+            </ul>
           </div>
         </div>
       </Section>
@@ -144,22 +144,28 @@ export default function Home() {
       <Section
         id="development"
         title="Software Development"
-        blurb="I build pragmatic web apps with clean backends (Laravel/Django/FastAPI) and usable UIs (React). I prioritize maintainability, security, and performance, and I communicate trade-offs clearly."
+        blurb="I build pragmatic, secure web applications with clean backends and usable UIs. I prioritize maintainability, scalability, and performance."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-3 text-sm text-zinc-300">
             <div className="badge">Why I fit</div>
             <ul className="list-disc pl-5 space-y-1">
-              <li>RESTful backends with auth + security</li>
-              <li>React UIs with a11y and performance</li>
-              <li>Clean code, maintainable structure</li>
-              <li>Pragmatic, delivery-focused</li>
+              <li>RESTful backends with auth + security best practices</li>
+              <li>React UIs with performance + accessibility</li>
+              <li>Clean, modular, delivery-focused code</li>
+              <li>Balances client needs vs technical constraints</li>
             </ul>
           </div>
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
             {development.map((p) => (
               <Reveal key={p.title}>
-                <ProjectCard {...p} showMedia={p.title.toLowerCase().includes("powergym")} />
+                <ProjectCard
+                  {...p}
+                  showMedia={
+                    p.title.toLowerCase().includes("powergym") ||
+                    p.title.toLowerCase().includes("therapist")
+                  }
+                />
               </Reveal>
             ))}
           </div>
@@ -170,24 +176,24 @@ export default function Home() {
       <Section
         id="mlops"
         title="MLOps & Systems"
-        blurb="I productionize ML: FastAPI services, Dockerized deployments, experiment tracking (MLflow), and logging/monitoring with Elastic/Kibana. Organized, rigorous, and effective in cross-functional environments."
+        blurb="I productionize ML systems with modern tooling: APIs, Dockerized deployments, experiment tracking, and observability."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="space-y-3 text-sm text-zinc-300">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Deploys + monitors ML services</li>
-              <li>MLflow tracking + governance</li>
-              <li>Docker, Elastic/Kibana familiarity</li>
-              <li>Reliability + observability mindset</li>
-            </ul>
-          </div>
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6">
+          <div className="lg:col-span-2 grid grid-cols-1 gap-6 order-2 lg:order-1">
             {mlops.map((p) => (
               <Reveal key={p.title}>
                 <ProjectCard {...p} showMedia={false} />
               </Reveal>
             ))}
+          </div>
+          <div className="space-y-3 text-sm text-zinc-300 order-1 lg:order-2">
+            <div className="badge">Why I fit</div>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Deployed & monitored ML services in real environments</li>
+              <li>Experience with MLflow (params, metrics, artifacts)</li>
+              <li>ElasticSearch + Kibana dashboards for monitoring</li>
+              <li>Reliability, reproducibility, governance focused</li>
+            </ul>
           </div>
         </div>
       </Section>
@@ -195,9 +201,7 @@ export default function Home() {
       {/* Contact */}
       <Section id="contact" title="Contact">
         <div className="card p-6">
-          <p className="text-zinc-300">
-            Let’s connect about opportunities in Data Science, ML, Backend, or MLOps.
-          </p>
+          <p className="text-zinc-300">Let’s connect about opportunities in Data Science, Machine Learning, Backend, or MLOps.</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <a className="btn btn-accent" href={`mailto:${profile.email}?subject=Hello%20Mohamed%20Ali`}>✉️ Email Me</a>
             {profile.linkedin && (
