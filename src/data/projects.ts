@@ -11,6 +11,7 @@ export const dataAI = [
     ],
     videos: [
       { src: "/assets/projects/affa/videos/demo.mov" },
+       { src: "/assets/projects/affa/videos/demo2.mov" },
     ],
     links: [
       { label: "Demo", href: "https://bouzirdaliaa.pythonanywhere.com/", emoji: "🚀" },
