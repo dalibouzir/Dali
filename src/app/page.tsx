@@ -63,6 +63,89 @@ export default function Home() {
             </div>
             <div className="md:w-64">
               <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-300">
+                {/* Social icons */}
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {profile.x && (
+                    <a
+                      href={profile.x}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="X (Twitter)"
+                      title="X"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
+                    >
+                      <img
+                        src="https://cdn.simpleicons.org/x/000000"
+                        alt="X"
+                        className="h-5 w-5"
+                      />
+                    </a>
+                  )}
+                  {profile.facebook && (
+                    <a
+                      href={profile.facebook}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Facebook"
+                      title="Facebook"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
+                    >
+                      <img
+                        src="https://cdn.simpleicons.org/facebook/1877F2"
+                        alt="Facebook"
+                        className="h-5 w-5"
+                      />
+                    </a>
+                  )}
+                  {profile.instagram && (
+                    <a
+                      href={profile.instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Instagram"
+                      title="Instagram"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
+                    >
+                      <img
+                        src="https://cdn.simpleicons.org/instagram/E4405F"
+                        alt="Instagram"
+                        className="h-5 w-5"
+                      />
+                    </a>
+                  )}
+                  {profile.github && (
+                    <a
+                      href={profile.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="GitHub"
+                      title="GitHub"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
+                    >
+                      <img
+                        src="https://cdn.simpleicons.org/github/181717"
+                        alt="GitHub"
+                        className="h-5 w-5"
+                      />
+                    </a>
+                  )}
+                  {profile.linkedin && (
+                    <a
+                      href={profile.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="LinkedIn"
+                      title="LinkedIn"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
+                    >
+                      <img
+                        src="/icons/linkedin.svg"
+                        alt="LinkedIn"
+                        className="h-5 w-5"
+                      />
+                    </a>
+                  )}
+                </div>
                 <div>📍 {profile.location}</div>
                 <div>📞 {profile.phone}</div>
                 <div>📧 {profile.email}</div>

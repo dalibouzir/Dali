@@ -4,8 +4,11 @@ export const profile = {
   location: "Monastir, Tunisia",
   email: "bouzirdali@gmail.com",
   phone: "+216 51056932",
-  github: "", // add your GitHub URL
-  linkedin: "", // add your LinkedIn URL
+  github: "https://github.com/dalibouzir",
+  linkedin: "https://www.linkedin.com/in/mohamed-ali-bouzir",
+  x: "https://x.com/medalibouzir1",
+  facebook: "https://www.facebook.com/medali.bouzir",
+  instagram: "https://www.instagram.com/dali.bouzir",
   cv: {
     en: "/cv/Mohamed_Ali_Bouzir_CV_EN.pdf",
     fr: "/cv/Mohamed_Ali_Bouzir_CV_FR.pdf",
