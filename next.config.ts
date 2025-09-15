@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
       },
       {
         // Cache other public images (e.g., /images/*, /icons/*) reasonably
-        source: "/:path(images|icons)/:file*",
+        source: "/(images|icons)/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=604800" },
         ],
