@@ -15,6 +15,9 @@ export default function ProjectShowcase({
   media: Media[];
   intervalMs?: number;
 }) {
+  // Generic tiny blur placeholder for faster perceived loading
+  const BLUR_DATA_URL =
+    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsbD0nI0MxQzRDNCcvPjwvc3ZnPg==";
   const items = useMemo(() => media.filter(Boolean), [media]);
   const [index, setIndex] = useState(0);
   const timer = useRef<number | null>(null);
@@ -59,7 +62,17 @@ export default function ProjectShowcase({
             playsInline
           />
         ) : (
-          <Image src={current.src} alt={current.alt || ""} fill className="object-cover" />
+          <Image
+            src={current.src}
+            alt={current.alt || ""}
+            fill
+            className="object-cover"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            // Responsive sizes for the aspect-video container within the grid
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 66vw, 800px"
+            quality={75}
+          />
         )}
       </div>
 

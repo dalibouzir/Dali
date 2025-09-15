@@ -21,7 +21,16 @@ export default function CertificateCard({
           {isPdf ? (
             <div className="h-full w-full grid place-items-center text-xs text-zinc-400">PDF</div>
           ) : (
-            <Image src={file} alt={title} fill className="object-cover" />
+            <Image
+              src={file}
+              alt={title}
+              fill
+              className="object-cover"
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTYnIGhlaWdodD0nMTQnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsbD0nI0MxQzRDNCcvPjwvc3ZnPg=="
+              sizes="96px"
+              quality={75}
+            />
           )}
         </div>
         <div className="min-w-0 flex-1">

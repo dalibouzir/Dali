@@ -21,7 +21,14 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="md:w-44 md:self-start">
               <div className="relative h-44 w-44 overflow-hidden rounded-full border border-zinc-800">
-                <Image src="/images/Dali.jpeg" alt="Mohamed Ali" fill className="object-cover" />
+                <Image
+                  src="/images/Dali.jpeg"
+                  alt="Mohamed Ali"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="176px"
+                />
               </div>
             </div>
             <div className="flex-1">
@@ -78,6 +85,10 @@ export default function Home() {
                         src="https://cdn.simpleicons.org/x/000000"
                         alt="X"
                         className="h-5 w-5"
+                        loading="lazy"
+                        decoding="async"
+                        width="20"
+                        height="20"
                       />
                     </a>
                   )}
@@ -94,6 +105,10 @@ export default function Home() {
                         src="https://cdn.simpleicons.org/facebook/1877F2"
                         alt="Facebook"
                         className="h-5 w-5"
+                        loading="lazy"
+                        decoding="async"
+                        width="20"
+                        height="20"
                       />
                     </a>
                   )}
@@ -110,6 +125,10 @@ export default function Home() {
                         src="https://cdn.simpleicons.org/instagram/E4405F"
                         alt="Instagram"
                         className="h-5 w-5"
+                        loading="lazy"
+                        decoding="async"
+                        width="20"
+                        height="20"
                       />
                     </a>
                   )}
@@ -126,6 +145,10 @@ export default function Home() {
                         src="https://cdn.simpleicons.org/github/181717"
                         alt="GitHub"
                         className="h-5 w-5"
+                        loading="lazy"
+                        decoding="async"
+                        width="20"
+                        height="20"
                       />
                     </a>
                   )}
@@ -142,6 +165,10 @@ export default function Home() {
                         src="/icons/linkedin.svg"
                         alt="LinkedIn"
                         className="h-5 w-5"
+                        loading="lazy"
+                        decoding="async"
+                        width="20"
+                        height="20"
                       />
                     </a>
                   )}
