@@ -16,16 +16,32 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-6 grid gap-3">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <input name="name" required placeholder="Your name" className="w-full rounded-md bg-zinc-900 border border-zinc-800 px-3 py-2 text-sm outline-none focus:border-cyan-500" />
-        <input type="email" name="email" required placeholder="Your email" className="w-full rounded-md bg-zinc-900 border border-zinc-800 px-3 py-2 text-sm outline-none focus:border-cyan-500" />
+    <form onSubmit={onSubmit} className="mt-6 grid gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <input
+          name="name"
+          required
+          placeholder="Your name"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none transition focus:border-[hsl(var(--accent))] focus:bg-white/10"
+        />
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Your email"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none transition focus:border-[hsl(var(--accent))] focus:bg-white/10"
+        />
       </div>
-      <textarea name="message" required placeholder="Your message" rows={4} className="w-full rounded-md bg-zinc-900 border border-zinc-800 px-3 py-2 text-sm outline-none focus:border-cyan-500" />
+      <textarea
+        name="message"
+        required
+        placeholder="Project details, timeline, or any questions you have"
+        rows={4}
+        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none transition focus:border-[hsl(var(--accent))] focus:bg-white/10"
+      />
       <div>
         <button type="submit" className="btn btn-accent">Send</button>
       </div>
     </form>
   );
 }
-

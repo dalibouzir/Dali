@@ -11,182 +11,115 @@ import CertificateCard from "@/components/CertificateCard";
 import { certifications } from "@/data/certifications";
 
 export default function Home() {
+  const navLinks = [
+    { href: "#about", label: "About" },
+    { href: "#data-ai", label: "Data & AI" },
+    { href: "#ml-research", label: "ML Research" },
+    { href: "#development", label: "Development" },
+    { href: "#mlops", label: "MLOps" },
+    { href: "#certifications", label: "Certifications" },
+    { href: "#contact", label: "Contact" },
+  ];
+
+  const socialLinks = [
+    profile.linkedin && { label: "LinkedIn", href: profile.linkedin },
+    profile.github && { label: "GitHub", href: profile.github },
+    profile.x && { label: "X", href: profile.x },
+  ].filter(Boolean) as { label: string; href: string }[];
+
   return (
     <div className="min-h-screen">
       <NavBar />
-
-      {/* Hero / About */}
-      <Section id="about" title="About Me" typeBlurb={false}>
-        <div className="card p-4 sm:p-6">
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <div className="md:w-44 md:self-start">
-              <div className="relative h-44 w-44 overflow-hidden rounded-full border border-zinc-800">
-                <Image
-                  src="/images/Dali.jpeg"
-                  alt="Mohamed Ali"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="176px"
-                />
-              </div>
+      <section id="about" className="container-wide pt-20 sm:pt-28">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.3em] text-white/70">
+              {profile.title}
             </div>
-            <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-semibold text-white">
-                {profile.name}
-              </h1>
-              <p className="mt-1 text-cyan-400">{profile.title}</p>
-              <p className="mt-4 text-zinc-300">{profile.intro}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {profile.skills.map((s) => (
-                  <span key={s} className="badge">
-                    {s}
+            <h1 className="mt-6 text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-[52px]">
+              {profile.headline}
+              <span className="block text-[color:var(--accent-strong)]">{profile.headlineAccent}</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm text-zinc-300 sm:text-base">
+              {profile.subheadline}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2 sm:gap-3">
+              {profile.skills.map((skill) => (
+                <span key={skill} className="chip" data-highlight="true">
+                  {skill}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
+              <span className="badge">Toolbelt</span>
+              <div className="flex flex-wrap gap-2 text-[11px] normal-case tracking-normal text-zinc-400 sm:text-xs">
+                {profile.toolbelt.map((tool) => (
+                  <span key={tool} className="rounded-full border border-white/10 px-3 py-1 text-zinc-400">
+                    {tool}
                   </span>
                 ))}
               </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <a className="btn" href={`mailto:${profile.email}`}>✉️ Email</a>
-                {profile.github && (
-                  <a className="btn" href={profile.github} target="_blank" rel="noreferrer">
-                    💻 GitHub
-                  </a>
-                )}
-                {profile.linkedin && (
-                  <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer">
-                    🔗 LinkedIn
-                  </a>
-                )}
-                {profile.cv?.en && (
-                  <Link className="btn btn-accent" href={profile.cv.en} target="_blank">
-                    ⬇️ CV (EN)
-                  </Link>
-                )}
-                {profile.cv?.fr && (
-                  <Link className="btn btn-accent" href={profile.cv.fr} target="_blank">
-                    ⬇️ CV (FR)
-                  </Link>
-                )}
-              </div>
             </div>
-            <div className="md:w-64">
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-300">
-                {/* Social icons */}
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {profile.x && (
-                    <a
-                      href={profile.x}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="X (Twitter)"
-                      title="X"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
-                    >
-                      <img
-                        src="https://cdn.simpleicons.org/x/000000"
-                        alt="X"
-                        className="h-5 w-5"
-                        loading="lazy"
-                        decoding="async"
-                        width="20"
-                        height="20"
-                      />
-                    </a>
-                  )}
-                  {profile.facebook && (
-                    <a
-                      href={profile.facebook}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Facebook"
-                      title="Facebook"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
-                    >
-                      <img
-                        src="https://cdn.simpleicons.org/facebook/1877F2"
-                        alt="Facebook"
-                        className="h-5 w-5"
-                        loading="lazy"
-                        decoding="async"
-                        width="20"
-                        height="20"
-                      />
-                    </a>
-                  )}
-                  {profile.instagram && (
-                    <a
-                      href={profile.instagram}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Instagram"
-                      title="Instagram"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
-                    >
-                      <img
-                        src="https://cdn.simpleicons.org/instagram/E4405F"
-                        alt="Instagram"
-                        className="h-5 w-5"
-                        loading="lazy"
-                        decoding="async"
-                        width="20"
-                        height="20"
-                      />
-                    </a>
-                  )}
-                  {profile.github && (
-                    <a
-                      href={profile.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="GitHub"
-                      title="GitHub"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
-                    >
-                      <img
-                        src="https://cdn.simpleicons.org/github/181717"
-                        alt="GitHub"
-                        className="h-5 w-5"
-                        loading="lazy"
-                        decoding="async"
-                        width="20"
-                        height="20"
-                      />
-                    </a>
-                  )}
-                  {profile.linkedin && (
-                    <a
-                      href={profile.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="LinkedIn"
-                      title="LinkedIn"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white border border-zinc-200 hover:opacity-90 transition"
-                    >
-                      <img
-                        src="/icons/linkedin.svg"
-                        alt="LinkedIn"
-                        className="h-5 w-5"
-                        loading="lazy"
-                        decoding="async"
-                        width="20"
-                        height="20"
-                      />
-                    </a>
-                  )}
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a className="btn btn-accent" href={`mailto:${profile.email}`}>
+                ✉️ Email
+              </a>
+              {profile.linkedin && (
+                <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer">
+                  🔗 LinkedIn
+                </a>
+              )}
+              {profile.github && (
+                <a className="btn" href={profile.github} target="_blank" rel="noreferrer">
+                  💻 GitHub
+                </a>
+              )}
+              {profile.cv?.en && (
+                <Link className="btn" href={profile.cv.en} target="_blank">
+                  ⬇️ CV (EN)
+                </Link>
+              )}
+            </div>
+          </div>
+
+          <div className="mx-auto w-full max-w-md">
+            <div className="card overflow-hidden p-0">
+              <div className="relative aspect-square w-full">
+                <Image
+                  src="/images/Dali.jpeg"
+                  alt="Mohamed Ali Bouzir portrait"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 70vw, 320px"
+                />
+              </div>
+              <div className="border-t border-white/5 px-6 py-5 text-sm text-zinc-300">
+                <p className="text-sm font-medium uppercase tracking-[0.26em] text-zinc-500">
+                  Available for
+                </p>
+                <p className="mt-2 text-base text-zinc-200">
+                  Product-minded data roles · ML & AI engineering · Full-stack delivery
+                </p>
+                <div className="mt-4 space-y-2 text-sm">
+                  <p>📍 {profile.location}</p>
+                  <p>📧 {profile.email}</p>
+                  <p>📞 {profile.phone}</p>
                 </div>
-                <div>📍 {profile.location}</div>
-                <div>📞 {profile.phone}</div>
-                <div>📧 {profile.email}</div>
               </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* Data Science & AI */}
       <Section
         id="data-ai"
         title="Data Science & AI"
-        blurb="I ship end-to-end ML features: collection → cleaning → modeling → serving → monitoring. I balance scientific rigor with production constraints and always tie models to metrics."
+        blurb="Design ML features that stand up in production — from feature store to serving, with clear metrics on the win."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-3 text-sm text-zinc-300">
@@ -213,7 +146,7 @@ export default function Home() {
       <Section
         id="certifications"
         title="Certifications"
-        blurb="Validated foundations in data science and visualization. Click to view certificates (images or PDFs)."
+        blurb="External validation of core analytics, ML, and visualization chops that back up the project work."
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {certifications.map((c) => (
@@ -228,7 +161,7 @@ export default function Home() {
       <Section
         id="ml-research"
         title="Machine Learning Research"
-        blurb="I reproduce ML papers, design controlled experiments, and explore advanced generative approaches. Focus areas: speech, vision, time series, medical data."
+        blurb="Prototype with cutting-edge methods to stretch limited data, validate claims, and hand teams practical takeaways."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
@@ -254,7 +187,7 @@ export default function Home() {
       <Section
         id="development"
         title="Software Development"
-        blurb="I build pragmatic, secure web applications with clean backends and usable UIs. I prioritize maintainability, scalability, and performance."
+        blurb="Launch full-stack products that blend reliable backends with crisp UX, ready for real customers and future iterations."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-3 text-sm text-zinc-300">
@@ -286,7 +219,7 @@ export default function Home() {
       <Section
         id="mlops"
         title="MLOps & Systems"
-        blurb="I productionize ML systems with modern tooling: APIs, Dockerized deployments, experiment tracking, and observability."
+        blurb="Harden ML services with deployments, tracking, and observability so models keep pace long after launch day."
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 grid grid-cols-1 gap-6 order-2 lg:order-1">
@@ -309,7 +242,11 @@ export default function Home() {
       </Section>
 
       {/* Contact */}
-      <Section id="contact" title="Contact">
+      <Section
+        id="contact"
+        title="Contact"
+        blurb="Ready to discuss product-minded data work, rapid ML prototypes, or hands-on delivery support? Drop a line."
+      >
         <div className="card p-6">
           <p className="text-zinc-300">Let’s connect about opportunities in Data Science, Machine Learning, Backend, or MLOps.</p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -326,6 +263,64 @@ export default function Home() {
           <ContactForm />
         </div>
       </Section>
+
+      <footer className="mt-24 border-t border-white/5 bg-black/20">
+        <div className="container-wide flex flex-col gap-8 py-12 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-md space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/60">Mohamed Ali Bouzir</p>
+            <p className="text-lg font-semibold text-white">Building data-led products that delight stakeholders and users alike.</p>
+            <p className="text-sm text-zinc-400">Based in {profile.location}. Available for remote or hybrid collaboration.</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-8 text-sm text-zinc-300 sm:grid-cols-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Navigate</p>
+              <ul className="mt-3 space-y-2">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <a className="transition hover:text-white" href={link.href}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Contact</p>
+              <ul className="mt-3 space-y-2">
+                <li>
+                  <a className="transition hover:text-white" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                  </a>
+                </li>
+                <li>
+                  <a className="transition hover:text-white" href={`tel:${profile.phone.replace(/\s+/g, "")}`}>
+                    {profile.phone}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Social</p>
+              <ul className="mt-3 space-y-2">
+                {socialLinks.map((link) => (
+                  <li key={link.href}>
+                    <a className="transition hover:text-white" href={link.href} target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-white/5">
+          <div className="container-wide flex flex-col gap-2 py-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+            <span>© {new Date().getFullYear()} Mohamed Ali Bouzir. All rights reserved.</span>
+            <span>Crafted with Next.js, Tailwind, and a love for measurable outcomes.</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

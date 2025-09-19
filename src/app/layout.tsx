@@ -1,42 +1,55 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import BackgroundDecor from "@/components/BackgroundDecor";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const displayFont = Space_Grotesk({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const bodyFont = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Mohamed Ali Bouzir — Portfolio",
+  metadataBase: new URL("https://mohamedalibouzir.com"),
+  title: {
+    default: "Mohamed Ali Bouzir · Data Product Engineer",
+    template: "%s · Mohamed Ali Bouzir",
+  },
   description:
-    "Data-Oriented Software Engineer portfolio: Data Science & AI, ML Research, Development, and MLOps.",
-  metadataBase: new URL("https://example.com"),
-  icons: { icon: "/favicon.ico" },
+    "Data product engineer turning machine learning, analytics, and software craft into measurable business wins.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   openGraph: {
-    title: "Mohamed Ali Bouzir — Portfolio",
+    title: "Mohamed Ali Bouzir · Data Product Engineer",
     description:
-      "Explore projects across Data Science, ML Research, Software Development, and MLOps.",
+      "Explore ML platforms, research prototypes, and full-stack launches with production-grade rigor.",
     url: "/",
-    siteName: "Portfolio — Mohamed Ali",
+    siteName: "Mohamed Ali Bouzir Portfolio",
     images: [
-      { url: "/next.svg", width: 1200, height: 630, alt: "Portfolio Cover" },
+      {
+        url: "/images/Dali.jpeg",
+        width: 1200,
+        height: 1200,
+        alt: "Portrait of Mohamed Ali Bouzir",
+      },
     ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohamed Ali Bouzir — Portfolio",
+    title: "Mohamed Ali Bouzir · Data Product Engineer",
     description:
-      "Explore projects across Data Science, ML Research, Software Development, and MLOps.",
-    images: ["/next.svg"],
+      "Explore ML platforms, research prototypes, and full-stack launches with production-grade rigor.",
+    images: ["/images/Dali.jpeg"],
+    creator: "@medalibouzir1",
   },
 };
 
@@ -47,9 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-950 text-zinc-100`}
-      >
+      <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
         <BackgroundDecor />
         {children}
       </body>
