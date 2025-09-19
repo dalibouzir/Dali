@@ -39,6 +39,7 @@ export const dataAI: Project[] = [
     tech: ["Python", "Flask", "FastAPI", "NLTK", "MongoDB", "Docker", "MLflow", "ElasticSearch", "Kibana"],
     featured: true,
     featuredOrder: 1,
+    showMedia: true,
     images: [
       { src: "/assets/projects/affa/images/cover.webp", alt: "AFFA fantasy football assistant dashboard with lineup insights" },
       { src: "/assets/projects/affa/images/screen-1.webp", alt: "Player comparison screen showcasing performance projections" },
@@ -62,6 +63,7 @@ export const mlResearch: Project[] = [
       "Reproduced a university project on speech emotion recognition and used synthetic augmentation (VAE + diffusion) to expand limited datasets. Found synthetic data measurably improved recognition accuracy compared to baselines; explored trade-offs between sample quality and training stability.",
     impact: "Improved emotion classification accuracy by augmenting with curated synthetic spectrograms.",
     tech: ["PyTorch", "VAE", "Diffusion", "Jupyter"],
+    showMedia: false,
     images: [
       { src: "/assets/projects/ser-vae-diffusion/images/cover.png", alt: "Notebook showing VAE reconstruction of audio spectrograms" },
     ],
@@ -79,6 +81,7 @@ export const mlResearch: Project[] = [
       "Modeled climate indicators (temperature, CO₂, sea levels). Compared classical approaches (ARIMA/Prophet) vs ML methods; produced exploratory dashboards for trend visualization and forecasting.",
     impact: "Surfaced decade-long climate trends with confidence intervals for policy discussions.",
     tech: ["Python", "Colab", "Time Series"],
+    showMedia: false,
     images: [
       { src: "/assets/projects/time-series-climate/images/cover.png", alt: "Climate dashboard summarizing temperature and CO₂ trends" },
     ],
@@ -96,6 +99,7 @@ export const mlResearch: Project[] = [
       "Worked on ~8GB MRI dataset for ligament diagnosis. Compared VGG vs custom CNN: CNN trained faster; VGG achieved higher accuracy but tended to overfit. Delivered insights on accuracy vs complexity for medical imaging tasks.",
     impact: "Quantified 6% accuracy lift from transfer learning while documenting overfitting risks.",
     tech: ["TensorFlow", "Keras", "Matplotlib", "Colab"],
+    showMedia: false,
     images: [
       { src: "/assets/projects/vgg-vs-cnn/images/cover.png", alt: "Training metrics comparing CNN and VGG performance curves" },
     ],
@@ -116,6 +120,7 @@ export const development: Project[] = [
       "Full gym management platform: member registration, subscriptions, scheduling, activity booking, and product sales. Multi-role auth (admins/trainers/members) with validation and secure data handling; streamlined operations and reduced manual work.",
     impact: "Automated membership workflows and reduced manual admin work by replacing spreadsheets.",
     tech: ["Laravel", "MySQL", "Blade", "Bootstrap"],
+    showMedia: true,
     images: [
       { src: "/assets/projects/elyosdigital-powergym/images/img1.webp", alt: "PowerGym dashboard summarizing members and active plans" },
       { src: "/assets/projects/elyosdigital-powergym/images/img2.webp", alt: "Membership creation form with validation states" },
@@ -142,6 +147,7 @@ export const development: Project[] = [
       "Admin dashboard for real football app to manage players, stadiums, and matches. Integrated Firebase for realtime updates and delivered clear visualization of users, matches, and usage metrics.",
     impact: "Enabled non-technical staff to manage league logistics in minutes instead of hours.",
     tech: ["Laravel", "Firebase", "REST"],
+    showMedia: false,
     images: [
       { src: "/assets/projects/mymatch-admin/images/cover.png", alt: "Admin overview of players, matches, and stadium occupancy" },
     ],
@@ -158,6 +164,7 @@ export const development: Project[] = [
     tech: ["React", "Django", "DRF", "Supabase", "Redux Toolkit", "OpenRouter API"],
     featured: true,
     featuredOrder: 2,
+    showMedia: false,
     images: [
       { src: "/assets/projects/quirkhire/images/cover.png", alt: "QuirkHire dashboard highlighting recommended roles with explanations" },
     ],
@@ -177,6 +184,7 @@ export const development: Project[] = [
     tech: ["Next.js", "Supabase", "Postgres", "Vercel", "Calendly API"],
     featured: true,
     featuredOrder: 3,
+    showMedia: true,
     images: [
       { src: "/assets/projects/therapist-funnel/images/img1.webp", alt: "Therapist funnel admin dashboard showing recent leads" },
       { src: "/assets/projects/therapist-funnel/images/img2.webp", alt: "Public landing page offering downloadable resources" },
@@ -205,6 +213,7 @@ export const mlops: Project[] = [
       "FastAPI microservices with MLflow experiment tracking, Dockerized deployments, and observability via ElasticSearch/Kibana (logs, metrics, model KPIs). Focused on reliability, reproducibility, and governance; multiple experiments and service versions tracked.",
     impact: "Stabilized production inference with experiment lineage and alerting for regression monitoring.",
     tech: ["FastAPI", "Docker", "MLflow", "ElasticSearch", "Kibana"],
+    showMedia: false,
     images: [
       { src: "/assets/projects/mlops-affa-backend/images/cover.png", alt: "MLflow experiment dashboard tracking model versions" },
     ],

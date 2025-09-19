@@ -14,11 +14,11 @@ export default function Home() {
   const navLinks = [
     { href: "#about", label: "About" },
     { href: "#featured", label: "Featured" },
+    { href: "#certifications", label: "Certifications" },
     { href: "#data-ai", label: "Data & AI" },
-    { href: "#ml-research", label: "ML Research" },
+    { href: "#ml-research", label: "Machine Learning Research" },
     { href: "#development", label: "Development" },
     { href: "#mlops", label: "MLOps" },
-    { href: "#certifications", label: "Certifications" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -31,6 +31,8 @@ export default function Home() {
   const featuredProjects = allProjects
     .filter((project) => project.featured)
     .sort((a, b) => (a.featuredOrder ?? 99) - (b.featuredOrder ?? 99));
+  const certificationCount = certifications.length;
+  const certificationIssuerCount = new Set(certifications.map((cert) => cert.issuer)).size;
 
   return (
     <div className="min-h-screen">
@@ -142,6 +144,63 @@ export default function Home() {
         </Section>
       )}
 
+      {/* Certifications */}
+      <Section
+        id="certifications"
+        title="Certifications"
+        blurb="External validation of core analytics, ML, and visualization chops that back up the project work."
+      >
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.3fr)] lg:items-start">
+          <div className="glass-strong flex flex-col gap-6 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:px-8 lg:py-8">
+            <span className="badge">Credential Snapshot</span>
+            <h3 className="text-2xl font-semibold text-white sm:text-3xl">
+              Certified to partner across analytics, ML, and visualization with accountable delivery.
+            </h3>
+            <p className="text-zinc-300">
+              Each credential reinforces the practical experience shown in the projects — grounding experiments, dashboards,
+              and production ML work in trusted foundations.
+            </p>
+            <dl className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/80">
+              <div className="flex items-center justify-between">
+                <dt className="text-xs uppercase tracking-[0.32em] text-white/60">Total Credentials</dt>
+                <dd className="text-2xl font-semibold text-white">{certificationCount}</dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-xs uppercase tracking-[0.32em] text-white/60">Issuing Organizations</dt>
+                <dd className="text-lg font-semibold text-white">{certificationIssuerCount}</dd>
+              </div>
+            </dl>
+            <ul className="space-y-2 text-sm text-zinc-200">
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2 w-2 rounded-full bg-[hsl(var(--accent))]" aria-hidden />
+                <span>Proof of competency in analytics tooling (Tableau) plus core ML engineering foundations.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2 w-2 rounded-full bg-[hsl(var(--accent-strong))]" aria-hidden />
+                <span>Blends academic-backed curricula from IBM and UC systems with real-world delivery work.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="relative">
+            <div className="absolute left-3 top-0 bottom-0 hidden sm:block" aria-hidden>
+              <div className="h-full w-px bg-gradient-to-b from-white/40 via-white/15 to-transparent" />
+            </div>
+            <div className="space-y-6">
+              {certifications.map((c, index) => (
+                <Reveal key={c.title} className="relative pl-6 sm:pl-12">
+                  <span
+                    className="absolute left-0 top-8 h-3 w-3 -translate-x-1/2 rounded-full bg-[hsl(var(--accent))] shadow-[0_0_0_6px_rgba(10,14,22,0.65)] sm:left-3"
+                    aria-hidden
+                  />
+                  <CertificateCard {...c} index={index} total={certificationCount} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Data Science & AI */}
       <Section
         id="data-ai"
@@ -166,21 +225,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </Section>
-
-      {/* Certifications */}
-      <Section
-        id="certifications"
-        title="Certifications"
-        blurb="External validation of core analytics, ML, and visualization chops that back up the project work."
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {certifications.map((c) => (
-            <Reveal key={c.title}>
-              <CertificateCard {...c} />
-            </Reveal>
-          ))}
         </div>
       </Section>
 

@@ -38,9 +38,10 @@ export default function ProjectCard({
         ...(videos?.map((v) => ({ src: v.src, caption: v.caption, type: "video" as const })) || []),
       ];
 
-  const hasMedia = showMedia && mergedMedia.length > 0;
+  const hasImageMedia = mergedMedia.some((item) => item.type !== "video");
   const hasVideo = mergedMedia.some((item) => item.type === "video");
-  const isFeaturedVariant = variant === "featured" && hasMedia;
+  const showGallery = showMedia && hasImageMedia;
+  const isFeaturedVariant = variant === "featured" && showGallery;
   const cardClassName = isFeaturedVariant
     ? "card overflow-hidden flex flex-col lg:grid lg:grid-cols-[1.15fr_1fr]"
     : "card overflow-hidden flex flex-col";
@@ -89,7 +90,7 @@ export default function ProjectCard({
 
   return (
     <article className={cardClassName}>
-      {hasMedia && (
+      {showGallery && (
         <div className="relative">
           <ProjectShowcase media={mergedMedia} label={`Open ${title} gallery`} />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
@@ -98,14 +99,14 @@ export default function ProjectCard({
       )}
 
       <div className={`flex flex-col gap-5 ${bodySpacing}`}>
-        {!hasMedia && (
+        {!showGallery && (
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-zinc-500">
             {category && <span className="badge">{category}</span>}
             {featured && <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold tracking-[0.35em] text-white/80">Featured</span>}
           </div>
         )}
 
-        {!hasMedia && <h3 className="text-2xl font-semibold text-white">{title}</h3>}
+        {!showGallery && <h3 className="text-2xl font-semibold text-white">{title}</h3>}
 
         <p className="text-sm text-zinc-300 sm:text-base">{description}</p>
 
@@ -116,7 +117,7 @@ export default function ProjectCard({
           </div>
         )}
 
-        {!!tech?.length && (!hasMedia || isFeaturedVariant) && (
+        {!!tech?.length && (!showGallery || isFeaturedVariant) && (
           <div className="flex flex-wrap gap-2">
             {tech.map((t) => (
               <span key={t} className="chip">

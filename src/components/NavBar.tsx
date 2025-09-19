@@ -5,11 +5,11 @@ import { useEffect, useMemo, useState } from "react";
 const sections = [
   { href: "#about", label: "About Me" },
   { href: "#featured", label: "Featured Projects" },
+  { href: "#certifications", label: "Certifications" },
   { href: "#data-ai", label: "Data Science & AI" },
-  { href: "#ml-research", label: "ML Research" },
+  { href: "#ml-research", label: "Machine Learning Research" },
   { href: "#development", label: "Development Projects" },
   { href: "#mlops", label: "MLOps & Systems" },
-  { href: "#certifications", label: "Certifications" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -43,19 +43,36 @@ export default function NavBar() {
 
     if (!elements.length) return;
 
+    const thresholds = Array.from({ length: 21 }, (_, index) => index / 20);
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-          .map((entry) => entry.target.id);
+          .sort((a, b) => {
+            const delta = Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top);
+            return delta !== 0 ? delta : b.intersectionRatio - a.intersectionRatio;
+          });
 
         if (visible.length) {
-          const match = sections.find((s) => s.href === `#${visible[0]}`);
-          if (match) setActive(match.href);
+          const candidate = visible[0]?.target.id;
+          const match = sections.find((s) => s.href === `#${candidate}`);
+          if (match) {
+            setActive((prev) => (prev === match.href ? prev : match.href));
+            return;
+          }
         }
+
+        const preferredOffset = window.innerHeight * 0.35;
+        const fallback = sectionIds.reduce((current, id) => {
+          const el = document.getElementById(id);
+          if (!el) return current;
+          const top = el.getBoundingClientRect().top;
+          return top <= preferredOffset ? `#${id}` : current;
+        }, sections[0].href);
+
+        setActive((prev) => (prev === fallback ? prev : fallback));
       },
-      { rootMargin: "-45% 0px -45% 0px", threshold: [0.2, 0.4, 0.6] },
+      { rootMargin: "-52% 0px -40% 0px", threshold: thresholds },
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -83,6 +100,7 @@ export default function NavBar() {
                   active === s.href ? "text-white" : "text-zinc-400"
                 }`}
                 href={s.href}
+                onClick={() => setActive(s.href)}
               >
                 {s.label}
                 <span
@@ -132,7 +150,10 @@ export default function NavBar() {
                       active === s.href ? "bg-white/10 text-white" : "active:bg-white/5 hover:bg-white/5"
                     }`}
                     href={s.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setActive(s.href);
+                      setOpen(false);
+                    }}
                   >
                     {s.label}
                   </a>
