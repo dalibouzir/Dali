@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const sections = [
   { href: "#about", label: "About Me" },
+  { href: "#featured", label: "Featured Projects" },
   { href: "#data-ai", label: "Data Science & AI" },
   { href: "#ml-research", label: "ML Research" },
   { href: "#development", label: "Development Projects" },
@@ -25,6 +26,15 @@ export default function NavBar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   useEffect(() => {
     const elements = sectionIds
@@ -58,7 +68,7 @@ export default function NavBar() {
         scrolled ? "backdrop-blur bg-[hsl(var(--surface)/0.85)] border-b border-white/5" : "bg-transparent"
       }`}
     >
-      <nav className="container-wide flex items-center justify-between gap-4 py-3">
+      <nav aria-label="Primary" className="container-wide flex items-center justify-between gap-4 py-3">
         <Link
           href="#about"
           className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400 transition hover:text-white"
@@ -96,6 +106,8 @@ export default function NavBar() {
             aria-label="Menu"
             className="md:hidden btn px-3 py-2 text-lg"
             onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
           >
             ☰
           </button>
@@ -103,7 +115,7 @@ export default function NavBar() {
       </nav>
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-[hsl(var(--surface)/0.96)]/95">
+        <div id="mobile-nav" className="md:hidden bg-[hsl(var(--surface)/0.96)]/95">
           <div className="container-wide flex flex-col gap-3 py-4">
             <Link
               href="#contact"

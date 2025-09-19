@@ -17,7 +17,7 @@ export default function Section({
   typeBlurb?: boolean;
 }) {
   return (
-    <section id={id} className={`section ${full ? "container-wide" : "container-narrow"}`}>
+    <section id={id} className={`section scroll-mt-24 sm:scroll-mt-32 ${full ? "container-wide" : "container-narrow"}`}>
       <div className="-mt-6 mb-10 h-6 opacity-70" aria-hidden>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>

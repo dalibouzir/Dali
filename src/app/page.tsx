@@ -2,7 +2,7 @@ import NavBar from "@/components/NavBar";
 import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import { profile } from "@/data/profile";
-import { dataAI, mlResearch, development, mlops } from "@/data/projects";
+import { dataAI, mlResearch, development, mlops, allProjects } from "@/data/projects";
 import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
@@ -13,6 +13,7 @@ import { certifications } from "@/data/certifications";
 export default function Home() {
   const navLinks = [
     { href: "#about", label: "About" },
+    { href: "#featured", label: "Featured" },
     { href: "#data-ai", label: "Data & AI" },
     { href: "#ml-research", label: "ML Research" },
     { href: "#development", label: "Development" },
@@ -26,6 +27,10 @@ export default function Home() {
     profile.github && { label: "GitHub", href: profile.github },
     profile.x && { label: "X", href: profile.x },
   ].filter(Boolean) as { label: string; href: string }[];
+
+  const featuredProjects = allProjects
+    .filter((project) => project.featured)
+    .sort((a, b) => (a.featuredOrder ?? 99) - (b.featuredOrder ?? 99));
 
   return (
     <div className="min-h-screen">
@@ -54,9 +59,9 @@ export default function Home() {
 
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
               <span className="badge">Toolbelt</span>
-              <div className="flex flex-wrap gap-2 text-[11px] normal-case tracking-normal text-zinc-400 sm:text-xs">
+              <div className="flex flex-wrap gap-2 text-[11px] normal-case tracking-normal text-zinc-200 sm:text-xs">
                 {profile.toolbelt.map((tool) => (
-                  <span key={tool} className="rounded-full border border-white/10 px-3 py-1 text-zinc-400">
+                  <span key={tool} className="chip" data-variant="subtle">
                     {tool}
                   </span>
                 ))}
@@ -115,27 +120,49 @@ export default function Home() {
         </div>
       </section>
 
+      {featuredProjects.length > 0 && (
+        <Section
+          id="featured"
+          title="Featured Projects"
+          blurb="Signature builds that connect resilient data pipelines, dependable ML, and premium product polish."
+        >
+          <div className="grid gap-6 lg:grid-cols-2 xl:gap-8">
+            {featuredProjects.map((project, index) => (
+              <Reveal
+                key={project.title}
+                className={index === 0 ? "lg:col-span-2" : ""}
+              >
+                <ProjectCard
+                  {...project}
+                  variant={index === 0 ? "featured" : "standard"}
+                />
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* Data Science & AI */}
       <Section
         id="data-ai"
         title="Data Science & AI"
         blurb="Design ML features that stand up in production — from feature store to serving, with clear metrics on the win."
       >
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="space-y-3 text-sm text-zinc-300">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] lg:items-start">
+          <div className="glass space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base">
             <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
+            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
               <li>Owns pipeline → model → product lifecycle</li>
-              <li>Strong Python + ML stack incl. deep learning</li>
-              <li>Clear metrics mindset (accuracy, latency, adoption)</li>
-              <li>Communicates trade-offs across tech + product</li>
+              <li>Strong Python + ML stack including deep learning</li>
+              <li>Metrics mindset on accuracy, latency, adoption</li>
+              <li>Clear comms across technical and product partners</li>
               <li>Certified: IBM Python DS/AI, IBM “What is DS?”, Tableau</li>
             </ul>
           </div>
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6">
+          <div className="grid gap-6">
             {dataAI.map((p) => (
               <Reveal key={p.title}>
-                <ProjectCard {...p} showMedia={p.title.includes("AFFA")} />
+                <ProjectCard {...p} />
               </Reveal>
             ))}
           </div>
@@ -163,21 +190,21 @@ export default function Home() {
         title="Machine Learning Research"
         blurb="Prototype with cutting-edge methods to stretch limited data, validate claims, and hand teams practical takeaways."
       >
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:items-start">
+          <div className="order-2 grid gap-6 lg:order-1">
             {mlResearch.map((p) => (
               <Reveal key={p.title}>
-                <ProjectCard {...p} showMedia={false} />
+                <ProjectCard {...p} />
               </Reveal>
             ))}
           </div>
-          <div className="space-y-3 text-sm text-zinc-300">
+          <div className="glass order-1 space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:order-2">
             <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Experienced in paper reproduction & baselines</li>
-              <li>Skilled in PyTorch, VAE, diffusion models</li>
-              <li>Rigorous experiment design and reporting</li>
-              <li>Comfortable with notebooks + documentation</li>
+            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
+              <li>Experienced in paper reproduction and benchmarking</li>
+              <li>Skilled in PyTorch, VAE, and diffusion workflows</li>
+              <li>Design rigorous experiments with meaningful metrics</li>
+              <li>Comfortable documenting research for cross-team handoff</li>
             </ul>
           </div>
         </div>
@@ -189,26 +216,20 @@ export default function Home() {
         title="Software Development"
         blurb="Launch full-stack products that blend reliable backends with crisp UX, ready for real customers and future iterations."
       >
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="space-y-3 text-sm text-zinc-300">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] lg:items-start">
+          <div className="glass space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base">
             <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>RESTful backends with auth + security best practices</li>
-              <li>React UIs with performance + accessibility</li>
-              <li>Clean, modular, delivery-focused code</li>
-              <li>Balances client needs vs technical constraints</li>
+            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
+              <li>Design secure backends with auth and data governance</li>
+              <li>Ship responsive React/Next.js experiences with A11y baked in</li>
+              <li>Structure code for iterative delivery and maintainability</li>
+              <li>Balance client goals, technical trade-offs, and timelines</li>
             </ul>
           </div>
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6">
-            {development.map((p) => (
+          <div className="grid gap-6">
+            {development.map((p, index) => (
               <Reveal key={p.title}>
-                <ProjectCard
-                  {...p}
-                  showMedia={
-                    p.title.toLowerCase().includes("powergym") ||
-                    p.title.toLowerCase().includes("therapist")
-                  }
-                />
+                <ProjectCard {...p} variant={index === 0 ? "featured" : "standard"} />
               </Reveal>
             ))}
           </div>
@@ -221,21 +242,21 @@ export default function Home() {
         title="MLOps & Systems"
         blurb="Harden ML services with deployments, tracking, and observability so models keep pace long after launch day."
       >
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6 order-2 lg:order-1">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:items-start">
+          <div className="order-2 grid gap-6 lg:order-1">
             {mlops.map((p) => (
               <Reveal key={p.title}>
-                <ProjectCard {...p} showMedia={false} />
+                <ProjectCard {...p} />
               </Reveal>
             ))}
           </div>
-          <div className="space-y-3 text-sm text-zinc-300 order-1 lg:order-2">
+          <div className="glass order-1 space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:order-2">
             <div className="badge">Why I fit</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Deployed & monitored ML services in real environments</li>
-              <li>Experience with MLflow (params, metrics, artifacts)</li>
-              <li>ElasticSearch + Kibana dashboards for monitoring</li>
-              <li>Reliability, reproducibility, governance focused</li>
+            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
+              <li>Deployed and monitored ML services in production-like environments</li>
+              <li>Hands-on with MLflow for experiment lineage and governance</li>
+              <li>ElasticSearch + Kibana dashboards for observability and alerting</li>
+              <li>Bias toward reliability, reproducibility, and secure delivery</li>
             </ul>
           </div>
         </div>

@@ -2,18 +2,21 @@
 
 :root {
   color-scheme: dark;
-  --bg: 220 28% 8%;
-  --surface: 220 24% 12%;
-  --surface-raised: 220 22% 16%;
-  --surface-hover: 220 22% 20%;
-  --border: 220 21% 28%;
-  --muted: 220 12% 60%;
-  --foreground: 210 20% 96%;
-  --accent: 192 94% 56%;
-  --accent-strong: 192 94% 62%;
-  --accent-muted: 192 94% 40%;
+  --bg: 226 42% 6%;
+  --surface: 226 38% 12%;
+  --surface-raised: 224 32% 16%;
+  --surface-hover: 224 32% 20%;
+  --surface-glass: 228 32% 18% / 0.72;
+  --border: 226 28% 28%;
+  --muted: 224 14% 64%;
+  --foreground: 214 32% 96%;
+  --accent: 190 98% 52%;
+  --accent-strong: 207 100% 64%;
+  --accent-subtle: 194 88% 45%;
+  --accent-contrast: 213 60% 12%;
   --radius-card: 28px;
   --radius-pill: 999px;
+  --shadow-soft: 0 24px 60px -28px hsl(210 70% 4% / 0.9);
 }
 
 html {
@@ -21,17 +24,18 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at 20% -10%, hsl(var(--accent) / 0.12), transparent 45%),
-    radial-gradient(circle at 80% 0%, hsl(var(--accent-muted) / 0.18), transparent 40%),
-    hsl(var(--bg));
+  background:
+    radial-gradient(circle at 20% -10%, hsl(var(--accent) / 0.16), transparent 45%),
+    radial-gradient(circle at 85% -5%, hsl(var(--accent-strong) / 0.12), transparent 42%),
+    linear-gradient(180deg, hsl(var(--bg)) 0%, hsl(222 48% 8%) 40%, hsl(var(--bg)) 100%);
   color: hsl(var(--foreground));
   font-family: var(--font-body, "Inter", system-ui, -apple-system, sans-serif);
   font-size: 16px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+  line-height: 1.65;
+  letter-spacing: -0.008em;
   background-attachment: fixed;
   min-height: 100vh;
-  @apply selection:bg-sky-400/30 selection:text-white;
+  @apply selection:bg-cyan-400/30 selection:text-white;
 }
 
 h1,
@@ -62,53 +66,61 @@ h3 {
 }
 
 .container-wide {
-  @apply mx-auto max-w-7xl px-4 sm:px-8 lg:px-16;
+  @apply mx-auto max-w-7xl px-6 sm:px-10 lg:px-20;
 }
 
 .section {
-  @apply py-16 sm:py-24;
+  @apply py-20 sm:py-28;
 }
 
 .section-title {
-  @apply mb-6 text-balance text-3xl font-semibold sm:text-4xl;
-  background-image: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-strong)) 65%);
+  @apply mb-6 text-balance text-4xl font-semibold tracking-tight sm:mb-7 sm:text-5xl;
+  background-image: linear-gradient(130deg, hsl(var(--accent)), hsl(var(--accent-strong)) 70%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .section-lede {
-  @apply mb-10 max-w-2xl text-sm text-zinc-300 sm:text-base;
+  @apply mb-12 max-w-2xl text-sm sm:text-[17px];
   color: hsl(var(--muted));
 }
 
 .card {
   border-radius: var(--radius-card);
-  background: linear-gradient(160deg, hsl(var(--surface) / 0.9), hsl(var(--surface-raised) / 0.9));
-  border: 1px solid hsl(var(--border) / 0.35);
-  box-shadow: 0 18px 40px -22px hsl(210 40% 2% / 0.75);
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  background: linear-gradient(170deg, hsl(var(--surface) / 0.9), hsl(var(--surface-raised) / 0.85));
+  border: 1px solid hsl(var(--border) / 0.4);
+  box-shadow: var(--shadow-soft);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 24px 48px -20px hsl(210 50% 4% / 0.75);
+  transform: translateY(-4px);
+  border-color: hsl(var(--accent) / 0.5);
+  background: linear-gradient(170deg, hsl(var(--surface) / 0.95), hsl(var(--surface-hover) / 0.95));
+  box-shadow: 0 30px 70px -28px hsl(210 90% 6% / 0.85);
 }
 
 .btn {
   @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
   border-radius: 14px;
   border: 1px solid hsl(var(--border) / 0.45);
-  background: hsl(var(--surface-raised));
-  color: inherit;
-  box-shadow: 0 10px 20px -16px hsl(210 60% 10% / 1);
+  background: hsl(var(--surface-raised) / 0.96);
+  color: hsl(var(--foreground));
+  box-shadow: 0 14px 36px -28px hsl(210 60% 10% / 1);
 }
 
 .btn:hover {
   background: hsl(var(--surface-hover));
 }
 
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .btn-accent {
-  background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-strong)) 70%);
+  background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-strong)) 72%);
   color: white;
   border-color: transparent;
   box-shadow: 0 14px 30px -14px hsl(var(--accent) / 0.7);
@@ -118,13 +130,17 @@ h3 {
   filter: brightness(1.05);
 }
 
+.btn-accent:disabled {
+  filter: none;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   border-radius: 999px;
-  border: 1px solid hsl(var(--border) / 0.4);
-  background: hsl(var(--surface-raised));
+  border: 1px solid hsl(var(--border) / 0.45);
+  background: hsl(var(--surface-raised) / 0.92);
   padding: 0.4rem 0.85rem;
   font-size: 0.7rem;
   font-weight: 500;
@@ -136,20 +152,27 @@ h3 {
 .chip {
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem;
   border-radius: var(--radius-pill);
   padding: 0.35rem 0.9rem;
   font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid hsl(var(--border) / 0.45);
-  background: hsl(var(--surface-raised));
+  background: hsl(var(--surface-raised) / 0.92);
   color: hsl(var(--foreground));
   transition: background 200ms ease;
 }
 
 .chip[data-highlight="true"] {
   border-color: transparent;
-  background: linear-gradient(135deg, hsl(var(--accent) / 0.85), hsl(var(--accent-strong) / 0.85));
+  background: linear-gradient(135deg, hsl(var(--accent) / 0.85), hsl(var(--accent-strong) / 0.9));
   color: white;
+}
+
+.chip[data-variant="subtle"] {
+  border-color: hsl(var(--border) / 0.3);
+  background: hsl(var(--surface) / 0.75);
+  color: hsl(var(--muted));
 }
 
 .glass {
@@ -227,4 +250,22 @@ h3 {
 
 .animate-float-slowest {
   animation: float 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-gradient {
+    animation: none;
+    background-position: 0 0;
+  }
+
+  .animate-float-slow,
+  .animate-float-slower,
+  .animate-float-slowest {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal.is-visible {
+    transition: none;
+  }
 }
