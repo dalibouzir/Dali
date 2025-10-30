@@ -1,391 +1,208 @@
-import NavBar from "@/components/NavBar";
-import Section from "@/components/Section";
-import ProjectCard from "@/components/ProjectCard";
-import { profile } from "@/data/profile";
-import { dataAI, mlResearch, development, mlops, allProjects } from "@/data/projects";
+import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import ContactForm from "@/components/ContactForm";
-import Reveal from "@/components/RevealOnScroll";
-import CertificateCard from "@/components/CertificateCard";
-import { certifications } from "@/data/certifications";
+import Nav from "@/components/Nav";
+import Section from "@/components/Section";
+import { HomeHero } from "@/components/HomeHero";
+import { ProjectShowcaseCard } from "@/components/ProjectShowcaseCard";
+import { CVCard } from "@/components/CVCard";
+import { CertificationBadge } from "@/components/CertificationBadge";
+import { ContactBar } from "@/components/ContactBar";
+import { SkillCluster } from "@/components/SkillCluster";
+import { projects } from "@/content/projects";
+import { certifications } from "@/content/certifications";
+import { fields } from "@/content/fields";
+import { owner, siteLinks } from "@/content/siteMeta";
+import { skillGroups } from "@/content/skills";
+
+export const metadata: Metadata = {
+  title: "BOUZIR Mohamed Ali — AI, Data Science & Back-End Engineer",
+  description: owner.tagline,
+};
+
+const spotlightOrder = ["ai-business-agent", "quirkhire", "affa", "meriem-booking"] as const;
+const featuredProjects = spotlightOrder
+  .map((slug) => projects.find((project) => project.slug === slug))
+  .filter((project): project is typeof projects[number] => Boolean(project));
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: owner.name,
+  jobTitle: owner.title,
+  email: owner.email,
+  telephone: owner.phone,
+  url: owner.portfolio,
+  sameAs: [siteLinks.linkedin, siteLinks.github].filter(Boolean),
+};
 
 export default function Home() {
-  const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#featured", label: "Featured" },
-    { href: "#certifications", label: "Certifications" },
-    { href: "#data-ai", label: "Data & AI" },
-    { href: "#ml-research", label: "Machine Learning Research" },
-    { href: "#development", label: "Development" },
-    { href: "#mlops", label: "MLOps" },
-    { href: "#contact", label: "Contact" },
-  ];
-
-  const socialLinks = [
-    profile.linkedin && { label: "LinkedIn", href: profile.linkedin },
-    profile.github && { label: "GitHub", href: profile.github },
-    profile.x && { label: "X", href: profile.x },
-  ].filter(Boolean) as { label: string; href: string }[];
-
-  const featuredProjects = allProjects
-    .filter((project) => project.featured)
-    .sort((a, b) => (a.featuredOrder ?? 99) - (b.featuredOrder ?? 99));
-  const certificationCount = certifications.length;
-  const certificationIssuerCount = new Set(certifications.map((cert) => cert.issuer)).size;
-
   return (
-    <div className="min-h-screen">
-      <NavBar />
-      <section id="about" className="container-wide pt-20 sm:pt-28">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.3em] text-white/70">
-              {profile.title}
-            </div>
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-[52px]">
-              {profile.headline}
-              <span className="block text-[color:var(--accent-strong)]">{profile.headlineAccent}</span>
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm text-zinc-300 sm:text-base">
-              {profile.subheadline}
-            </p>
+    <>
+      <Nav />
+      <main id="main">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        <HomeHero />
 
-            <div className="mt-6 flex flex-wrap gap-2 sm:gap-3">
-              {profile.skills.map((skill) => (
-                <span key={skill} className="chip" data-highlight="true">
-                  {skill}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
-              <span className="badge">Toolbelt</span>
-              <div className="flex flex-wrap gap-2 text-[11px] normal-case tracking-normal text-zinc-200 sm:text-xs">
-                {profile.toolbelt.map((tool) => (
-                  <span key={tool} className="chip" data-variant="subtle">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a className="btn btn-accent" href={`mailto:${profile.email}`}>
-                ✉️ Email
-              </a>
-              {profile.linkedin && (
-                <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer">
-                  🔗 LinkedIn
-                </a>
-              )}
-              {profile.github && (
-                <a className="btn" href={profile.github} target="_blank" rel="noreferrer">
-                  💻 GitHub
-                </a>
-              )}
-              {profile.cv?.en && (
-                <Link className="btn" href={profile.cv.en} target="_blank">
-                  ⬇️ CV (EN)
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <div className="mx-auto w-full max-w-md">
-            <div className="card overflow-hidden p-0">
-              <div className="relative aspect-square w-full">
-                <Image
-                  src="/images/Dali.jpeg"
-                  alt="Mohamed Ali Bouzir portrait"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 70vw, 320px"
-                />
-              </div>
-              <div className="border-t border-white/5 px-6 py-5 text-sm text-zinc-300">
-                <p className="text-sm font-medium uppercase tracking-[0.26em] text-zinc-500">
-                  Available for
-                </p>
-                <p className="mt-2 text-base text-zinc-200">
-                  Product-minded data roles · ML & AI engineering · Full-stack delivery
-                </p>
-                <div className="mt-4 space-y-2 text-sm">
-                  <p>📍 {profile.location}</p>
-                  <p>📧 {profile.email}</p>
-                  <p>📞 {profile.phone}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {featuredProjects.length > 0 && (
         <Section
           id="featured"
-          title="Featured Projects"
-          blurb="Signature builds that connect resilient data pipelines, dependable ML, and premium product polish."
+          eyebrow="Best Projects"
+          title="Featured delivery across AI, back-end, and full-stack launches."
+          description={
+            <p>
+              Flagship builds that align data engineering, applied AI, and resilient shipping. Each project surfaces measurable metrics
+              and production stacks pulled straight from the CV.
+            </p>
+          }
         >
-          <div className="grid gap-6 lg:grid-cols-2 xl:gap-8">
-            {featuredProjects.map((project, index) => (
-              <Reveal
-                key={project.title}
-                className={index === 0 ? "lg:col-span-2" : ""}
-              >
-                <ProjectCard
-                  {...project}
-                  variant={index === 0 ? "featured" : "standard"}
+          <div className="relative">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-3 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[rgba(148,163,184,0.25)] to-transparent md:block"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-3 top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-[rgba(148,163,184,0.25)] to-transparent md:block"
+            />
+            <div className="grid gap-5 md:grid-cols-2">
+              {featuredProjects.map((project) => (
+                <ProjectShowcaseCard
+                  key={project.slug}
+                  title={project.title}
+                  summary={project.summary}
+                  stack={project.stack}
+                  links={project.links}
+                  visual={project.visual}
                 />
-              </Reveal>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <section className="section pt-0">
+          <div className="container-wide">
+            <div className="relative overflow-hidden rounded-[2.75rem] border border-[rgb(var(--surface-muted)/0.45)] bg-gradient-to-r from-[rgb(var(--brand)/0.18)] via-[rgb(var(--brand-soft)/0.15)] to-[rgb(var(--brand)/0.1)] p-6 shadow-soft sm:p-8">
+              <div className="grid gap-5 md:grid-cols-3">
+                <ImpactItem
+                  title="35k+"
+                  label="LLM-backed answers shipped"
+                  detail="AI Business Agent"
+                />
+                <ImpactItem
+                  title="±2"
+                  label="Point prediction accuracy"
+                  detail="AFFA lineup engine"
+                />
+                <ImpactItem
+                  title="7000+"
+                  label="Players synced"
+                  detail="Fittrah Moms & MyMatch pipelines"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <Section
+          id="cv"
+          eyebrow="Professional Snapshot"
+          title="CV, credentials, and certifications at a glance."
+          description={
+            <p>
+              Download the latest CV, connect directly, and review certifications that reinforce data science, visualization, and AI delivery.
+            </p>
+          }
+        >
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+            <CVCard />
+            <div className="grid gap-4 md:grid-cols-2">
+              {certifications.map((cert) => (
+                <CertificationBadge
+                  key={cert.name}
+                  name={cert.name}
+                  issuer={cert.issuer}
+                  date={cert.date}
+                />
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <Section
+          id="fields"
+          eyebrow="Fields / Jobs"
+          title="Focused practice areas with tailored experience."
+          description={
+            <p>
+              Explore how skills, projects, and experience align to specific mandates. Each field page dives deeper into relevant objectives, outcomes, and tooling.
+            </p>
+          }
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            {fields.map((field) => (
+              <Link
+                key={field.slug}
+                href={`/field/${field.slug}`}
+                className="group flex flex-col gap-5 rounded-[2.25rem] border border-[rgb(var(--surface-muted)/0.55)] bg-[rgb(var(--surface))] p-6 shadow-soft transition hover:border-[rgb(var(--brand)/0.35)] hover:shadow-lift"
+              >
+                <div className="space-y-2">
+                  <p className="badge" data-emphasis="brand">
+                    {field.label}
+                  </p>
+                  <h3 className="text-xl font-semibold text-[rgb(var(--text))]">{field.hero.title}</h3>
+                  <p className="text-sm text-[rgb(var(--text-secondary))]">{field.hero.intro[0]}</p>
+                </div>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[rgb(var(--brand))]">
+                  View field page
+                  <span aria-hidden>→</span>
+                </span>
+              </Link>
             ))}
           </div>
         </Section>
-      )}
 
-      {/* Certifications */}
-      <Section
-        id="certifications"
-        title="Certifications"
-        blurb="External validation of core analytics, ML, and visualization chops that back up the project work."
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.3fr)] lg:items-start">
-          <div className="glass-strong flex flex-col gap-6 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:px-8 lg:py-8">
-            <span className="badge">Credential Snapshot</span>
-            <h3 className="text-2xl font-semibold text-white sm:text-3xl">
-              Certified to partner across analytics, ML, and visualization with accountable delivery.
-            </h3>
-            <p className="text-zinc-300">
-              Each credential reinforces the practical experience shown in the projects — grounding experiments, dashboards,
-              and production ML work in trusted foundations.
+        <Section
+          id="tech-stack"
+          eyebrow="Tech Stack"
+          title="Tooling used across data, engineering, and delivery."
+          description={
+            <p>
+              Skills drawn directly from recent projects and certifications—balanced across programming, web platforms, applied AI, and MLOps tooling.
             </p>
-            <dl className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/80">
-              <div className="flex items-center justify-between">
-                <dt className="text-xs uppercase tracking-[0.32em] text-white/60">Total Credentials</dt>
-                <dd className="text-2xl font-semibold text-white">{certificationCount}</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-xs uppercase tracking-[0.32em] text-white/60">Issuing Organizations</dt>
-                <dd className="text-lg font-semibold text-white">{certificationIssuerCount}</dd>
-              </div>
-            </dl>
-            <ul className="space-y-2 text-sm text-zinc-200">
-              <li className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[hsl(var(--accent))]" aria-hidden />
-                <span>Proof of competency in analytics tooling (Tableau) plus core ML engineering foundations.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[hsl(var(--accent-strong))]" aria-hidden />
-                <span>Blends academic-backed curricula from IBM and UC systems with real-world delivery work.</span>
-              </li>
-            </ul>
+          }
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            <SkillCluster title="Programming Languages" items={skillGroups.programming} />
+            <SkillCluster title="Web Development" items={skillGroups.web} />
+            <SkillCluster title="Data Science & AI" items={skillGroups.dataAi} />
+            <SkillCluster title="Data Engineering & MLOps" items={skillGroups.dataEngineering} />
+            <SkillCluster title="Tools & Environments" items={skillGroups.tools} />
           </div>
+        </Section>
 
-          <div className="relative">
-            <div className="absolute left-3 top-0 bottom-0 hidden sm:block" aria-hidden>
-              <div className="h-full w-px bg-gradient-to-b from-white/40 via-white/15 to-transparent" />
-            </div>
-            <div className="space-y-6">
-              {certifications.map((c, index) => (
-                <Reveal key={c.title} className="relative pl-6 sm:pl-12">
-                  <span
-                    className="absolute left-0 top-8 h-3 w-3 -translate-x-1/2 rounded-full bg-[hsl(var(--accent))] shadow-[0_0_0_6px_rgba(10,14,22,0.65)] sm:left-3"
-                    aria-hidden
-                  />
-                  <CertificateCard {...c} index={index} total={certificationCount} />
-                </Reveal>
-              ))}
-            </div>
+        <div className="section">
+          <div className="container-wide">
+            <ContactBar />
           </div>
         </div>
-      </Section>
+      </main>
+    </>
+  );
+}
 
-      {/* Data Science & AI */}
-      <Section
-        id="data-ai"
-        title="Data Science & AI"
-        blurb="Design ML features that stand up in production — from feature store to serving, with clear metrics on the win."
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] lg:items-start">
-          <div className="glass space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
-              <li>Owns pipeline → model → product lifecycle</li>
-              <li>Strong Python + ML stack including deep learning</li>
-              <li>Metrics mindset on accuracy, latency, adoption</li>
-              <li>Clear comms across technical and product partners</li>
-              <li>Certified: IBM Python DS/AI, IBM “What is DS?”, Tableau</li>
-            </ul>
-          </div>
-          <div className="grid gap-6">
-            {dataAI.map((p) => (
-              <Reveal key={p.title}>
-                <ProjectCard {...p} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </Section>
+type ImpactItemProps = {
+  title: string;
+  label: string;
+  detail: string;
+};
 
-      {/* ML Research */}
-      <Section
-        id="ml-research"
-        title="Machine Learning Research"
-        blurb="Prototype with cutting-edge methods to stretch limited data, validate claims, and hand teams practical takeaways."
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:items-start">
-          <div className="order-2 grid gap-6 lg:order-1">
-            {mlResearch.map((p) => (
-              <Reveal key={p.title}>
-                <ProjectCard {...p} />
-              </Reveal>
-            ))}
-          </div>
-          <div className="glass order-1 space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:order-2">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
-              <li>Experienced in paper reproduction and benchmarking</li>
-              <li>Skilled in PyTorch, VAE, and diffusion workflows</li>
-              <li>Design rigorous experiments with meaningful metrics</li>
-              <li>Comfortable documenting research for cross-team handoff</li>
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      {/* Development */}
-      <Section
-        id="development"
-        title="Software Development"
-        blurb="Launch full-stack products that blend reliable backends with crisp UX, ready for real customers and future iterations."
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] lg:items-start">
-          <div className="glass space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
-              <li>Design secure backends with auth and data governance</li>
-              <li>Ship responsive React/Next.js experiences with A11y baked in</li>
-              <li>Structure code for iterative delivery and maintainability</li>
-              <li>Balance client goals, technical trade-offs, and timelines</li>
-            </ul>
-          </div>
-          <div className="grid gap-6">
-            {development.map((p, index) => (
-              <Reveal key={p.title}>
-                <ProjectCard {...p} variant={index === 0 ? "featured" : "standard"} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* MLOps */}
-      <Section
-        id="mlops"
-        title="MLOps & Systems"
-        blurb="Harden ML services with deployments, tracking, and observability so models keep pace long after launch day."
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:items-start">
-          <div className="order-2 grid gap-6 lg:order-1">
-            {mlops.map((p) => (
-              <Reveal key={p.title}>
-                <ProjectCard {...p} />
-              </Reveal>
-            ))}
-          </div>
-          <div className="glass order-1 space-y-4 px-6 py-6 text-sm text-zinc-300 sm:text-base lg:order-2">
-            <div className="badge">Why I fit</div>
-            <ul className="list-disc space-y-2 pl-5 text-zinc-200">
-              <li>Deployed and monitored ML services in production-like environments</li>
-              <li>Hands-on with MLflow for experiment lineage and governance</li>
-              <li>ElasticSearch + Kibana dashboards for observability and alerting</li>
-              <li>Bias toward reliability, reproducibility, and secure delivery</li>
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      {/* Contact */}
-      <Section
-        id="contact"
-        title="Contact"
-        blurb="Ready to discuss product-minded data work, rapid ML prototypes, or hands-on delivery support? Drop a line."
-      >
-        <div className="card p-6">
-          <p className="text-zinc-300">Let’s connect about opportunities in Data Science, Machine Learning, Backend, or MLOps.</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <a className="btn btn-accent" href={`mailto:${profile.email}?subject=Hello%20Mohamed%20Ali`}>✉️ Email Me</a>
-            {profile.linkedin && (
-              <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer">🔗 LinkedIn</a>
-            )}
-            {profile.github && (
-              <a className="btn" href={profile.github} target="_blank" rel="noreferrer">💻 GitHub</a>
-            )}
-          </div>
-
-          {/* Simple contact form using mailto */}
-          <ContactForm />
-        </div>
-      </Section>
-
-      <footer className="mt-24 border-t border-white/5 bg-black/20">
-        <div className="container-wide flex flex-col gap-8 py-12 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-md space-y-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-white/60">Mohamed Ali Bouzir</p>
-            <p className="text-lg font-semibold text-white">Building data-led products that delight stakeholders and users alike.</p>
-            <p className="text-sm text-zinc-400">Based in {profile.location}. Available for remote or hybrid collaboration.</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-8 text-sm text-zinc-300 sm:grid-cols-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Navigate</p>
-              <ul className="mt-3 space-y-2">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <a className="transition hover:text-white" href={link.href}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Contact</p>
-              <ul className="mt-3 space-y-2">
-                <li>
-                  <a className="transition hover:text-white" href={`mailto:${profile.email}`}>
-                    {profile.email}
-                  </a>
-                </li>
-                <li>
-                  <a className="transition hover:text-white" href={`tel:${profile.phone.replace(/\s+/g, "")}`}>
-                    {profile.phone}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Social</p>
-              <ul className="mt-3 space-y-2">
-                {socialLinks.map((link) => (
-                  <li key={link.href}>
-                    <a className="transition hover:text-white" href={link.href} target="_blank" rel="noreferrer">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="border-t border-white/5">
-          <div className="container-wide flex flex-col gap-2 py-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} Mohamed Ali Bouzir. All rights reserved.</span>
-            <span>Crafted with Next.js, Tailwind, and a love for measurable outcomes.</span>
-          </div>
-        </div>
-      </footer>
+function ImpactItem({ title, label, detail }: ImpactItemProps) {
+  return (
+    <div className="flex flex-col gap-2 rounded-[1.75rem] border border-white/20 bg-white/12 p-5 text-white shadow-[0_18px_48px_-24px_rgba(15,23,42,0.38)] backdrop-blur dark:border-white/10 dark:bg-white/10">
+      <span className="text-3xl font-semibold sm:text-4xl">{title}</span>
+      <span className="text-sm uppercase tracking-[0.28em] text-white/70">{label}</span>
+      <span className="text-sm font-medium text-white/85">{detail}</span>
     </div>
   );
 }

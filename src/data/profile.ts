@@ -39,3 +39,5 @@ export const profile = {
     "PyTorch",
   ],
 };
+
+export type Profile = typeof profile;

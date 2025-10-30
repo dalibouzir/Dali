@@ -1,37 +1,63 @@
-import { ReactNode } from "react";
-import TypewriterOnView from "./TypewriterOnView";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
+type SectionBaseProps = {
+  id: string;
+  title: string;
+  eyebrow?: string;
+  description?: ReactNode;
+  children: ReactNode;
+  containerClassName?: string;
+  className?: string;
+  headingTag?: "h2" | "h3";
+};
+
+type SectionProps = SectionBaseProps &
+  Omit<ComponentPropsWithoutRef<"section">, keyof SectionBaseProps | "children">;
+
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Section({
   id,
   title,
-  blurb,
+  eyebrow,
+  description,
   children,
-  full = true,
-  typeBlurb = false,
-}: {
-  id: string;
-  title: string;
-  blurb?: string;
-  children: ReactNode;
-  full?: boolean;
-  typeBlurb?: boolean;
-}) {
+  containerClassName,
+  className,
+  headingTag: HeadingTag = "h2",
+  ...rest
+}: SectionProps) {
+  const headingId = `${id}-heading`;
+  const descriptionId = description ? `${id}-description` : undefined;
+
   return (
-    <section id={id} className={`section scroll-mt-24 sm:scroll-mt-32 ${full ? "container-wide" : "container-narrow"}`}>
-      <div className="-mt-6 mb-10 h-6 opacity-70" aria-hidden>
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
-      <h2 className="section-title title-gradient">{title}</h2>
-      {blurb && (
-        <div className="section-lede">
-          {typeBlurb ? (
-            <TypewriterOnView text={blurb} className="text-sm sm:text-base" />
-          ) : (
-            <p>{blurb}</p>
-          )}
+    <section
+      id={id}
+      aria-labelledby={headingId}
+      aria-describedby={descriptionId}
+      className={cx("section", className)}
+      {...rest}
+    >
+      <div className={cx("container-wide", containerClassName)}>
+        <div className="mb-8 max-w-3xl space-y-3">
+          {eyebrow ? (
+            <p className="badge" data-emphasis="brand">
+              {eyebrow}
+            </p>
+          ) : null}
+          <HeadingTag id={headingId} className="section-title">
+            {title}
+          </HeadingTag>
+          {description ? (
+            <div id={descriptionId} className="section-lede">
+              {description}
+            </div>
+          ) : null}
         </div>
-      )}
-      {children}
+        {children}
+      </div>
     </section>
   );
 }

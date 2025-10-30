@@ -28,6 +28,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/case-studies/ai-business-agent",
+        destination: "/field/data-science-ai",
+        permanent: true,
+      },
+      {
+        source: "/case-studies/ai-business-agent.html",
+        destination: "/field/data-science-ai",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

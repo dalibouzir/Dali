@@ -1,229 +1,291 @@
-export type ProjectLink = {
+export type ProjectAction = {
   label: string;
   href: string;
-  emoji?: string;
+  type?: "primary" | "secondary";
 };
 
-export type ProjectMediaImage = {
+export type ProjectImage = {
   src: string;
   alt: string;
-  caption?: string;
 };
 
-export type ProjectMediaVideo = {
-  src: string;
-  caption?: string;
-};
-
-export type Project = {
+export type FeaturedProject = {
+  slug: string;
   title: string;
+  summary: string;
+  image: ProjectImage;
+  stack: string[];
+  impact: string[];
+  features: string[];
   category: string;
-  description: string;
-  tech: string[];
-  images?: ProjectMediaImage[];
-  videos?: ProjectMediaVideo[];
-  links?: ProjectLink[];
-  impact?: string;
-  featured?: boolean;
-  featuredOrder?: number;
-  showMedia?: boolean;
+  actions: ProjectAction[];
 };
 
-export const dataAI: Project[] = [
+export type CapabilityProject = {
+  slug: string;
+  title: string;
+  summary: string;
+  stack: string[];
+  highlights: string[];
+  category: string;
+  actions: ProjectAction[];
+};
+
+export type ResearchProject = {
+  slug: string;
+  title: string;
+  summary: string;
+  tags: string[];
+  link: ProjectAction;
+};
+
+export const featuredProjects: FeaturedProject[] = [
   {
-    title: "AFFA – Fantasy Football Assistant",
-    category: "Data & AI",
-    description:
-      "Personal ML assistant that helps fantasy football players make smarter lineup decisions. End-to-end pipeline: data collection/cleaning → modeling → FastAPI services → monitoring. Combines player performance forecasting with recommendation logic (NLTK + ML pipelines). Dockerized, tracked with MLflow, and monitored via Elastic/Kibana. Outperformed my own baseline strategy; realtime latency kept under ~2s/rec.",
-    impact: "Cut lineup decision time by 40% while keeping inference under two seconds per recommendation.",
-    tech: ["Python", "Flask", "FastAPI", "NLTK", "MongoDB", "Docker", "MLflow", "ElasticSearch", "Kibana"],
-    featured: true,
-    featuredOrder: 1,
-    showMedia: true,
-    images: [
-      { src: "/assets/projects/affa/images/cover.webp", alt: "AFFA fantasy football assistant dashboard with lineup insights" },
-      { src: "/assets/projects/affa/images/screen-1.webp", alt: "Player comparison screen showcasing performance projections" },
-      { src: "/assets/projects/affa/images/screen-2.webp", alt: "Team roster selection view with confidence scores" },
+    slug: "ai-business-agent",
+    title: "AI Business Agent — Intelligent Decision-Support SaaS",
+    summary:
+      "Decision-support copilot that blends retrieval-augmented generation with Monte Carlo simulations so operations teams can ask nuanced questions and receive defensible answers in seconds.",
+    image: {
+      src: "/assets/projects/ai-business-agent/cover.svg",
+      alt: "AI Business Agent dashboard with conversational insight and scenario analytics",
+    },
+    stack: [
+      "Next.js 14",
+      "FastAPI",
+      "PostgreSQL + pgVector",
+      "OpenSearch",
+      "MinIO",
+      "Redis",
+      "Ollama 3B",
+      "Docker Compose",
+      "Grafana",
     ],
-    videos: [
-      { src: "/assets/projects/affa/videos/demo.mov", caption: "Lineup simulation with real-time recommendation updates" },
-      { src: "/assets/projects/affa/videos/demo2.mov", caption: "Model monitoring dashboard captured from production deployment" },
+    impact: [
+      "Resolved 35,000+ analyst questions with contextual, source-grounded answers.",
+      "Automated 120+ risk simulations weekly with narrative-ready reports.",
+      "Maintained 92% response accuracy with a 2.7 s median latency across workloads.",
     ],
-    links: [
-      { label: "Live Demo", href: "https://bouzirdaliaa.pythonanywhere.com/", emoji: "🚀" },
+    features: [
+      "Hybrid RAG pipeline merging pgVector + OpenSearch for multimodal ingestion (PDF, CSV, imagery).",
+      "Agentic orchestration layer coordinating Ollama 3B reasoning with deterministic guardrails.",
+      "Monte Carlo engine (10k+ iterations) producing per-scenario KPIs, confidence bands, and alerting.",
+      "End-to-end observability via Grafana dashboards, OpenTelemetry traces, and FastAPI instrumentation.",
+    ],
+    category: "Decision Intelligence",
+    actions: [
+      { label: "Case Study", href: "/case-studies/ai-business-agent.html", type: "primary" },
+      { label: "Request Demo", href: "mailto:bouzirdali@gmail.com?subject=AI%20Business%20Agent%20Demo", type: "secondary" },
+    ],
+  },
+  {
+    slug: "quirkhire",
+    title: "QuirkHire — AI Résumé Recommendation Platform",
+    summary:
+      "LLM-assisted hiring assistant that scores résumés against live roles, explains rationale to recruiters, and monitors pipeline health.",
+    image: {
+      src: "/assets/projects/quirkhire/images/cover.png",
+      alt: "QuirkHire dashboard highlighting AI-generated role recommendations",
+    },
+    stack: ["React", "Django + DRF", "Supabase", "Redux Toolkit", "OpenRouter API"],
+    impact: [
+      "Hybrid embeddings + rubric scoring reduced CV screening time to under two minutes.",
+      "Explainable summaries increased recruiter trust and candidate follow-up rates.",
+      "Supabase analytics revealed conversion funnels and talent pool coverage in real time.",
+    ],
+    features: [
+      "Dual-pass semantic matching with OpenRouter LLMs and deterministic weighting for fairness.",
+      "Narrative rationales highlighting matched skills, gaps, and recommended follow-up tasks.",
+      "Role pipeline dashboard with engagement metrics, saved searches, and recruiter collaboration.",
+    ],
+    category: "Talent Intelligence",
+    actions: [
+      { label: "Live Demo", href: "https://career-reco.vercel.app", type: "primary" },
+      { label: "Request Access", href: "mailto:bouzirdali@gmail.com?subject=QuirkHire%20Access", type: "secondary" },
+    ],
+  },
+  {
+    slug: "affa",
+    title: "AFFA — Automated Fantasy Football Assistant",
+    summary:
+      "Personalized ML assistant that ingests live stats, forecasts player performance, and recommends optimal lineups with explainable metrics.",
+    image: {
+      src: "/assets/projects/affa/images/cover.webp",
+      alt: "AFFA fantasy football assistant displaying lineup intelligence",
+    },
+    stack: [
+      "Python",
+      "Flask",
+      "FastAPI",
+      "NLTK",
+      "MongoDB",
+      "Docker",
+      "MLflow",
+      "ElasticSearch",
+      "Kibana",
+    ],
+    impact: [
+      "Achieved ±2 point prediction accuracy across weekly matchups.",
+      "Reduced lineup decision time by 73% through explainable recommendations.",
+      "Real-time monitoring alerted drift and latency issues before they impacted users.",
+    ],
+    features: [
+      "Automated ingestion and cleaning of live sports feeds with feature-store style caching.",
+      "Forecast ensemble combining statistical baselines and neural models with uncertainty bounds.",
+      "FastAPI microservices deployed via Docker with MLflow tracking and A/B experimentation.",
+    ],
+    category: "Applied ML Product",
+    actions: [
+      { label: "Live Demo", href: "https://bouzirdaliaa.pythonanywhere.com/", type: "primary" },
+      { label: "Source", href: "https://github.com/dalibouzir/football-assistant", type: "secondary" },
+    ],
+  },
+  {
+    slug: "therapist-funnel",
+    title: "Therapist Funnel — Booking & Lead Automation",
+    summary:
+      "Next.js funnel for therapists that exchanges educational resources for verified leads, syncs Calendly, and powers an admin CRM.",
+    image: {
+      src: "/assets/projects/therapist-funnel/images/img1.webp",
+      alt: "Therapist Funnel admin analytics dashboard",
+    },
+    stack: ["Next.js 14", "Supabase", "Postgres", "Tailwind", "Calendly API"],
+    impact: [
+      "Automated distribution of gated resources with tracked redemption codes.",
+      "Streamlined therapist bookings with a consolidated admin calendar and reminders.",
+      "Delivered a full CRM for leads, conversions, and follow-up automations.",
+    ],
+    features: [
+      "Content funnel with context-aware CTA testing and Supabase row-level security.",
+      "Calendly integration for real-time availability and booking confirmations.",
+      "Analytics workspace summarizing conversion by funnel stage and resource type.",
+    ],
+    category: "Growth Automation",
+    actions: [{ label: "Live Demo", href: "https://www.fittrahmoms.com", type: "primary" }],
+  },
+];
+
+export const dataAiProjects: CapabilityProject[] = [
+  {
+    slug: "affa-lineup-engine",
+    title: "AFFA Lineup Engine",
+    summary:
+      "Ingested multi-season stats, engineered 150+ features, and served explainable lineup recommendations with latency under two seconds.",
+    stack: ["Python", "FastAPI", "MongoDB", "Docker", "MLflow"],
+    highlights: [
+      "Automated DAG for scraping, feature store refresh, and model retraining.",
+      "Confidence-aware recommendations surfaced pros/cons for each roster slot.",
+      "Elastic/Kibana dashboards monitored inference health and user impact.",
+    ],
+    category: "Data Science & AI",
+    actions: [
+      { label: "Live Demo", href: "https://bouzirdaliaa.pythonanywhere.com/", type: "primary" },
+      { label: "Source", href: "https://github.com/dalibouzir/football-assistant", type: "secondary" },
+    ],
+  },
+  {
+    slug: "climate-forecasting",
+    title: "Climate Forecasting Experiments",
+    summary:
+      "Compared Prophet, ARIMA, and neural baselines on climate indicators to surface actionable projections with confidence bands.",
+    stack: ["Python", "Prophet", "ARIMA", "Plotly"],
+    highlights: [
+      "Data pipelines harmonized NOAA temperature, CO₂, and sea-level series.",
+      "Benchmarking notebook captured error bars and scenario commentary for policy partners.",
+      "Delivered interactive dashboards for communicating long-horizon risk.",
+    ],
+    category: "Data Science & AI",
+    actions: [
+      {
+        label: "Notebook",
+        href: "https://colab.research.google.com/drive/1spY1OTo6azGFCt7-9OGNY79VJ7qgPAlq?usp=drive_link",
+        type: "primary",
+      },
     ],
   },
 ];
 
-export const mlResearch: Project[] = [
+export const researchProjects: ResearchProject[] = [
   {
+    slug: "speech-emotion-recognition",
     title: "Speech Emotion Recognition (VAE + Diffusion)",
-    category: "ML Research",
-    description:
-      "Reproduced a university project on speech emotion recognition and used synthetic augmentation (VAE + diffusion) to expand limited datasets. Found synthetic data measurably improved recognition accuracy compared to baselines; explored trade-offs between sample quality and training stability.",
-    impact: "Improved emotion classification accuracy by augmenting with curated synthetic spectrograms.",
-    tech: ["PyTorch", "VAE", "Diffusion", "Jupyter"],
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/ser-vae-diffusion/images/cover.png", alt: "Notebook showing VAE reconstruction of audio spectrograms" },
-    ],
-    videos: [
-      { src: "/assets/projects/ser-vae-diffusion/videos/demo.mp4", caption: "Walkthrough of the VAE + diffusion augmentation pipeline" },
-    ],
-    links: [
-      { label: "Notebook", href: "https://colab.research.google.com/drive/1-FUw-_7uFVSYHlILZZfPqzf_q2FhU0x9?usp=drive_link", emoji: "📓" },
-    ],
+    summary:
+      "Augmented low-resource SER dataset with VAE + diffusion synth data, boosting emotion classification without degrading fidelity.",
+    tags: ["PyTorch", "Diffusion", "VAE", "Audio"],
+    link: {
+      label: "Notebook",
+      href: "https://colab.research.google.com/drive/1-FUw-_7uFVSYHlILZZfPqzf_q2FhU0x9?usp=drive_link",
+    },
   },
   {
-    title: "Climate Change Time Series (Colab)",
-    category: "ML Research",
-    description:
-      "Modeled climate indicators (temperature, CO₂, sea levels). Compared classical approaches (ARIMA/Prophet) vs ML methods; produced exploratory dashboards for trend visualization and forecasting.",
-    impact: "Surfaced decade-long climate trends with confidence intervals for policy discussions.",
-    tech: ["Python", "Colab", "Time Series"],
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/time-series-climate/images/cover.png", alt: "Climate dashboard summarizing temperature and CO₂ trends" },
-    ],
-    videos: [
-      { src: "/assets/projects/time-series-climate/videos/demo.mp4", caption: "Exploration of forecasting notebooks comparing ARIMA and Prophet" },
-    ],
-    links: [
-      { label: "Notebook", href: "https://colab.research.google.com/drive/1spY1OTo6azGFCt7-9OGNY79VJ7qgPAlq?usp=drive_link", emoji: "📓" },
-    ],
+    slug: "ligament-classification",
+    title: "Ligament MRI — VGG vs Custom CNN",
+    summary:
+      "Benchmarked transfer learning against bespoke CNNs on medical imagery, documenting the accuracy/overfitting trade-offs.",
+    tags: ["TensorFlow", "Keras", "Medical Imaging"],
+    link: {
+      label: "Notebook",
+      href: "https://colab.research.google.com/drive/1goyTDSoYdgo7QPFEUHSBC0WIKJqb_2BG",
+    },
   },
   {
-    title: "VGG vs CNN for Ligament Classification",
-    category: "ML Research",
-    description:
-      "Worked on ~8GB MRI dataset for ligament diagnosis. Compared VGG vs custom CNN: CNN trained faster; VGG achieved higher accuracy but tended to overfit. Delivered insights on accuracy vs complexity for medical imaging tasks.",
-    impact: "Quantified 6% accuracy lift from transfer learning while documenting overfitting risks.",
-    tech: ["TensorFlow", "Keras", "Matplotlib", "Colab"],
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/vgg-vs-cnn/images/cover.png", alt: "Training metrics comparing CNN and VGG performance curves" },
-    ],
-    videos: [
-      { src: "/assets/projects/vgg-vs-cnn/videos/demo.mp4", caption: "Notebook review comparing VGG16 and custom CNN confusion matrices" },
-    ],
-    links: [
-      { label: "Notebook", href: "https://colab.research.google.com/drive/1goyTDSoYdgo7QPFEUHSBC0WIKJqb_2BG", emoji: "📓" },
-    ],
+    slug: "climate-research-notebook",
+    title: "Climate Trend Modeling",
+    summary:
+      "Explored A/B forecasting stacks for climate indicators, translating raw projections into policy-ready narratives.",
+    tags: ["Time Series", "Python", "Analytics"],
+    link: {
+      label: "Notebook",
+      href: "https://colab.research.google.com/drive/1spY1OTo6azGFCt7-9OGNY79VJ7qgPAlq?usp=drive_link",
+    },
   },
 ];
 
-export const development: Project[] = [
+export const developmentProjects: CapabilityProject[] = [
   {
-    title: "ElyosDigital / PowerGym – Gym Management Platform",
-    category: "Development",
-    description:
-      "Full gym management platform: member registration, subscriptions, scheduling, activity booking, and product sales. Multi-role auth (admins/trainers/members) with validation and secure data handling; streamlined operations and reduced manual work.",
-    impact: "Automated membership workflows and reduced manual admin work by replacing spreadsheets.",
-    tech: ["Laravel", "MySQL", "Blade", "Bootstrap"],
-    showMedia: true,
-    images: [
-      { src: "/assets/projects/elyosdigital-powergym/images/img1.webp", alt: "PowerGym dashboard summarizing members and active plans" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img2.webp", alt: "Membership creation form with validation states" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img3.webp", alt: "Trainer schedule view with daily class timeline" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img4.webp", alt: "Billing management table with payment statuses" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img5.webp", alt: "Point of sale interface for in-gym purchases" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img6.webp", alt: "Workout program list grouped by coach" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img7.webp", alt: "Member profile with attendance and subscription history" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img8.webp", alt: "Class booking calendar showing upcoming sessions" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img9.webp", alt: "Analytics widgets highlighting revenue trends" },
-      { src: "/assets/projects/elyosdigital-powergym/images/img10.webp", alt: "Inventory management screen for supplements and merchandise" },
+    slug: "elyosdigital-powergym",
+    title: "PowerGym Management Suite",
+    summary:
+      "End-to-end gym platform covering memberships, scheduling, POS, and trainer workflows with granular role-based access.",
+    stack: ["Laravel", "MySQL", "Blade", "Bootstrap"],
+    highlights: [
+      "Automated subscription billing, renewals, and notification cadences.",
+      "Trainer and member portals delivered real-time occupancy and class management.",
+      "Point-of-sale module unified inventory, payments, and reconciliation exports.",
     ],
-    videos: [
-      { src: "/assets/projects/elyosdigital-powergym/videos/demo-1.mov", caption: "Admin experience navigating the core dashboards" },
-      { src: "/assets/projects/elyosdigital-powergym/videos/demo-2.mov", caption: "Trainer workflow for scheduling classes" },
-      { src: "/assets/projects/elyosdigital-powergym/videos/demo-3.mov", caption: "Member self-service booking flow" },
-      { src: "/assets/projects/elyosdigital-powergym/videos/demo-4.mov", caption: "Point of sale checkout with receipt generation" },
-    ],
+    category: "Full-stack Delivery",
+    actions: [],
   },
   {
-    title: "MyMatch – Admin Panel",
-    category: "Development",
-    description:
-      "Admin dashboard for real football app to manage players, stadiums, and matches. Integrated Firebase for realtime updates and delivered clear visualization of users, matches, and usage metrics.",
-    impact: "Enabled non-technical staff to manage league logistics in minutes instead of hours.",
-    tech: ["Laravel", "Firebase", "REST"],
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/mymatch-admin/images/cover.png", alt: "Admin overview of players, matches, and stadium occupancy" },
+    slug: "mymatch-admin",
+    title: "MyMatch Football Admin",
+    summary:
+      "Realtime admin dashboard for stadium bookings and match logistics with Firebase-backed analytics for league operators.",
+    stack: ["Laravel", "Firebase"],
+    highlights: [
+      "Live updates on fixtures, player rosters, and venue capacity.",
+      "Role-based dashboards for admins, referees, and stadium managers.",
+      "Automated alerts for scheduling conflicts and under-utilised slots.",
     ],
-    videos: [
-      { src: "/assets/projects/mymatch-admin/videos/demo.mp4", caption: "Realtime updates flowing from Firebase into the admin dashboard" },
-    ],
-  },
-  {
-    title: "QuirkHire – LLM Career Recommender",
-    category: "Development",
-    description:
-      "LLM-powered career assistant: semantically analyzes CVs with embeddings for better job matching than keyword search. Adds explainability by highlighting skills and reasons behind each recommendation; delivers accurate, low-latency results.",
-    impact: "Surface relevant job matches with rationale, cutting recruiter screening time to seconds.",
-    tech: ["React", "Django", "DRF", "Supabase", "Redux Toolkit", "OpenRouter API"],
-    featured: true,
-    featuredOrder: 2,
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/quirkhire/images/cover.png", alt: "QuirkHire dashboard highlighting recommended roles with explanations" },
-    ],
-    videos: [
-      { src: "/assets/projects/quirkhire/videos/demo.mp4", caption: "Applicant flow generating AI-backed job recommendations" },
-    ],
-    links: [
-      { label: "Live Demo", href: "https://career-reco.vercel.app", emoji: "🚀" },
-    ],
-  },
-  {
-    title: "Therapist Funnel – Next.js + Supabase (Vercel)",
-    category: "Development",
-    description:
-      "Therapist content funnel app lets clients access free educational resources in exchange for a simple form signup. Each download email includes a unique redeem code, which unlocks a free consultation booking via Calendly. Calendly handles scheduling and meeting links, while the app tracks leads, codes, and bookings. A full admin panel gives therapists control over uploads, codes, leads, analytics, and Calendly integration—all seamlessly deployed on Vercel.",
-    impact: "Automated lead capture with tracked consultations and zero manual code distribution.",
-    tech: ["Next.js", "Supabase", "Postgres", "Vercel", "Calendly API"],
-    featured: true,
-    featuredOrder: 3,
-    showMedia: true,
-    images: [
-      { src: "/assets/projects/therapist-funnel/images/img1.webp", alt: "Therapist funnel admin dashboard showing recent leads" },
-      { src: "/assets/projects/therapist-funnel/images/img2.webp", alt: "Public landing page offering downloadable resources" },
-      { src: "/assets/projects/therapist-funnel/images/img3.webp", alt: "Unique redeem code generator form" },
-      { src: "/assets/projects/therapist-funnel/images/img4.webp", alt: "Calendly availability embedded within the admin" },
-      { src: "/assets/projects/therapist-funnel/images/img5.webp", alt: "Automated download email template with secure link" },
-      { src: "/assets/projects/therapist-funnel/images/img6.webp", alt: "Lead analytics overview with conversion metrics" },
-      { src: "/assets/projects/therapist-funnel/images/img7.webp", alt: "Calendly confirmation flow captured inside the product" },
-      { src: "/assets/projects/therapist-funnel/images/img8.webp", alt: "Lead profile detail view with interactions" },
-      { src: "/assets/projects/therapist-funnel/images/img9.webp", alt: "Redeem code validation workflow" },
-      { src: "/assets/projects/therapist-funnel/images/img10.webp", alt: "Consultation booking summary with Calendly reference" },
-      { src: "/assets/projects/therapist-funnel/images/img11.webp", alt: "Follow-up automation settings for email sequences" },
-      { src: "/assets/projects/therapist-funnel/images/img12.webp", alt: "Conversion metrics dashboard for therapists" },
-    ],
-    links: [
-      { label: "Live Demo", href: "https://www.fittrahmoms.com", emoji: "🚀" },
-    ],
+    category: "Full-stack Delivery",
+    actions: [],
   },
 ];
 
-export const mlops: Project[] = [
+export const mlopsProjects: CapabilityProject[] = [
   {
-    title: "Production-ready MLOps (AFFA backend)",
-    category: "MLOps",
-    description:
-      "FastAPI microservices with MLflow experiment tracking, Dockerized deployments, and observability via ElasticSearch/Kibana (logs, metrics, model KPIs). Focused on reliability, reproducibility, and governance; multiple experiments and service versions tracked.",
-    impact: "Stabilized production inference with experiment lineage and alerting for regression monitoring.",
-    tech: ["FastAPI", "Docker", "MLflow", "ElasticSearch", "Kibana"],
-    showMedia: false,
-    images: [
-      { src: "/assets/projects/mlops-affa-backend/images/cover.png", alt: "MLflow experiment dashboard tracking model versions" },
+    slug: "affa-mlops",
+    title: "Production MLOps for AFFA",
+    summary:
+      "Hardened the AFFA backend with experiment tracking, container orchestration, and observability for sustained reliability.",
+    stack: ["FastAPI", "Docker", "MLflow", "ElasticSearch", "Kibana"],
+    highlights: [
+      "MLflow lineage tracked model versions, hyperparameters, and deployment history.",
+      "Containerized inference services with rolling updates and smoke-test hooks.",
+      "Telemetry dashboards (Elastic/Kibana) flagged latency drift and error spikes.",
     ],
-    videos: [
-      { src: "/assets/projects/mlops-affa-backend/videos/demo.mp4", caption: "FastAPI endpoints deployed with monitoring hooks" },
-    ],
-    links: [
-      { label: "Source Code", href: "https://github.com/dalibouzir/MLops", emoji: "💻" },
+    category: "MLOps & Systems",
+    actions: [
+      { label: "Source", href: "https://github.com/dalibouzir/MLops", type: "primary" },
     ],
   },
 ];
-
-export const allProjects: Project[] = [...dataAI, ...mlResearch, ...development, ...mlops];
