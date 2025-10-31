@@ -13,6 +13,8 @@ import { projects } from "@/content/projects";
 import { experiences } from "@/content/experience";
 import { certifications } from "@/content/certifications";
 import { owner } from "@/content/siteMeta";
+import { SITE } from "@/config/site";
+import { buildMetadata } from "@/components/Seo";
 
 type Params = {
   slug: (typeof fields)[number]["slug"];
@@ -29,10 +31,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     return {};
   }
 
-  return {
-    title: `${field.label} | BOUZIR Mohamed Ali`,
+  return buildMetadata({
+    title: `${field.label} · ${SITE.title}`,
     description: field.metaDescription,
-  };
+    path: `/field/${field.slug}`,
+  });
 }
 
 export default async function FieldPage({ params }: { params: Promise<Params> }) {
@@ -55,11 +58,44 @@ export default async function FieldPage({ params }: { params: Promise<Params> })
 
   const primaryProject = fieldProjects[0];
   const heroStacks = primaryProject?.stack.slice(0, 3) ?? field.coreSkills.slice(0, 3);
+  const canonicalPath = `/field/${field.slug}`;
+  // @improvement: schema metadata for field web page + breadcrumbs
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: `${field.label} · ${SITE.title}`,
+      description: field.metaDescription,
+      url: `${SITE.url}${canonicalPath}`,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE.url,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: field.label,
+          item: `${SITE.url}${canonicalPath}`,
+        },
+      ],
+    },
+  ];
 
   return (
     <>
       <Nav />
       <main id="main">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <section className="section pt-16 sm:pt-20">
           <div className="container-wide">
             <div className="grid gap-6 rounded-[2.5rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface))] p-6 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
@@ -138,6 +174,7 @@ export default async function FieldPage({ params }: { params: Promise<Params> })
             {fieldProjects.map((project) => (
               <ProjectShowcaseCard
                 key={project.slug}
+                slug={project.slug}
                 title={project.title}
                 summary={project.summary}
                 stack={project.stack}

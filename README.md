@@ -30,4 +30,12 @@ Customize content
 Notes
 - All external links (Demo | Code | Notebook) are optional; add them as available.
 - Tailwind utility classes are used inline; global CSS includes a dark theme and gradient accents.
- - Project cards showcase media with an autoplay slider (images + mp4); hover to pause, use arrows/dots to navigate.
+- Project cards showcase media with an autoplay slider (images + mp4); hover to pause, use arrows/dots to navigate.
+
+Portfolio Quality Checklist
+---------------------------
+- **Design & UX**: Sticky, auto-hiding header with a persistent “Hire me” CTA, smooth anchored scrolling, case-study promo card, and a bespoke architecture diagram for storytelling context.
+- **Content & Story**: Centralised `SITE` config ensures one narrative voice; new `/case-studies/ai-business-agent` deep dive and `/projects/[slug]` detail pages connect metrics, constraints, and outcomes.
+- **Technical polish**: SEO helper (`Seo.tsx`), JSON-LD across routes, dynamic robots/sitemap, Next/Image usage checks, and post-build quality checklist automation.
+- **Accessibility**: Turnstile-protected contact form with privacy note, actionable mail/phone links, Playwright + axe guardrails (`npm run test:a11y`), and consistent heading structure per page.
+- **SEO & Performance**: Canonical meta bundle, Open Graph/Twitter sharing defaults, Lighthouse assertions (`.lighthouserc.json`), and static OG asset preload for faster perceived loads.

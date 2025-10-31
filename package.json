@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/build-checklist.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc -p . --noEmit",
+    "test:a11y": "playwright test",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "react": "19.1.0",
@@ -22,6 +25,8 @@
     "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
-    "@eslint/eslintrc": "^3"
+    "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.49.0",
+    "@axe-core/playwright": "^4.9.0"
   }
 }

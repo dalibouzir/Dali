@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { SITE } from "@/config/site";
 
 const bodyFont = Inter({
   subsets: ["latin"],
@@ -16,30 +17,29 @@ const displayFont = Space_Grotesk({
   display: "swap",
 });
 
-const siteUrl = "https://dali-eight.vercel.app";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  // @improvement: base metadata derived from SITE config
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "BOUZIR Mohamed Ali — AI, Data Science & Back-End Engineer",
-    template: "%s | BOUZIR Mohamed Ali",
+    default: SITE.title,
+    template: `%s | ${SITE.name}`,
   },
-  description: "AI, Data Science & Back-End—shipping scalable, data-driven products end-to-end.",
+  description: SITE.tagline,
   keywords: [
-    "BOUZIR Mohamed Ali",
-    "Data-Oriented Computer Engineer",
+    SITE.name,
+    SITE.title,
     "Machine Learning",
-    "Data Science",
-    "Backend Engineering",
     "MLOps",
-    "Full-Stack Web",
+    "Data Platform Engineering",
+    "AI Product Delivery",
+    "LLM Applications",
   ],
   category: "technology",
-  authors: [{ name: "BOUZIR Mohamed Ali", url: siteUrl }],
-  creator: "BOUZIR Mohamed Ali",
-  publisher: "BOUZIR Mohamed Ali",
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
   alternates: {
-    canonical: siteUrl,
+    canonical: SITE.url,
   },
   icons: {
     icon: "/favicon.svg",
@@ -48,27 +48,27 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: siteUrl,
-    siteName: "BOUZIR Mohamed Ali Portfolio",
-    title: "BOUZIR Mohamed Ali — AI, Data Science & Back-End Engineer",
-    description: "AI, Data Science & Back-End—shipping scalable, data-driven products end-to-end.",
+    url: SITE.url,
+    siteName: SITE.name,
+    title: SITE.title,
+    description: SITE.tagline,
     locale: "en_US",
     images: [
       {
-        url: `${siteUrl}/images/Dali.jpeg`,
+        url: new URL(SITE.ogImage, SITE.url).toString(),
         width: 1200,
-        height: 1200,
-        alt: "Portrait of Mohamed Ali Bouzir",
+        height: 630,
+        alt: `${SITE.name} — ${SITE.title}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@medalibouzir1",
-    site: "@medalibouzir1",
-    title: "BOUZIR Mohamed Ali — AI, Data Science & Back-End Engineer",
-    description: "AI, Data Science & Back-End—shipping scalable, data-driven products end-to-end.",
-    images: [`${siteUrl}/images/Dali.jpeg`],
+    creator: SITE.twitter,
+    site: SITE.twitter,
+    title: SITE.title,
+    description: SITE.tagline,
+    images: [new URL(SITE.ogImage, SITE.url).toString()],
   },
   robots: {
     index: true,
@@ -128,6 +128,8 @@ export default function RootLayout({
       className={`${bodyFont.variable} ${displayFont.variable}`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/og.jpg" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">

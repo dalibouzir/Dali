@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { owner, siteLinks } from "@/content/siteMeta";
+import { owner } from "@/content/siteMeta";
+import { SITE } from "@/config/site";
+
+// @improvement: hero pulls identity from SITE for consistent branding
 
 export function HomeHero() {
   return (
@@ -30,17 +33,17 @@ export function HomeHero() {
             <div className="flex flex-col gap-8">
               <div className="space-y-4">
                 <span className="inline-flex items-center gap-3 rounded-full border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface-muted)/0.35)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">
-                  {owner.title}
+                  {SITE.name}
                 </span>
                 <h1 id="hero-heading" className="text-balance font-display text-[clamp(2.6rem,2.1rem+2.5vw,4rem)] font-semibold leading-tight">
-                  {owner.name}
-                  <span className="block text-[rgb(var(--brand))]">Data-Oriented Computer Engineer</span>
+                  {SITE.title}
                 </h1>
                 <p className="max-w-2xl text-lg text-[rgb(var(--text-secondary))] md:text-xl">
-                  Computer Engineer specializing in Artificial Intelligence, Data Science, and Back-End Development, delivering scalable, data-driven solutions that automate workflows and enhance decision-making.
+                  {SITE.tagline}
                 </p>
                 <p className="max-w-2xl text-base text-[rgb(var(--text-secondary))]">
-                  {owner.tagline}
+                  I&apos;m {SITE.name}, partnering with founders and product teams to ship measurable AI systems—from inference-ready
+                  pipelines to feedback-rich user experiences that prove their value in production.
                 </p>
               </div>
 
@@ -54,10 +57,10 @@ export function HomeHero() {
                   View CV (PDF)
                 </Link>
                 <a
-                  href={siteLinks.contact}
+                  href="#contact"
                   className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-5 py-2.5 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
                 >
-                  Contact
+                  Hire me
                 </a>
                 <Link
                   href="#fields"
@@ -92,7 +95,7 @@ export function HomeHero() {
                     <div className="relative overflow-hidden rounded-[1.9rem]">
                       <Image
                         src="/images/Dali.jpeg"
-                        alt="Portrait of BOUZIR Mohamed Ali"
+                        alt={`Portrait of ${SITE.name}`}
                         width={640}
                         height={640}
                         priority
@@ -104,7 +107,7 @@ export function HomeHero() {
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-[rgb(var(--muted))]">Focus Areas</p>
                       <p className="mt-1 font-semibold text-[rgb(var(--text))]">
-                        Data Science & AI · Backend Engineering · MLOps / Data Engineering · Full-Stack Web
+                        AI Product Strategy · Data Platform Engineering · LLM Applications · MLOps Enablement
                       </p>
                     </div>
                     <span aria-hidden className="hidden text-lg sm:block">

@@ -1,0 +1,5 @@
+# @improvement: basic crawl allowances with sitemap pointer
+User-agent: *
+Allow: /
+
+Sitemap: https://dali-eight.vercel.app/sitemap.xml

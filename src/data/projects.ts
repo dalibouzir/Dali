@@ -1,3 +1,5 @@
+import { SITE } from "@/config/site";
+
 export type ProjectAction = {
   label: string;
   href: string;
@@ -73,8 +75,13 @@ export const featuredProjects: FeaturedProject[] = [
     ],
     category: "Decision Intelligence",
     actions: [
+      // @improvement: mailto links use SITE email to stay consistent
       { label: "Case Study", href: "/case-studies/ai-business-agent.html", type: "primary" },
-      { label: "Request Demo", href: "mailto:bouzirdali@gmail.com?subject=AI%20Business%20Agent%20Demo", type: "secondary" },
+      {
+        label: "Request Demo",
+        href: `mailto:${SITE.email}?subject=AI%20Business%20Agent%20Demo`,
+        type: "secondary",
+      },
     ],
   },
   {
@@ -99,8 +106,13 @@ export const featuredProjects: FeaturedProject[] = [
     ],
     category: "Talent Intelligence",
     actions: [
+      // @improvement: mailto links use SITE email to stay consistent
       { label: "Live Demo", href: "https://career-reco.vercel.app", type: "primary" },
-      { label: "Request Access", href: "mailto:bouzirdali@gmail.com?subject=QuirkHire%20Access", type: "secondary" },
+      {
+        label: "Request Access",
+        href: `mailto:${SITE.email}?subject=QuirkHire%20Access`,
+        type: "secondary",
+      },
     ],
   },
   {

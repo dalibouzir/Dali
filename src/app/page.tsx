@@ -8,30 +8,72 @@ import { CVCard } from "@/components/CVCard";
 import { CertificationBadge } from "@/components/CertificationBadge";
 import { ContactBar } from "@/components/ContactBar";
 import { SkillCluster } from "@/components/SkillCluster";
+import { CaseStudyCard } from "@/components/CaseStudyCard";
 import { projects } from "@/content/projects";
 import { certifications } from "@/content/certifications";
 import { fields } from "@/content/fields";
-import { owner, siteLinks } from "@/content/siteMeta";
+import { owner } from "@/content/siteMeta";
 import { skillGroups } from "@/content/skills";
+import { featuredCaseStudy } from "@/content/caseStudies";
+import { SITE } from "@/config/site";
+import { buildMetadata } from "@/components/Seo";
 
-export const metadata: Metadata = {
-  title: "BOUZIR Mohamed Ali — AI, Data Science & Back-End Engineer",
-  description: owner.tagline,
-};
+// @improvement: homepage metadata derived from SITE config
+export const metadata: Metadata = buildMetadata({
+  title: SITE.title,
+  description: SITE.tagline,
+  path: "/",
+});
 
 const spotlightOrder = ["ai-business-agent", "quirkhire", "affa", "meriem-booking"] as const;
 const featuredProjects = spotlightOrder
   .map((slug) => projects.find((project) => project.slug === slug))
   .filter((project): project is typeof projects[number] => Boolean(project));
-const structuredData = {
+// @improvement: structured data for Person + WebSite + breadcrumbs
+const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: owner.name,
-  jobTitle: owner.title,
-  email: owner.email,
-  telephone: owner.phone,
-  url: owner.portfolio,
-  sameAs: [siteLinks.linkedin, siteLinks.github].filter(Boolean),
+  name: SITE.name,
+  jobTitle: SITE.title,
+  url: SITE.url,
+  sameAs: [
+    SITE.github,
+    SITE.linkedin,
+    `https://twitter.com/${SITE.twitter.replace("@", "")}`,
+  ],
+  email: `mailto:${SITE.email}`,
+  telephone: SITE.phone,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: owner.location,
+    addressCountry: "TN",
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  headline: SITE.title,
+  name: SITE.name,
+  description: SITE.tagline,
+  url: SITE.url,
+  potentialAction: {
+    "@type": "ContactAction",
+    target: `mailto:${SITE.email}`,
+  },
+};
+
+const breadcrumbs = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: SITE.url,
+    },
+  ],
 };
 
 export default function Home() {
@@ -41,9 +83,26 @@ export default function Home() {
       <main id="main">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([personSchema, websiteSchema, breadcrumbs]),
+          }}
         />
         <HomeHero />
+
+        {/* @improvement: surface flagship case study on the homepage */}
+        <Section
+          id="case-study"
+          eyebrow="Deep Dive"
+          title="How the AI Business Agent delivers measurable impact"
+          description={
+            <p>
+              A behind-the-scenes look at how {SITE.name} architected ingestion, retrieval, and Monte Carlo simulations to
+              shrink analyst turnaround from 12 hours to seconds.
+            </p>
+          }
+        >
+          <CaseStudyCard study={featuredCaseStudy} />
+        </Section>
 
         <Section
           id="featured"
@@ -69,6 +128,7 @@ export default function Home() {
               {featuredProjects.map((project) => (
                 <ProjectShowcaseCard
                   key={project.slug}
+                  slug={project.slug}
                   title={project.title}
                   summary={project.summary}
                   stack={project.stack}

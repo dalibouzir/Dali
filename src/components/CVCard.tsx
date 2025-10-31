@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { owner, siteLinks } from "@/content/siteMeta";
 
+// @improvement: CV card pulls identity/contact data from SITE-backed owner meta
+
 export function CVCard() {
   const [copiedField, setCopiedField] = useState<"email" | "phone" | null>(null);
 

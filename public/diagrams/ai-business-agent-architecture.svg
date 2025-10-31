@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- @improvement: simple architecture diagram for AI Business Agent -->
+  <rect width="1200" height="720" rx="48" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="200" y1="120" x2="960" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF2FF"/>
+      <stop offset="1" stop-color="#E0ECFF"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="340" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(79,70,229,0.12)"/>
+      <stop offset="1" stop-color="rgba(30,64,175,0.08)"/>
+    </linearGradient>
+    <style><![CDATA[
+      .title { font: 700 22px 'Inter', 'Helvetica Neue', Arial, sans-serif; fill: #111827; }
+      .body { font: 500 16px 'Inter', 'Helvetica Neue', Arial, sans-serif; fill: #1F2937; }
+      .chip { font: 600 12px 'Inter', 'Helvetica Neue', Arial, sans-serif; fill: #4338CA; }
+      .badge { font: 600 12px 'Inter', 'Helvetica Neue', Arial, sans-serif; fill: #2563EB; }
+    ]]></style>
+  </defs>
+
+  <!-- Stage titles -->
+  <text class="badge" x="140" y="120">INGESTION</text>
+  <text class="badge" x="380" y="120">VECTOR + SEARCH</text>
+  <text class="badge" x="640" y="120">ORCHESTRATION</text>
+  <text class="badge" x="900" y="120">DELIVERY</text>
+
+  <!-- Ingestion card -->
+  <g transform="translate(80,140)">
+    <rect width="260" height="420" rx="32" fill="url(#card)" stroke="rgba(79,70,229,0.25)" stroke-width="1.5" />
+    <text class="title" x="24" y="56">Sources</text>
+    <text class="body" x="24" y="96">• PDFs, Sheets, imagery</text>
+    <text class="body" x="24" y="128">• CRM + billing exports</text>
+    <text class="body" x="24" y="160">• Metrics via APIs</text>
+    <text class="title" x="24" y="216">Pipelines</text>
+    <text class="body" x="24" y="256">• Airflow normalization</text>
+    <text class="body" x="24" y="288">• OCR + document chunking</text>
+    <text class="body" x="24" y="320">• Quality + lineage logs</text>
+  </g>
+
+  <!-- Vector search card -->
+  <g transform="translate(340,140)">
+    <rect width="260" height="420" rx="32" fill="url(#card)" stroke="rgba(79,70,229,0.25)" stroke-width="1.5" />
+    <text class="title" x="24" y="56">Storage</text>
+    <text class="body" x="24" y="96">• pgVector (structured)</text>
+    <text class="body" x="24" y="128">• OpenSearch (semantic)</text>
+    <text class="body" x="24" y="160">• MinIO documents</text>
+    <text class="title" x="24" y="216">Indexing</text>
+    <text class="body" x="24" y="256">• Hybrid embeddings</text>
+    <text class="body" x="24" y="288">• Freshness monitors</text>
+    <text class="body" x="24" y="320">• Access policies</text>
+  </g>
+
+  <!-- Orchestration card -->
+  <g transform="translate(600,140)">
+    <rect width="260" height="420" rx="32" fill="url(#card)" stroke="rgba(79,70,229,0.25)" stroke-width="1.5" />
+    <text class="title" x="24" y="56">Agent Kernel</text>
+    <text class="body" x="24" y="96">• Planner selects tools</text>
+    <text class="body" x="24" y="128">• Guardrails + evals</text>
+    <text class="body" x="24" y="160">• Redis job queue</text>
+    <text class="title" x="24" y="216">Monte Carlo</text>
+    <text class="body" x="24" y="256">• 10k simulation runs</text>
+    <text class="body" x="24" y="288">• Grafana telemetry</text>
+    <text class="body" x="24" y="320">• Alert thresholds</text>
+  </g>
+
+  <!-- Delivery card -->
+  <g transform="translate(860,140)">
+    <rect width="260" height="420" rx="32" fill="url(#card)" stroke="rgba(79,70,229,0.25)" stroke-width="1.5" />
+    <text class="title" x="24" y="56">Operator App</text>
+    <text class="body" x="24" y="96">• Signed narratives</text>
+    <text class="body" x="24" y="128">• Source citations</text>
+    <text class="body" x="24" y="160">• Scenario explorer</text>
+    <text class="title" x="24" y="216">Feedback Loop</text>
+    <text class="body" x="24" y="256">• Satisfaction ratings</text>
+    <text class="body" x="24" y="288">• Analyst escalation</text>
+    <text class="body" x="24" y="320">• Daily health digest</text>
+  </g>
+
+  <!-- Arrows -->
+  <g stroke="#4338CA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+    <line x1="340" y1="350" x2="600" y2="350" marker-end="url(#arrow)" />
+  </g>
+  <g stroke="#4338CA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+    <line x1="80" y1="350" x2="340" y2="350" />
+  </g>
+  <g stroke="#4338CA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+    <line x1="860" y1="350" x2="1120" y2="350" />
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto">
+      <path d="M0 0 L14 7 L0 14 Z" fill="#4338CA" />
+    </marker>
+  </defs>
+</svg>

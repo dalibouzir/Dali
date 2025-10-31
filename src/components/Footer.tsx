@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { profile } from "@/data/profile";
+import { SITE } from "@/config/site";
+
+// @improvement: footer copy reflects SITE identity + contact data
 
 type FooterNavItem = {
   label: string;
@@ -24,14 +27,14 @@ export default function Footer({ navigation }: FooterProps) {
       <div className="container-wide flex flex-col gap-12 py-12 lg:flex-row lg:justify-between">
         <div className="max-w-md space-y-4">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">
-            Mohamed Ali Bouzir
+            {SITE.name}
           </p>
           <p className="text-lg font-semibold text-[rgb(var(--text))]">
-            Building data-led products that turn insight into measurable outcomes.
+            {SITE.title}
           </p>
           <p className="text-sm text-[rgb(var(--text-secondary))]">
-            Based in {profile.location}. Available for remote-first collaboration across data platforms, ML
-            engineering, and full-stack delivery.
+            {SITE.tagline} Based in {profile.location} and collaborating remotely on AI platforms, data products, and
+            production MLOps initiatives.
           </p>
           <div className="flex flex-wrap gap-3 text-sm font-semibold text-[rgb(var(--text))]">
             <a
@@ -92,7 +95,7 @@ export default function Footer({ navigation }: FooterProps) {
       </div>
       <div className="border-t border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface-muted)/0.25)]">
         <div className="container-wide flex flex-col gap-2 py-6 text-xs text-[rgb(var(--muted))] sm:flex-row sm:items-center sm:justify-between">
-          <span>© {year} Mohamed Ali Bouzir. All rights reserved.</span>
+          <span>© {year} {SITE.name}. All rights reserved.</span>
           <span>Crafted with Next.js, TypeScript, and a love for measurable impact.</span>
         </div>
       </div>

@@ -1,12 +1,15 @@
+import { SITE } from "@/config/site";
+
+// @improvement: align profile contact data with global SITE config
 export const profile = {
-  name: "Mohamed Ali BOUZIR",
-  title: "Data Product Engineer · AI & MLOps",
+  name: SITE.name,
+  title: SITE.title,
   location: "Monastir, Tunisia",
-  email: "bouzirdali@gmail.com",
-  phone: "+216 51056932",
-  github: "https://github.com/dalibouzir",
-  linkedin: "https://www.linkedin.com/in/mohamed-ali-bouzir",
-  x: "https://x.com/medalibouzir1",
+  email: SITE.email,
+  phone: SITE.phone,
+  github: SITE.github,
+  linkedin: SITE.linkedin,
+  x: `https://twitter.com/${SITE.twitter.replace("@", "")}`,
   facebook: "https://www.facebook.com/medali.bouzir",
   instagram: "https://www.instagram.com/dali.bouzir",
   cv: {

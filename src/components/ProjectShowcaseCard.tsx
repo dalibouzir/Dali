@@ -2,11 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects";
 
-type Props = Pick<Project, "title" | "summary" | "stack" | "links" | "visual">;
+type Props = Pick<Project, "slug" | "title" | "summary" | "stack" | "links" | "visual">;
 
-export function ProjectShowcaseCard({ title, summary, stack, links, visual }: Props) {
-  const hasLinks = Boolean(links.live || links.repo);
-
+export function ProjectShowcaseCard({ slug, title, summary, stack, links, visual }: Props) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-[2.25rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface))] shadow-soft transition hover:border-[rgb(var(--brand)/0.35)] hover:shadow-lift">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-[rgb(var(--brand)/0.18)] via-transparent to-[rgb(var(--brand-soft)/0.16)]">
@@ -57,30 +55,37 @@ export function ProjectShowcaseCard({ title, summary, stack, links, visual }: Pr
             ))}
           </div>
         </div>
-        {hasLinks ? (
-          <div className="flex flex-wrap gap-3 pt-1 text-sm font-semibold">
-            {links.live ? (
-              <Link
-                href={links.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-white transition hover:shadow-lift"
-              >
-                Live
-              </Link>
-            ) : null}
-            {links.repo ? (
-              <Link
-                href={links.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface))] px-4 py-2 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.4)]"
-              >
-                GitHub
-              </Link>
-            ) : null}
-          </div>
-        ) : null}
+        <div className="flex flex-wrap gap-3 pt-1 text-sm font-semibold">
+          {/* @improvement: surface deep-dive link when project page exists */}
+          {slug ? (
+            <Link
+              href={`/projects/${slug}`}
+              className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface))] px-4 py-2 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.4)]"
+            >
+              Deep dive
+            </Link>
+          ) : null}
+          {links.live ? (
+            <Link
+              href={links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-white transition hover:shadow-lift"
+            >
+              Live
+            </Link>
+          ) : null}
+          {links.repo ? (
+            <Link
+              href={links.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface))] px-4 py-2 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.4)]"
+            >
+              GitHub
+            </Link>
+          ) : null}
+        </div>
       </div>
     </article>
   );

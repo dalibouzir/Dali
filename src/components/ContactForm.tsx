@@ -1,7 +1,27 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { profile } from "@/data/profile";
+
+type Turnstile = {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      callback: (token: string) => void;
+      "expired-callback"?: () => void;
+      "error-callback"?: () => void;
+      theme?: "light" | "dark" | "auto";
+    },
+  ) => string;
+  reset: (id?: string) => void;
+};
+
+declare global {
+  interface Window {
+    turnstile?: Turnstile;
+  }
+}
 
 type FormState = {
   name: string;
@@ -21,6 +41,8 @@ const initialState: FormState = {
   honeypot: "",
 };
 
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+
 function validateEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -29,23 +51,98 @@ export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+  const widgetRef = useRef<HTMLDivElement | null>(null);
+  const widgetIdRef = useRef<string | null>(null);
 
   const nameId = useId();
   const emailId = useId();
   const companyId = useId();
   const messageId = useId();
   const honeypotId = useId();
+  const verificationId = useId();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    let cancelled = false;
+
+    const mountTurnstile = () => {
+      if (!widgetRef.current || !window.turnstile || cancelled) {
+        return;
+      }
+      widgetIdRef.current = window.turnstile.render(widgetRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token) => {
+          setTurnstileToken(token);
+          setError(null);
+        },
+        "expired-callback": () => setTurnstileToken(null),
+        "error-callback": () => setTurnstileToken(null),
+        theme: "auto",
+      });
+    };
+
+    const ensureScript = () => {
+      const scriptId = "turnstile-script";
+      const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          mountTurnstile();
+        } else {
+          existing.addEventListener("load", () => {
+            existing.dataset.loaded = "true";
+            mountTurnstile();
+          }, { once: true });
+        }
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        script.dataset.loaded = "true";
+        mountTurnstile();
+      };
+      document.head.appendChild(script);
+    };
+
+    // @improvement: lazy-load Turnstile widget with explicit render
+    ensureScript();
+
+    const poll = window.setInterval(() => {
+      if (window.turnstile && widgetRef.current && !widgetIdRef.current) {
+        mountTurnstile();
+        window.clearInterval(poll);
+      }
+    }, 120);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(poll);
+      if (widgetIdRef.current) {
+        window.turnstile?.reset(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
+    };
+  }, []);
 
   const statusMessage = useMemo(() => {
     switch (status) {
       case "loading":
-        return "Preparing a draft email…";
+        return "Sending your brief…";
       case "success":
-        return "Email draft opened. Looking forward to your message!";
+        return "Message received—I'll reply within one business day.";
       case "error":
-        return error ?? "Something went wrong. Try messaging me directly.";
+        return error ?? "Something went wrong. Try again or email me directly.";
       default:
-        return "I typically reply within one business day.";
+        return "Complete the form and verification. I typically reply within one business day.";
     }
   }, [status, error]);
 
@@ -58,7 +155,14 @@ export default function ContactForm() {
     }
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const resetTurnstile = () => {
+    if (widgetIdRef.current) {
+      window.turnstile?.reset(widgetIdRef.current);
+    }
+    setTurnstileToken(null);
+  };
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (form.honeypot.trim().length > 0) {
@@ -85,31 +189,48 @@ export default function ContactForm() {
       return;
     }
 
-    const subject = encodeURIComponent(`Portfolio contact from ${form.name}`);
-    const lines = [
-      form.message.trim(),
-      "",
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      form.company ? `Company: ${form.company}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    const body = encodeURIComponent(lines);
-    const mailto = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    if (!turnstileToken) {
+      setStatus("error");
+      setError("Please complete the verification before sending.");
+      return;
+    }
 
     setStatus("loading");
+
     try {
-      window.location.href = mailto;
-      window.setTimeout(() => {
-        setStatus("success");
-        setForm(initialState);
-      }, 600);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+          company: form.company.trim(),
+          token: turnstileToken,
+        }),
+      });
+
+      const payload = (await response.json()) as { success?: boolean; error?: string; message?: string };
+
+      if (!response.ok || payload.success !== true) {
+        throw new Error(payload.error ?? "Unable to send your message right now.");
+      }
+
+      setStatus("success");
+      setForm(initialState);
+      setError(null);
+      resetTurnstile();
     } catch (submitError) {
       console.error(submitError);
       setStatus("error");
-      setError("Unable to open your email client. You can reach me at bouzirdali@gmail.com.");
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : `Unable to send your message. You can reach me directly at ${profile.email}.`,
+      );
+      resetTurnstile();
     }
   }
 
@@ -202,6 +323,13 @@ export default function ContactForm() {
         </label>
       </div>
 
+      <div className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] p-4">
+        <p id={verificationId} className="sr-only">
+          Complete the verification challenge before submitting the form.
+        </p>
+        <div ref={widgetRef} className="min-h-[70px]" aria-labelledby={verificationId} />
+      </div>
+
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="submit"
@@ -219,6 +347,10 @@ export default function ContactForm() {
           {statusMessage}
         </div>
       </div>
+
+      <p className="text-xs text-[rgb(var(--muted))]">
+        We store messages for up to 30 days, never share.
+      </p>
 
       <div className="rounded-3xl border border-[rgb(var(--surface-muted)/0.55)] bg-[rgb(var(--surface-muted)/0.3)] p-4 text-sm text-[rgb(var(--text-secondary))]">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">

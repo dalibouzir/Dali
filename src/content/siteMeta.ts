@@ -1,16 +1,20 @@
+import { SITE } from "@/config/site";
+
+// @improvement: expose owner metadata while deferring identity fields to SITE
 export const owner = {
-  name: "BOUZIR Mohamed Ali",
-  title: "Data-Oriented Computer Engineer",
+  name: SITE.name,
+  title: SITE.title,
   location: "Monastir, Tunisia",
-  email: "bouzirdali@gmail.com",
-  phone: "+216 56 815 716",
-  portfolio: "https://dali-eight.vercel.app",
-  cvUrl: "/cv/BOUZIR_MohamedAli_CV_2026_Eng.pdf",
-  tagline: "AI, Data Science & Back-End—shipping scalable, data-driven products end-to-end.",
+  email: SITE.email,
+  phone: SITE.phone,
+  portfolio: SITE.url,
+  cvUrl: "/cv/Mohamed_Ali_Bouzir_CV_EN.pdf",
+  tagline: SITE.tagline,
 };
 
 export const siteLinks = {
-  contact: "mailto:bouzirdali@gmail.com",
-  github: "https://github.com/dalibouzir",
-  linkedin: "https://www.linkedin.com/in/mohamed-ali-bouzir",
+  contact: `mailto:${SITE.email}`,
+  github: SITE.github,
+  linkedin: SITE.linkedin,
+  twitter: `https://twitter.com/${SITE.twitter.replace("@", "")}`,
 };

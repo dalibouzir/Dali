@@ -156,6 +156,12 @@ button,
   transform: translate(-50%, 0);
 }
 
+/* @improvement: ensure anchored sections account for sticky header */
+.section,
+section[id] {
+  scroll-margin-top: 120px;
+}
+
 .container-wide {
   margin-left: auto;
   margin-right: auto;
