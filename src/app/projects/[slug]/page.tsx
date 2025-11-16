@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     return {};
   }
 
-  const description = project.summary[0] ?? SITE.tagline;
+  const description = project.summary || SITE.tagline;
 
   return buildMetadata({
     title: `${project.title} · ${SITE.title}`,
@@ -48,7 +48,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
     name: project.title,
-    description: project.summary.join(" "),
+    description: project.summary,
     author: {
       "@type": "Person",
       name: SITE.name,
@@ -59,7 +59,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
     image: new URL(project.visual?.src ?? SITE.ogImage, SITE.url).toString(),
     keywords: project.tags,
     programmingLanguage: project.stack,
-    codeRepository: project.links.repo ?? undefined,
+    codeRepository: project.links.find((link) => link.label.toLowerCase().includes("github"))?.href,
     applicationCategory: "BusinessApplication",
   };
 
