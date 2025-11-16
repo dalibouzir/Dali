@@ -12,6 +12,7 @@ export type Project = {
   impact: string[];
   stack: string[];
   links: ProjectLink[];
+  tags?: string[];
   featured?: boolean;
   visual?: {
     src: string;

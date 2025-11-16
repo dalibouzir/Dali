@@ -47,7 +47,7 @@ export default async function FieldPage({ params }: { params: Promise<Params> })
   }
 
   const fieldProjects = projects.filter((project) =>
-    project.tags.some((tag) => field.projectTags.includes(tag)),
+    project.tags?.some((tag) => field.projectTags.includes(tag)),
   );
   const fieldExperiences = experiences.filter((experience) =>
     experience.tags.some((tag) => field.experienceTags.includes(tag)),
