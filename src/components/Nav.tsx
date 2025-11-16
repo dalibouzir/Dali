@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { owner } from "@/content/siteMeta";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 // @improvement: single-page navigation anchored to sections
 
@@ -18,6 +19,7 @@ const PRIMARY_LINKS = [
 
 export default function Nav() {
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -184,6 +186,14 @@ export default function Nav() {
             aria-label="Toggle navigation menu"
             >
               <span aria-hidden>{isMenuOpen ? "✕" : "☰"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="hidden h-10 w-10 items-center justify-center rounded-full border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] text-sm text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)] focus:outline-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--ring))] md:inline-flex"
+              aria-label="Toggle color theme"
+            >
+              <span aria-hidden>{theme === "dark" ? "☾" : "☀"}</span>
             </button>
           </div>
         </nav>
