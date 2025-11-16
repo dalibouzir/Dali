@@ -46,18 +46,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   });
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === "undefined") {
-      return "light";
+      return "dark";
     }
     const stored = readStoredTheme();
     if (stored) {
       return stored;
     }
     const datasetTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-    return datasetTheme ?? getSystemTheme();
+    return datasetTheme ?? "dark";
   });
   const [systemTheme, setSystemTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") {
-      return "light";
+      return "dark";
     }
     return getSystemTheme();
   });

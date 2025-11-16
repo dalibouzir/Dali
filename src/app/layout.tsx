@@ -93,22 +93,18 @@ export const viewport: Viewport = {
 
 const themeInitScript = `
 (function () {
-  const storageKey = "dali-theme";
-  const root = document.documentElement;
-  const getSystemTheme = () =>
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  var root = document.documentElement;
+  var storageKey = "dali-theme";
+  var theme = "dark";
 
-  let theme = "light";
   try {
-    const stored = window.localStorage.getItem(storageKey);
+    var stored = window.localStorage.getItem(storageKey);
     if (stored === "light" || stored === "dark") {
       theme = stored;
-    } else {
-      theme = getSystemTheme();
     }
-  } catch {
-    theme = getSystemTheme();
-  }
+  } catch {}
+
+  if (!theme) theme = "dark";
 
   root.dataset.theme = theme;
   root.classList.toggle("dark", theme === "dark");
@@ -125,14 +121,14 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${bodyFont.variable} ${displayFont.variable}`}
+      className={`dark ${bodyFont.variable} ${displayFont.variable}`}
     >
       <head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" as="image" href="/og.jpg" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">
+      <body className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">
         <a href="#main" className="skip-link">
           Skip to main content
         </a>
