@@ -77,7 +77,9 @@ export default function Home() {
             __html: JSON.stringify([personSchema, websiteSchema, breadcrumbs]),
           }}
         />
-        <HomeHero />
+        <section id="about" className="scroll-mt-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16">
+          <HomeHero />
+        </section>
 
         <GlassSection
           id="highlights"

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { ProjectMedia } from "@/content/projects";
 
 type ProjectAction = {
   label: string;
@@ -14,7 +15,7 @@ type ProjectAction = {
 export type ProjectCardProps = {
   title: string;
   summary: string;
-  image: {
+  image?: {
     src: string;
     alt: string;
     width?: number;
@@ -28,6 +29,7 @@ export type ProjectCardProps = {
   variant?: "default" | "horizontal" | "compact";
   className?: string;
   imagePriority?: boolean;
+  media?: ProjectMedia;
 };
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -46,6 +48,7 @@ export default function ProjectCard({
   variant = "default",
   className,
   imagePriority,
+  media,
 }: ProjectCardProps) {
   const primaryAction = actions[0];
   const primaryIsExternal = primaryAction?.href.startsWith("http");
@@ -92,17 +95,36 @@ export default function ProjectCard({
           <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <div className="absolute inset-0 bg-gradient-to-br from-[rgb(var(--brand)/0.25)] to-transparent" aria-hidden />
           </div>
-          <Image
-            src={image.src}
-            alt={image.alt}
-            fill
-            priority={imagePriority}
-            sizes={variant === "horizontal" ? "(min-width: 1024px) 530px, (min-width: 640px) 70vw, 88vw" : "(min-width: 1280px) 480px, (min-width: 768px) 45vw, 88vw"}
-            className={cx(
-              "h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]",
-              variant === "horizontal" ? "lg:object-cover" : "",
-            )}
-          />
+          {media?.video ? (
+            <video
+              className={cx(
+                "h-full w-full rounded-[2rem] object-cover",
+                variant === "horizontal" ? "lg:object-cover" : "",
+              )}
+              src={media.video}
+              autoPlay={false}
+              muted
+              loop
+              playsInline
+              poster={media.image}
+            />
+          ) : (
+            <Image
+              src={media?.image ?? image?.src ?? "/assets/projects/default.png"}
+              alt={image?.alt ?? title}
+              fill
+              priority={imagePriority}
+              sizes={
+                variant === "horizontal"
+                  ? "(min-width: 1024px) 530px, (min-width: 640px) 70vw, 88vw"
+                  : "(min-width: 1280px) 480px, (min-width: 768px) 45vw, 88vw"
+              }
+              className={cx(
+                "h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]",
+                variant === "horizontal" ? "lg:object-cover" : "",
+              )}
+            />
+          )}
           {category ? (
             <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-[rgb(var(--surface)/0.85)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))] shadow-soft">
               {category}

@@ -48,18 +48,23 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
         })}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
         {filteredProjects.map((project) => (
           <ProjectCard
             key={project.slug}
             title={project.title}
             summary={project.summary}
-            image={{
-              src: project.visual?.src ?? "/assets/projects/placeholder.png",
-              alt: project.visual?.alt ?? project.title,
-            }}
+            image={
+              project.visual
+                ? {
+                    src: project.visual.src,
+                    alt: project.visual.alt,
+                  }
+                : undefined
+            }
             stack={project.stack}
             impact={project.impact.slice(0, 2)}
+            media={project.media}
             actions={
               project.links.length > 0
                 ? project.links.map((link, index) => ({

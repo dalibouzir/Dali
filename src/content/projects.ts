@@ -3,6 +3,11 @@ export type ProjectLink = {
   href: string;
 };
 
+export type ProjectMedia = {
+  image?: string;
+  video?: string;
+};
+
 export type Project = {
   slug: string;
   category: "AI & MLOps" | "Backend Engineering" | "Full-Stack Applications";
@@ -18,6 +23,7 @@ export type Project = {
     src: string;
     alt: string;
   };
+  media?: ProjectMedia;
 };
 
 export const projects: Project[] = [
@@ -58,6 +64,9 @@ export const projects: Project[] = [
       src: "/assets/projects/ai-business-agent/cover.svg",
       alt: "AI Business Agent dashboard with conversational analytics",
     },
+    media: {
+      image: "/assets/projects/ai-business-agent/cover.svg",
+    },
   },
   {
     slug: "affa",
@@ -93,6 +102,9 @@ export const projects: Project[] = [
       src: "/assets/projects/affa/images/cover.webp",
       alt: "AFFA fantasy football assistant lineup recommendations",
     },
+    media: {
+      image: "/assets/projects/affa/images/cover.webp",
+    },
   },
   {
     slug: "quirkhire",
@@ -117,6 +129,9 @@ export const projects: Project[] = [
       src: "/assets/projects/quirkhire/cover.svg",
       alt: "QuirkHire recommendation dashboard motif",
     },
+    media: {
+      image: "/assets/projects/quirkhire/cover.svg",
+    },
   },
   {
     slug: "mymatch",
@@ -132,6 +147,9 @@ export const projects: Project[] = [
     stack: ["Laravel", "Firebase", "REST APIs"],
     links: [],
     featured: true,
+    media: {
+      image: "/assets/projects/mymatch/images/cover.webp",
+    },
   },
   {
     slug: "meriem-booking",
@@ -156,6 +174,9 @@ export const projects: Project[] = [
     visual: {
       src: "/assets/projects/therapist-funnel/images/img5.webp",
       alt: "Therapist scheduling interface for Fittrah Moms",
+    },
+    media: {
+      image: "/assets/projects/therapist-funnel/images/img5.webp",
     },
   },
 ];
