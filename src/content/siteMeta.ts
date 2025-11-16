@@ -8,7 +8,7 @@ export const owner = {
   email: SITE.email,
   phone: SITE.phone,
   portfolio: SITE.url,
-  cvUrl: "/cv/Mohamed_Ali_Bouzir_CV_EN.pdf",
+  cvUrl: "/cv/BOUZIR_MohamedAli_CV_2026_Eng.pdf",
   tagline: SITE.tagline,
 };
 

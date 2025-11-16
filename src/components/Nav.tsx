@@ -3,27 +3,25 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/components/theme/ThemeProvider";
-import { fields } from "@/content/fields";
 import { owner } from "@/content/siteMeta";
 
-// @improvement: navigation reflects SITE-backed owner metadata
+// @improvement: single-page navigation anchored to sections
 
 const PRIMARY_LINKS = [
-  { href: "/case-studies", label: "Case Studies" },
-  { href: "/projects", label: "Projects" },
-  ...fields.map((field) => ({
-    href: `/field/${field.slug}`,
-    label: field.label,
-  })),
+  { href: "#about", label: "About" },
+  { href: "#highlights", label: "Highlights" },
+  { href: "#projects", label: "Projects" },
+  { href: "#experience", label: "Experience" },
+  { href: "#tech-stack", label: "Tech Stack" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export default function Nav() {
-  const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [activeHash, setActiveHash] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -41,6 +39,25 @@ export default function Nav() {
         lastScrollY = current;
         return;
       }
+
+      // Update active section for hash-based nav on scroll
+      const sectionIds = ["about", "highlights", "projects", "experience", "tech-stack", "contact"];
+      const offset = 160;
+      let bestId: string | null = null;
+      let bestDistance = Number.POSITIVE_INFINITY;
+
+      for (const id of sectionIds) {
+        const element = document.getElementById(id);
+        if (!element) continue;
+        const rect = element.getBoundingClientRect();
+        const distance = Math.abs(rect.top - offset);
+        if (distance < bestDistance && rect.bottom > 80) {
+          bestDistance = distance;
+          bestId = id;
+        }
+      }
+
+      setActiveHash(bestId ? `#${bestId}` : null);
 
       if (current < 96) {
         setIsNavVisible(true);
@@ -83,10 +100,11 @@ export default function Nav() {
   );
 
   const isActive = (href: string) => {
-    if (href === "/" && pathname === "/") {
-      return true;
+    if (!href.startsWith("#")) {
+      return pathname === href;
     }
-    return pathname.startsWith(href);
+    // During SSR, activeHash is null so no link is active, avoiding mismatch.
+    return activeHash === href;
   };
 
   const renderPrimaryLinks = (onClick?: () => void) =>
@@ -94,13 +112,25 @@ export default function Nav() {
       const active = isActive(item.href);
       return (
         <li key={item.href} className="relative">
-          <Link
+          <a
             href={item.href}
             className={`inline-flex items-center text-sm transition-colors ${
               active ? "text-[rgb(var(--text))]" : "text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
             }`}
             aria-current={active ? "page" : undefined}
-            onClick={onClick}
+            onClick={(event) => {
+              onClick?.();
+              if (item.href.startsWith("#")) {
+                event.preventDefault();
+                const target = document.querySelector<HTMLElement>(item.href);
+                if (target) {
+                  const headerOffset = 96;
+                  const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+                  const offsetPosition = elementPosition - headerOffset;
+                  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+              }
+            }}
           >
             {item.label}
             <span
@@ -109,7 +139,7 @@ export default function Nav() {
                 active ? "opacity-100" : "opacity-0"
               } transition-opacity duration-300 ease-out`}
             />
-          </Link>
+          </a>
         </li>
       );
     });
@@ -146,14 +176,6 @@ export default function Nav() {
           >
             Hire me
           </a>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] text-base text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)] focus:outline-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--ring))]"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-          >
-            <span aria-hidden>{theme === "dark" ? "🌙" : "🌞"}</span>
-          </button>
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] text-base text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)] focus:outline-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--ring))] md:hidden"

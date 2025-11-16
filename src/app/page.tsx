@@ -1,22 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Nav from "@/components/Nav";
-import Section from "@/components/Section";
 import { HomeHero } from "@/components/HomeHero";
-import { ProjectShowcaseCard } from "@/components/ProjectShowcaseCard";
-import { CVCard } from "@/components/CVCard";
-import { CertificationBadge } from "@/components/CertificationBadge";
-import { ContactBar } from "@/components/ContactBar";
-import { SkillCluster } from "@/components/SkillCluster";
-import { CaseStudyCard } from "@/components/CaseStudyCard";
-import { projects } from "@/content/projects";
-import { certifications } from "@/content/certifications";
-import { fields } from "@/content/fields";
-import { owner } from "@/content/siteMeta";
-import { skillGroups } from "@/content/skills";
-import { featuredCaseStudy } from "@/content/caseStudies";
 import { SITE } from "@/config/site";
 import { buildMetadata } from "@/components/Seo";
+import { GlassSection } from "@/components/GlassSection";
+import { GlassCard } from "@/components/GlassCard";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
+import ContactForm from "@/components/ContactForm";
+import { owner } from "@/content/siteMeta";
+import { projects } from "@/content/projects";
+import { skillGroups } from "@/content/skills";
 
 // @improvement: homepage metadata derived from SITE config
 export const metadata: Metadata = buildMetadata({
@@ -25,16 +18,13 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-const spotlightOrder = ["ai-business-agent", "quirkhire", "affa", "meriem-booking"] as const;
-const featuredProjects = spotlightOrder
-  .map((slug) => projects.find((project) => project.slug === slug))
-  .filter((project): project is typeof projects[number] => Boolean(project));
+const featuredProjects = projects.filter((project) => project.featured);
 // @improvement: structured data for Person + WebSite + breadcrumbs
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: SITE.name,
-  jobTitle: SITE.title,
+  name: "Mohamed Ali Bouzir",
+  jobTitle: "Data Product Engineer · AI & MLOps",
   url: SITE.url,
   sameAs: [
     SITE.github,
@@ -89,163 +79,99 @@ export default function Home() {
         />
         <HomeHero />
 
-        {/* @improvement: surface flagship case study on the homepage */}
-        <Section
-          id="case-study"
-          eyebrow="Deep Dive"
-          title="How the AI Business Agent delivers measurable impact"
+        <GlassSection
+          id="highlights"
+          eyebrow="Highlights"
+          title="Impact in numbers."
           description={
             <p>
-              A behind-the-scenes look at how {SITE.name} architected ingestion, retrieval, and Monte Carlo simulations to
-              shrink analyst turnaround from 12 hours to seconds.
+              Signals that the systems I build ship measurable value—from latency and accuracy to hours saved in operations.
             </p>
           }
         >
-          <CaseStudyCard study={featuredCaseStudy} />
-        </Section>
+          <div className="grid gap-5 md:grid-cols-4">
+            <GlassCard className="p-5">
+              <span className="text-3xl font-semibold text-cyan-300 sm:text-4xl">35k+</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/70">
+                LLM-backed answers shipped
+              </p>
+              <p className="mt-2 text-sm text-white/85">AI Business Agent</p>
+            </GlassCard>
+            <GlassCard className="p-5">
+              <span className="text-3xl font-semibold text-cyan-300 sm:text-4xl">±2 pts</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/70">
+                Fantasy lineup accuracy
+              </p>
+              <p className="mt-2 text-sm text-white/85">AFFA engine, 15+ gameweeks</p>
+            </GlassCard>
+            <GlassCard className="p-5">
+              <span className="text-3xl font-semibold text-cyan-300 sm:text-4xl">7,000+</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/70">
+                Players managed
+              </p>
+              <p className="mt-2 text-sm text-white/85">MyMatch admin platform</p>
+            </GlassCard>
+            <GlassCard className="p-5">
+              <span className="text-3xl font-semibold text-cyan-300 sm:text-4xl">30%+</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/70">
+                Efficiency lift
+              </p>
+              <p className="mt-2 text-sm text-white/85">Gym & scheduling systems</p>
+            </GlassCard>
+          </div>
+        </GlassSection>
 
-        <Section
-          id="featured"
-          eyebrow="Best Projects"
-          title="Featured delivery across AI, back-end, and full-stack launches."
+        <GlassSection
+          id="projects"
+          eyebrow="Projects"
+          title="Flagship AI, data, and full-stack delivery."
           description={
             <p>
-              Flagship builds that align data engineering, applied AI, and resilient shipping. Each project surfaces measurable metrics
-              and production stacks pulled straight from the CV.
+              Production-grade AI assistants, scheduling platforms, and admin systems that ship measurable outcomes—latency, accuracy, and operational lift.
             </p>
           }
         >
-          <div className="relative">
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-y-3 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[rgba(148,163,184,0.25)] to-transparent md:block"
-            />
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-x-3 top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-[rgba(148,163,184,0.25)] to-transparent md:block"
-            />
-            <div className="grid gap-5 md:grid-cols-2">
-              {featuredProjects.map((project) => (
-                <ProjectShowcaseCard
-                  key={project.slug}
-                  slug={project.slug}
-                  title={project.title}
-                  summary={project.summary}
-                  stack={project.stack}
-                  links={project.links}
-                  visual={project.visual}
-                />
-              ))}
-            </div>
-          </div>
-        </Section>
+          <ProjectsGrid projects={featuredProjects} />
+        </GlassSection>
 
-        <section className="section pt-0">
-          <div className="container-wide">
-            <div className="relative overflow-hidden rounded-[2.75rem] border border-[rgb(var(--surface-muted)/0.45)] bg-gradient-to-r from-[rgb(var(--brand)/0.18)] via-[rgb(var(--brand-soft)/0.15)] to-[rgb(var(--brand)/0.1)] p-6 shadow-soft sm:p-8">
-              <div className="grid gap-5 md:grid-cols-3">
-                <ImpactItem
-                  title="35k+"
-                  label="LLM-backed answers shipped"
-                  detail="AI Business Agent"
-                />
-                <ImpactItem
-                  title="±2"
-                  label="Point prediction accuracy"
-                  detail="AFFA lineup engine"
-                />
-                <ImpactItem
-                  title="7000+"
-                  label="Players synced"
-                  detail="Fittrah Moms & MyMatch pipelines"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <Section
-          id="cv"
-          eyebrow="Professional Snapshot"
-          title="CV, credentials, and certifications at a glance."
+        <GlassSection
+          id="experience"
+          eyebrow="Experience"
+          title="Hands-on delivery across freelance, internships, and study."
           description={
             <p>
-              Download the latest CV, connect directly, and review certifications that reinforce data science, visualization, and AI delivery.
+              Roles where I owned back-end services, data flows, and front-end delivery, and a brief summary of my education.
             </p>
           }
         >
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-            <CVCard />
-            <div className="grid gap-4 md:grid-cols-2">
-              {certifications.map((cert) => (
-                <CertificationBadge
-                  key={cert.name}
-                  name={cert.name}
-                  issuer={cert.issuer}
-                  date={cert.date}
-                />
-              ))}
-            </div>
-          </div>
-        </Section>
+          <ExperienceTimeline />
+        </GlassSection>
 
-        <Section
-          id="fields"
-          eyebrow="Fields / Jobs"
-          title="Focused practice areas with tailored experience."
-          description={
-            <p>
-              Explore how skills, projects, and experience align to specific mandates. Each field page dives deeper into relevant objectives, outcomes, and tooling.
-            </p>
-          }
-        >
-          <div className="grid gap-6 lg:grid-cols-2">
-            {fields.map((field) => (
-              <Link
-                key={field.slug}
-                href={`/field/${field.slug}`}
-                className="group flex flex-col gap-5 rounded-[2.25rem] border border-[rgb(var(--surface-muted)/0.55)] bg-[rgb(var(--surface))] p-6 shadow-soft transition hover:border-[rgb(var(--brand)/0.35)] hover:shadow-lift"
-              >
-                <div className="space-y-2">
-                  <p className="badge" data-emphasis="brand">
-                    {field.label}
-                  </p>
-                  <h3 className="text-xl font-semibold text-[rgb(var(--text))]">{field.hero.title}</h3>
-                  <p className="text-sm text-[rgb(var(--text-secondary))]">{field.hero.intro[0]}</p>
-                </div>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[rgb(var(--brand))]">
-                  View field page
-                  <span aria-hidden>→</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        <Section
+        <GlassSection
           id="tech-stack"
           eyebrow="Tech Stack"
-          title="Tooling used across data, engineering, and delivery."
+          title="Tools I use to ship AI-native products."
           description={
             <p>
-              Skills drawn directly from recent projects and certifications—balanced across programming, web platforms, applied AI, and MLOps tooling.
+              A stack spanning Python, web engineering, applied ML, and MLOps—picked to balance velocity and reliability in production.
             </p>
           }
         >
-          <div className="grid gap-6 lg:grid-cols-2">
-            <SkillCluster title="Programming Languages" items={skillGroups.programming} />
-            <SkillCluster title="Web Development" items={skillGroups.web} />
-            <SkillCluster title="Data Science & AI" items={skillGroups.dataAi} />
-            <SkillCluster title="Data Engineering & MLOps" items={skillGroups.dataEngineering} />
-            <SkillCluster title="Tools & Environments" items={skillGroups.tools} />
-          </div>
-        </Section>
+          <TechStackGrid />
+        </GlassSection>
 
-        <div className="section">
-          <div className="container-wide">
-            <ContactBar />
-          </div>
-        </div>
+        <GlassSection
+          id="contact"
+          eyebrow="Contact"
+          title="Ready to collaborate on AI-native products and resilient MLOps."
+          description={
+            <p>
+              Tell me about your product, infrastructure, or data challenges. I usually respond within one business day.
+            </p>
+          }
+        >
+          <ContactSection />
+        </GlassSection>
       </main>
     </>
   );
@@ -259,10 +185,236 @@ type ImpactItemProps = {
 
 function ImpactItem({ title, label, detail }: ImpactItemProps) {
   return (
-    <div className="flex flex-col gap-2 rounded-[1.75rem] border border-white/20 bg-white/12 p-5 text-white shadow-[0_18px_48px_-24px_rgba(15,23,42,0.38)] backdrop-blur dark:border-white/10 dark:bg-white/10">
+    <div className="flex flex-col gap-2 rounded-[1.75rem] border border-white/18 bg-white/10 p-5 text-white shadow-[0_22px_60px_-28px_rgba(15,23,42,0.7)] backdrop-blur-xl dark:border-white/15 dark:bg-white/8">
       <span className="text-3xl font-semibold sm:text-4xl">{title}</span>
-      <span className="text-sm uppercase tracking-[0.28em] text-white/70">{label}</span>
+      <span className="text-xs uppercase tracking-[0.28em] text-white/70">{label}</span>
       <span className="text-sm font-medium text-white/85">{detail}</span>
+    </div>
+  );
+}
+
+// ProjectsGrid now lives in a dedicated client component at src/components/ProjectsGrid.tsx
+
+function ExperienceTimeline() {
+  return (
+    <ol className="relative space-y-6 border-l border-white/10 pl-6 text-sm text-[rgb(var(--text-secondary))]">
+      <li className="relative">
+        <span className="absolute -left-[11px] mt-1 h-2.5 w-2.5 rounded-full bg-cyan-300 shadow-[0_0_0_6px_rgba(34,211,238,0.25)]" />
+        <div className="rounded-3xl border border-white/14 bg-white/6 p-5 shadow-soft backdrop-blur-xl dark:border-white/12 dark:bg-white/5">
+          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))]">
+            MyMatch – Backend &amp; Admin Panel (Freelance)
+          </p>
+          <p className="mt-1 text-xs text-[rgb(var(--muted))]">
+            Remote – Monastir, Tunisia · Sep 2024 – May 2025
+          </p>
+          <ul className="mt-3 space-y-1.5">
+            <li>
+              Designed and maintained a centralized admin dashboard managing 7,000+ players and 70+ sports complexes.
+            </li>
+            <li>
+              Built Laravel APIs integrated with Firebase to keep data in sync with &lt;2 s latency and ~99.9% uptime.
+            </li>
+            <li>
+              Helped cut manual tracking time by ~40% and improve administrative productivity by 60%+.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li className="relative">
+        <span className="absolute -left-[11px] mt-1 h-2.5 w-2.5 rounded-full bg-indigo-300 shadow-[0_0_0_6px_rgba(129,140,248,0.25)]" />
+        <div className="rounded-3xl border border-white/14 bg-white/6 p-5 shadow-soft backdrop-blur-xl dark:border-white/12 dark:bg-white/5">
+          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))]">
+            ElyosDigital Company – Web Development Intern
+          </p>
+          <p className="mt-1 text-xs text-[rgb(var(--muted))]">
+            Monastir, Tunisia · Jun 2024 – Jul 2024
+          </p>
+          <ul className="mt-3 space-y-1.5">
+            <li>
+              Built a Laravel-based gym management platform to digitize memberships, subscriptions, and coach schedules.
+            </li>
+            <li>
+              Boosted administrative efficiency by ~30% and reduced manual coordination time by 40%.
+            </li>
+            <li>
+              Implemented secure role-based modules and automated scheduling workflows.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li className="relative">
+        <span className="absolute -left-[11px] mt-1 h-2.5 w-2.5 rounded-full bg-emerald-300 shadow-[0_0_0_6px_rgba(74,222,128,0.3)]" />
+        <div className="rounded-3xl border border-white/14 bg-white/6 p-5 shadow-soft backdrop-blur-xl dark:border-white/12 dark:bg-white/5">
+          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))]">
+            Education – Computer Science · AI &amp; Data
+          </p>
+          <ul className="mt-3 space-y-1.5">
+            <li>
+              Engineering Program in Computer Science – AI &amp; Data Science (2023–Present).
+            </li>
+            <li>
+              Bachelor&apos;s in Software Engineering and Computer Science (2020–2023).
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  );
+}
+
+function TechStackGrid() {
+  return (
+    <div className="space-y-8">
+      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+        <TechStackPanel title="Languages" items={skillGroups.programming} />
+        <TechStackPanel title="Web & Back-End" items={skillGroups.web} />
+        <TechStackPanel title="Data & MLOps" items={[...skillGroups.dataAi, ...skillGroups.dataEngineering]} />
+        <TechStackPanel title="Tools & Other" items={skillGroups.tools} />
+      </div>
+
+      <GlassCard className="mt-2 divide-y divide-white/10 p-0 text-sm text-[rgb(var(--text-secondary))]">
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">
+            Certifications
+          </span>
+        </div>
+        <a
+          href="/assets/certifications/images/ibm-python-ds-ai-dev.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-white/5"
+        >
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white/5">
+              <img
+                src="/assets/certifications/logos/ibm.svg"
+                alt="IBM logo"
+                className="h-6 w-6 object-contain"
+                loading="lazy"
+              />
+            </span>
+            <span className="text-xs font-medium uppercase tracking-[0.16em] text-white/90">
+              Python for Data Science, AI &amp; Development — IBM
+            </span>
+          </div>
+          <span className="text-xs text-white/60">View PDF</span>
+        </a>
+        <a
+          href="/assets/certifications/images/tableau-fundamentals.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-white/5"
+        >
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white/5">
+              <img
+                src="/assets/certifications/logos/uc.svg"
+                alt="University of California logo"
+                className="h-6 w-6 object-contain"
+                loading="lazy"
+              />
+            </span>
+            <span className="text-xs font-medium uppercase tracking-[0.16em] text-white/90">
+              Fundamentals of Visualization with Tableau — University of California
+            </span>
+          </div>
+          <span className="text-xs text-white/60">View PDF</span>
+        </a>
+        <a
+          href="/assets/certifications/images/ibm-what-is-data-science.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-white/5"
+        >
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white/5">
+              <img
+                src="/assets/certifications/logos/ibm.svg"
+                alt="IBM logo"
+                className="h-6 w-6 object-contain"
+                loading="lazy"
+              />
+            </span>
+            <span className="text-xs font-medium uppercase tracking-[0.16em] text-white/90">
+              What is Data Science? — IBM
+            </span>
+          </div>
+          <span className="text-xs text-white/60">View PDF</span>
+        </a>
+      </GlassCard>
+    </div>
+  );
+}
+
+type TechStackPanelProps = {
+  title: string;
+  items: readonly string[];
+};
+
+function TechStackPanel({ title, items }: TechStackPanelProps) {
+  return (
+    <GlassCard className="p-5">
+      <h3 className="text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))]">
+        {title}
+      </h3>
+      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        {items.map((item) => (
+          <span
+            key={item}
+            className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-white/90 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-white/10"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    </GlassCard>
+  );
+}
+
+function ContactSection() {
+  return (
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+      <GlassCard className="p-6 text-sm text-[rgb(var(--text-secondary))]">
+        <h3 className="text-xs font-semibold uppercase tracking-[0.26em] text-[rgb(var(--muted))]">
+          Direct details
+        </h3>
+        <dl className="mt-3 space-y-1.5">
+          <div className="flex gap-2">
+            <dt className="w-20 text-xs text-[rgb(var(--muted))]">Email</dt>
+            <dd className="font-medium text-[rgb(var(--text))]">
+              <a href={`mailto:${owner.email}`} className="underline-offset-4 hover:underline">
+                {owner.email}
+              </a>
+            </dd>
+          </div>
+          <div className="flex gap-2">
+            <dt className="w-20 text-xs text-[rgb(var(--muted))]">Phone</dt>
+            <dd className="font-medium text-[rgb(var(--text))]">{owner.phone}</dd>
+          </div>
+          <div className="flex gap-2">
+            <dt className="w-20 text-xs text-[rgb(var(--muted))]">Location</dt>
+            <dd className="font-medium text-[rgb(var(--text))]">{owner.location}</dd>
+          </div>
+          <div className="flex gap-2">
+            <dt className="w-20 text-xs text-[rgb(var(--muted))]">LinkedIn</dt>
+            <dd className="font-medium text-[rgb(var(--text))]">
+              <a
+                href="https://www.linkedin.com/in/mohamed-ali-bouzir"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-offset-4 hover:underline"
+              >
+                View profile
+              </a>
+            </dd>
+          </div>
+        </dl>
+        <p className="mt-4 text-xs text-[rgb(var(--muted))]">
+          Prefer async? Email is perfect for briefs. For complex projects, we can follow up with a short call.
+        </p>
+      </GlassCard>
+
+      {/* Contact form removed per request; keeping layout ready if reintroduced later */}
     </div>
   );
 }

@@ -1,13 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { owner } from "@/content/siteMeta";
-import { SITE } from "@/config/site";
-
-// @improvement: hero pulls identity from SITE for consistent branding
 
 export function HomeHero() {
   return (
-    <section id="hero" aria-labelledby="hero-heading" className="section pt-16 sm:pt-24">
+    <section id="about" aria-labelledby="hero-heading" className="section pt-16 sm:pt-24">
       <div className="container-wide">
         <div className="relative overflow-hidden rounded-[2.75rem] border border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface))] px-6 py-14 shadow-lift sm:px-12 sm:py-16">
           <div
@@ -32,18 +29,18 @@ export function HomeHero() {
           <div className="relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
             <div className="flex flex-col gap-8">
               <div className="space-y-4">
-                <span className="inline-flex items-center gap-3 rounded-full border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface-muted)/0.35)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">
-                  {SITE.name}
+                <span className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/80 shadow-soft backdrop-blur-xl dark:border-white/15 dark:bg-white/8">
+                  Mohamed Ali Bouzir
                 </span>
                 <h1 id="hero-heading" className="text-balance font-display text-[clamp(2.6rem,2.1rem+2.5vw,4rem)] font-semibold leading-tight">
-                  {SITE.title}
+                  Data Product Engineer · AI &amp; MLOps
                 </h1>
                 <p className="max-w-2xl text-lg text-[rgb(var(--text-secondary))] md:text-xl">
-                  {SITE.tagline}
+                  I build measurable AI products end-to-end.
                 </p>
                 <p className="max-w-2xl text-base text-[rgb(var(--text-secondary))]">
-                  I&apos;m {SITE.name}, partnering with founders and product teams to ship measurable AI systems—from inference-ready
-                  pipelines to feedback-rich user experiences that prove their value in production.
+                  I partner with founders and product teams to ship AI systems—from inference-ready pipelines to feedback-rich user
+                  experiences that prove their value in production.
                 </p>
               </div>
 
@@ -62,12 +59,12 @@ export function HomeHero() {
                 >
                   Hire me
                 </a>
-                <Link
-                  href="#fields"
+                <a
+                  href="#projects"
                   className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface-muted)/0.25)] px-5 py-2.5 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
                 >
-                  Explore Fields
-                </Link>
+                  View Projects
+                </a>
               </div>
 
               <div className="rounded-3xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface-muted)/0.25)] p-5 text-sm text-[rgb(var(--text-secondary))] sm:grid sm:grid-cols-3 sm:gap-6">
@@ -95,7 +92,7 @@ export function HomeHero() {
                     <div className="relative overflow-hidden rounded-[1.9rem]">
                       <Image
                         src="/images/Dali.jpeg"
-                        alt={`Portrait of ${SITE.name}`}
+                        alt={`Portrait of ${owner.name}`}
                         width={640}
                         height={640}
                         priority

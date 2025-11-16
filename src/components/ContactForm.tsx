@@ -237,7 +237,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6"
+      className="flex flex-col gap-6"
       noValidate
       aria-describedby="contact-status"
     >

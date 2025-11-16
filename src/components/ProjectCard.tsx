@@ -70,7 +70,7 @@ export default function ProjectCard({
         <Link
           href={primaryAction.href}
           aria-label={`Open ${title} (${primaryAction.label})`}
-          className="absolute inset-0 z-10 rounded-[inherit] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[rgb(var(--ring))]"
+          className="absolute inset-0 z-10 rounded-[inherit] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[rgb(var(--ring))]"
           target={primaryIsExternal ? "_blank" : undefined}
           rel={primaryIsExternal ? "noopener noreferrer" : undefined}
         />
