@@ -37,14 +37,7 @@ export function ProjectShowcaseCard({ slug, title, summary, stack, links, visual
             {title}
           </h3>
         </header>
-        <ul className="space-y-2 text-sm text-[rgb(var(--text-secondary))]">
-          {summary.map((item) => (
-            <li key={item} className="flex gap-3">
-              <span aria-hidden className="mt-1 text-[rgb(var(--brand))]">▹</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
+        <p className="text-sm text-[rgb(var(--text-secondary))]">{summary}</p>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">Stack</p>
           <div className="mt-3 flex flex-wrap gap-2 text-xs text-[rgb(var(--text))] sm:text-sm">
@@ -65,9 +58,9 @@ export function ProjectShowcaseCard({ slug, title, summary, stack, links, visual
               Deep dive
             </Link>
           ) : null}
-          {links.live ? (
+          {links?.find((link) => link.label.toLowerCase().includes("live")) ? (
             <Link
-              href={links.live}
+              href={links.find((link) => link.label.toLowerCase().includes("live"))!.href}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-white transition hover:shadow-lift"
@@ -75,9 +68,9 @@ export function ProjectShowcaseCard({ slug, title, summary, stack, links, visual
               Live
             </Link>
           ) : null}
-          {links.repo ? (
+          {links?.find((link) => link.label.toLowerCase().includes("github")) ? (
             <Link
-              href={links.repo}
+              href={links.find((link) => link.label.toLowerCase().includes("github"))!.href}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.5)] bg-[rgb(var(--surface))] px-4 py-2 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.4)]"

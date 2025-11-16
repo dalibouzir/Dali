@@ -92,14 +92,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 <h1 className="text-balance font-display text-[clamp(2.4rem,1.9rem+1.4vw,3.3rem)] font-semibold leading-tight">
                   {project.title}
                 </h1>
-                <ul className="space-y-3 text-base text-[rgb(var(--text-secondary))]">
-                  {project.summary.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span aria-hidden className="mt-1 text-[rgb(var(--brand))]">▹</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-base text-[rgb(var(--text-secondary))]">{project.summary}</p>
 
                 <div className="space-y-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">Stack</p>
@@ -113,26 +106,17 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 </div>
 
                 <div className="flex flex-wrap gap-3 text-sm font-semibold">
-                  {project.links.live ? (
+                  {project.links.map((link) => (
                     <Link
-                      href={project.links.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-5 py-2.5 text-white transition hover:shadow-lift"
-                    >
-                      View live
-                    </Link>
-                  ) : null}
-                  {project.links.repo ? (
-                    <Link
-                      href={project.links.repo}
+                      key={link.href}
+                      href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-5 py-2.5 text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
                     >
-                      View repo
+                      {link.label}
                     </Link>
-                  ) : null}
+                  ))}
                 </div>
               </div>
 
@@ -164,7 +148,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             <div className="space-y-3 rounded-[2rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface))] p-5">
               <h3 className="text-lg font-semibold text-[rgb(var(--text))]">Focus areas</h3>
               <ul className="space-y-2 text-sm text-[rgb(var(--text-secondary))]">
-                {project.tags.map((tag) => (
+                {project.tags?.map((tag) => (
                   <li key={tag} className="inline-flex items-center gap-2">
                     <span aria-hidden>●</span>
                     <span className="uppercase tracking-[0.22em] text-[rgb(var(--muted))]">{tag}</span>
