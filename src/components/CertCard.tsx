@@ -33,6 +33,7 @@ export default function CertCard({
 }: CertCardProps) {
   const displayUrl = credentialUrl ?? downloadUrl ?? "#";
   const hasDownload = Boolean(downloadUrl);
+  const viewOpensNewTab = displayUrl.startsWith("http") || displayUrl.endsWith(".pdf");
   const sequence =
     typeof index === "number" && typeof total === "number"
       ? `${String(index + 1).padStart(2, "0")}·${String(total).padStart(2, "0")}`
@@ -78,11 +79,11 @@ export default function CertCard({
         <Link
           href={displayUrl}
           className="rounded-2xl bg-[rgb(var(--brand))] px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:shadow-lift"
-          target={displayUrl.startsWith("http") ? "_blank" : undefined}
-          rel={displayUrl.startsWith("http") ? "noopener noreferrer" : undefined}
-          aria-label={`View credential: ${title}`}
+          target={viewOpensNewTab ? "_blank" : undefined}
+          rel={viewOpensNewTab ? "noopener noreferrer" : undefined}
+          aria-label={`View certification: ${title}`}
         >
-          View credential
+          View certification
         </Link>
         {hasDownload ? (
           <Link

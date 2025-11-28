@@ -51,7 +51,7 @@ export const projects: Project[] = [
       "GitHub",
     ],
     links: [
-      { label: "Model notebook", href: "https://www.kaggle.com/code/dalibouzir/ai-business-agent", variant: "primary" },
+      { label: "Model notebook", href: "https://www.kaggle.com/code/mohamedalibouzir/kaggle-llama31-refined", variant: "primary" },
       { label: "Source", href: "https://github.com/dalibouzir/ai-business-agent", variant: "secondary" },
     ],
   },
@@ -104,7 +104,6 @@ export const projects: Project[] = [
       "Built analytics views that cut manual tracking time by ~40% and lifted admin productivity by 60%+.",
     ],
     stack: ["Laravel", "Firebase", "REST APIs", "MySQL"],
-    links: [{ label: "View details", href: "mailto:bouzirdali@gmail.com?subject=MyMatch%20case%20study", variant: "primary" }],
   },
   {
     id: "meriem-booking",
@@ -138,6 +137,5 @@ export const projects: Project[] = [
       "Emphasized responsive back-office modules with solid access control and data integrity safeguards.",
     ],
     stack: ["Laravel", "MySQL", "Tailwind CSS"],
-    links: [{ label: "View details", href: "mailto:bouzirdali@gmail.com?subject=PowerGym%20case%20study", variant: "primary" }],
   },
 ];

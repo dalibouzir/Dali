@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { certifications, languages } from "@/data/certifications";
 
@@ -24,14 +25,35 @@ export function CertsAndLanguagesSection() {
           >
             <p className="text-xs font-semibold uppercase tracking-[0.36em] text-cyan-200">Certifications</p>
             <ul className="mt-4 space-y-4">
-              {certifications.map((cert) => (
-                <li key={cert.id} className="space-y-1 text-sm text-white/80">
-                  <p className="font-semibold text-white">{cert.title}</p>
-                  <p className="text-white/60">
-                    {cert.issuer} — {cert.date}
-                  </p>
-                </li>
-              ))}
+              {certifications.map((cert) => {
+                const pdfLink = cert.credentialUrl ?? cert.downloadUrl;
+                return (
+                  <li key={cert.id} className="space-y-1 text-sm text-white/80">
+                    <p className="font-semibold text-white">
+                      {pdfLink ? (
+                        <Link
+                          href={pdfLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition hover:text-cyan-100"
+                        >
+                          {cert.title}
+                        </Link>
+                      ) : (
+                        cert.title
+                      )}
+                    </p>
+                    <p className="text-white/60">
+                      {cert.issuer} — {cert.date}
+                      {pdfLink ? (
+                        <span className="ml-2 rounded-full border border-white/30 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white/60">
+                          PDF
+                        </span>
+                      ) : null}
+                    </p>
+                  </li>
+                );
+              })}
             </ul>
           </motion.div>
           <motion.div

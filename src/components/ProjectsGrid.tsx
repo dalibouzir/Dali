@@ -72,7 +72,7 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
                     href: link.href,
                     type: index === 0 ? ("primary" as const) : ("secondary" as const),
                   }))
-                : [{ label: "View details", href: `#/projects/${project.slug}`, type: "secondary" as const }]
+                : undefined
             }
             category={project.category}
           />

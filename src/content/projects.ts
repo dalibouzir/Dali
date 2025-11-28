@@ -156,8 +156,12 @@ export const projects: Project[] = [
     links: [],
     tags: ["backend", "laravel", "admin", "firebase"],
     featured: true,
+    visual: {
+      src: "/assets/projects/default.svg",
+      alt: "Placeholder preview for MyMatch",
+    },
     media: {
-      image: "/assets/projects/mymatch/images/cover.webp",
+      image: "/assets/projects/default.svg",
     },
   },
   {

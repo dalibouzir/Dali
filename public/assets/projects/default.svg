@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="title">
+  <title>Project placeholder</title>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#grad)" />
+  <g fill="#93c5fd" font-family="Inter, system-ui, sans-serif" text-anchor="middle">
+    <text x="320" y="180" font-size="42" font-weight="600">Media unavailable</text>
+    <text x="320" y="230" font-size="20" opacity="0.9">Default project preview</text>
+  </g>
+</svg>

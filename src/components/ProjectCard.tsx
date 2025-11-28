@@ -24,7 +24,7 @@ export type ProjectCardProps = {
   stack: string[];
   impact?: string[];
   features?: string[];
-  actions: ProjectAction[];
+  actions?: ProjectAction[];
   category?: string;
   variant?: "default" | "horizontal" | "compact";
   className?: string;
@@ -50,7 +50,8 @@ export default function ProjectCard({
   imagePriority,
   media,
 }: ProjectCardProps) {
-  const primaryAction = actions[0];
+  const actionList = actions ?? [];
+  const primaryAction = actionList[0];
   const primaryIsExternal = primaryAction?.href.startsWith("http");
   const displayFeatures =
     variant === "compact" && features.length > 0 ? features.slice(0, 2) : features;
@@ -184,9 +185,9 @@ export default function ProjectCard({
             </div>
           </div>
 
-          {actions.length > 0 ? (
+          {actionList.length > 0 ? (
             <div className="flex flex-wrap gap-2 pointer-events-auto">
-              {actions.map((action, index) => (
+              {actionList.map((action, index) => (
                 <Link
                   key={`${action.href}-${action.label}`}
                   href={action.href}
