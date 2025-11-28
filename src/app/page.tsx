@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Nav from "@/components/Nav";
 import { HomeHero } from "@/components/HomeHero";
 import { SITE } from "@/config/site";
 import { buildMetadata } from "@/components/Seo";
@@ -69,7 +68,6 @@ const breadcrumbs = {
 export default function Home() {
   return (
     <>
-      <Nav />
       <main id="main">
         <script
           type="application/ld+json"

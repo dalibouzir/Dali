@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import Nav from "@/components/Nav";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { SITE } from "@/config/site";
+import { getViewStats } from "@/lib/viewStats";
 
 const bodyFont = Inter({
   subsets: ["latin"],
@@ -113,11 +115,13 @@ const themeInitScript = `
 })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const viewStats = await getViewStats();
+
   return (
     <html
       lang="en"
@@ -133,7 +137,10 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to main content
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Nav viewMetric={viewStats.current} viewDeltaPct={viewStats.deltaPct} />
+          {children}
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

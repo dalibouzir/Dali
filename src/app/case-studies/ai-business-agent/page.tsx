@@ -1,6 +1,5 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import Nav from "@/components/Nav";
 import Section from "@/components/Section";
 import { ContactBar } from "@/components/ContactBar";
 import { SITE } from "@/config/site";
@@ -91,7 +90,6 @@ export default function CaseStudyPage() {
 
   return (
     <>
-      <Nav />
       <main id="main">
         <script
           type="application/ld+json"

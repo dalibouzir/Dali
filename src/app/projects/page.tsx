@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Nav from "@/components/Nav";
 import Section from "@/components/Section";
 import { ProjectShowcaseCard } from "@/components/ProjectShowcaseCard";
 import { buildMetadata } from "@/components/Seo";
@@ -30,7 +29,6 @@ const schema = {
 export default function ProjectsIndex() {
   return (
     <>
-      <Nav />
       <main id="main">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
         <Section

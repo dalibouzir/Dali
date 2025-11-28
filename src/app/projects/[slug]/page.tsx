@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Nav from "@/components/Nav";
 import Section from "@/components/Section";
 import { ContactBar } from "@/components/ContactBar";
 import { SITE } from "@/config/site";
@@ -75,7 +74,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   return (
     <>
-      <Nav />
       <main id="main">
         <script
           type="application/ld+json"

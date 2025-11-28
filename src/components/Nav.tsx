@@ -17,17 +17,63 @@ const PRIMARY_LINKS = [
   { href: "#contact", label: "Contact" },
 ];
 
-const VIEW_METRIC = {
-  label: "Total Page Views",
-  value: "89.4K",
+export type NavProps = {
+  viewMetric?: number;
+  viewDeltaPct?: number;
+};
+
+const formatViews = (views?: number) => {
+  if (typeof views !== "number" || !Number.isFinite(views)) {
+    return "—";
+  }
+
+  const formatCompact = (value: number, suffix: string) => {
+    const compact = Number(value.toFixed(1));
+    return `${compact % 1 === 0 ? compact.toFixed(0) : compact}${suffix}`;
+  };
+
+  if (views >= 1_000_000) {
+    return formatCompact(views / 1_000_000, "M");
+  }
+  if (views >= 1_000) {
+    return formatCompact(views / 1_000, "k");
+  }
+  return views.toLocaleString();
+};
+
+const formatDelta = (delta?: number) => {
+  if (typeof delta !== "number" || !Number.isFinite(delta)) {
+    return "—";
+  }
+
+  const normalized = Math.abs(delta) < 0.05 ? 0 : delta;
+  if (normalized === 0) {
+    return "0%";
+  }
+
+  if (normalized > 0) {
+    return `+${normalized.toFixed(1)}%`;
+  }
+  return `${normalized.toFixed(1)}%`;
 };
 
 type ViewsStatCardProps = {
   className?: string;
   orientation?: "horizontal" | "vertical";
+  totalLabel: string;
+  totalValue: string;
+  deltaLabel: string;
+  deltaValue: string;
 };
 
-const ViewsStatCard = ({ className = "", orientation = "horizontal" }: ViewsStatCardProps) => (
+const ViewsStatCard = ({
+  className = "",
+  orientation = "horizontal",
+  totalLabel,
+  totalValue,
+  deltaLabel,
+  deltaValue,
+}: ViewsStatCardProps) => (
   <div
     className={`relative isolate rounded-2xl border border-[rgb(var(--surface-muted)/0.45)] px-3 py-2 text-sm shadow-[0_18px_40px_-24px_rgba(15,23,42,0.35)] transition-colors ${orientation === "vertical" ? "flex flex-col gap-2.5" : "flex items-center gap-2.5"} ${className}`}
     aria-label="Site view stats"
@@ -45,13 +91,16 @@ const ViewsStatCard = ({ className = "", orientation = "horizontal" }: ViewsStat
       </svg>
     </div>
     <div className="text-left leading-tight">
-      <p className="text-[0.6rem] font-semibold uppercase tracking-[0.34em] text-[rgb(var(--muted))]">{VIEW_METRIC.label}</p>
-      <p className="text-lg font-semibold text-[rgb(var(--text))]">{VIEW_METRIC.value}</p>
+      <p className="text-[0.6rem] font-semibold uppercase tracking-[0.34em] text-[rgb(var(--muted))]">{totalLabel}</p>
+      <p className="text-lg font-semibold text-[rgb(var(--text))]">{totalValue}</p>
+      <p className="text-[0.6rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+        {deltaLabel} <span className="font-semibold text-[rgb(var(--brand))]">{deltaValue}</span>
+      </p>
     </div>
   </div>
 );
 
-export default function Nav() {
+export default function Nav({ viewMetric, viewDeltaPct }: NavProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -181,6 +230,8 @@ export default function Nav() {
     });
 
   const headerVisibilityClass = isNavVisible ? "translate-y-0" : "-translate-y-full";
+  const formattedViews = formatViews(viewMetric);
+  const formattedDelta = formatDelta(viewDeltaPct);
 
   return (
     <header className={`sticky top-0 z-50 px-4 pt-4 transition-transform duration-300 sm:px-8 ${headerVisibilityClass}`}>
@@ -229,7 +280,13 @@ export default function Nav() {
             >
               <span aria-hidden>{theme === "dark" ? "☾" : "☀"}</span>
             </button>
-            <ViewsStatCard className="hidden shrink-0 justify-between md:flex" />
+            <ViewsStatCard
+              className="hidden shrink-0 justify-between md:flex"
+              totalLabel="Last 30 days"
+              totalValue={formattedViews}
+              deltaLabel="vs previous 30d"
+              deltaValue={formattedDelta}
+            />
           </div>
         </nav>
 
@@ -237,7 +294,14 @@ export default function Nav() {
           className={`xl:hidden ${isMenuOpen ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"} overflow-hidden transition-[max-height,opacity] duration-300 ease-out`}
         >
           <div className="flex flex-col gap-3 px-4 pb-6 sm:px-6">
-            <ViewsStatCard className="w-full" orientation="vertical" />
+            <ViewsStatCard
+              className="w-full"
+              orientation="vertical"
+              totalLabel="Last 30 days"
+              totalValue={formattedViews}
+              deltaLabel="vs previous 30d"
+              deltaValue={formattedDelta}
+            />
             <ul className="flex flex-col gap-2 text-sm font-medium text-[rgb(var(--text))]">{renderPrimaryLinks(() => setIsMenuOpen(false))}</ul>
             <div className="flex flex-col gap-3 pt-1">
               <Link
