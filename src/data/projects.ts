@@ -52,7 +52,7 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "Model notebook", href: "https://www.kaggle.com/code/mohamedalibouzir/kaggle-llama31-refined", variant: "primary" },
-      { label: "Source", href: "https://github.com/dalibouzir/ai-business-agent", variant: "secondary" },
+      { label: "Source", href: "https://github.com/dalibouzir/AI-Agnet", variant: "secondary" },
     ],
   },
   {
