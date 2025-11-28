@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { owner } from "@/content/siteMeta";
 import { useTheme } from "@/components/theme/ThemeProvider";
+import type { ViewStats } from "@/lib/viewStats";
 
 // @improvement: single-page navigation anchored to sections
 
@@ -18,8 +19,7 @@ const PRIMARY_LINKS = [
 ];
 
 export type NavProps = {
-  viewMetric?: number;
-  viewDeltaPct?: number;
+  viewStats?: ViewStats;
 };
 
 const formatViews = (views?: number) => {
@@ -64,6 +64,8 @@ type ViewsStatCardProps = {
   totalValue: string;
   deltaLabel: string;
   deltaValue: string;
+  actionLabel?: string;
+  onAction?: () => void;
 };
 
 const ViewsStatCard = ({
@@ -73,11 +75,22 @@ const ViewsStatCard = ({
   totalValue,
   deltaLabel,
   deltaValue,
+  actionLabel,
+  onAction,
 }: ViewsStatCardProps) => (
   <div
     className={`relative isolate rounded-2xl border border-[rgb(var(--surface-muted)/0.45)] px-3 py-2 text-sm shadow-[0_18px_40px_-24px_rgba(15,23,42,0.35)] transition-colors ${orientation === "vertical" ? "flex flex-col gap-2.5" : "flex items-center gap-2.5"} ${className}`}
     aria-label="Site view stats"
   >
+    {actionLabel && onAction ? (
+      <button
+        type="button"
+        onClick={onAction}
+        className="absolute right-2 top-2 rounded-full border border-[rgb(var(--surface-muted)/0.4)] bg-[rgb(var(--surface))] px-2 py-[0.1rem] text-[0.55rem] font-semibold uppercase tracking-[0.22em] text-[rgb(var(--muted))] transition hover:border-[rgb(var(--brand)/0.45)] hover:text-[rgb(var(--text))]"
+      >
+        {actionLabel}
+      </button>
+    ) : null}
     <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[rgb(var(--brand)/0.12)] text-[rgb(var(--brand))]">
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <path
@@ -100,13 +113,24 @@ const ViewsStatCard = ({
   </div>
 );
 
-export default function Nav({ viewMetric, viewDeltaPct }: NavProps) {
+const computeDelta = (current?: number, previous?: number) => {
+  if (typeof current !== "number" || typeof previous !== "number") {
+    return undefined;
+  }
+  if (previous === 0) {
+    return current === 0 ? 0 : undefined;
+  }
+  return ((current - previous) / previous) * 100;
+};
+
+export default function Nav({ viewStats }: NavProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [activeHash, setActiveHash] = useState<string | null>(null);
+  const [viewRange, setViewRange] = useState<"all" | "30d">("all");
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -230,8 +254,16 @@ export default function Nav({ viewMetric, viewDeltaPct }: NavProps) {
     });
 
   const headerVisibilityClass = isNavVisible ? "translate-y-0" : "-translate-y-full";
-  const formattedViews = formatViews(viewMetric);
-  const formattedDelta = formatDelta(viewDeltaPct);
+  const isAllTimeRange = viewRange === "all";
+  const currentViews = isAllTimeRange ? viewStats?.allTime : viewStats?.last30Days;
+  const deltaValueRaw = isAllTimeRange ? undefined : computeDelta(viewStats?.last30Days, viewStats?.previous30Days);
+  const formattedViews = formatViews(currentViews);
+  const formattedDelta = isAllTimeRange ? "—" : formatDelta(deltaValueRaw);
+  const totalLabel = isAllTimeRange ? "All time views" : "Last 30 days";
+  const deltaLabel = isAllTimeRange ? "since launch" : "vs previous 30d";
+  const toggleLabel = isAllTimeRange ? "30d" : "All";
+  const canToggleRange = Boolean(viewStats);
+  const handleToggleRange = () => setViewRange((prev) => (prev === "all" ? "30d" : "all"));
 
   return (
     <header className={`sticky top-0 z-50 px-4 pt-4 transition-transform duration-300 sm:px-8 ${headerVisibilityClass}`}>
@@ -282,10 +314,12 @@ export default function Nav({ viewMetric, viewDeltaPct }: NavProps) {
             </button>
             <ViewsStatCard
               className="hidden shrink-0 justify-between md:flex"
-              totalLabel="Last 30 days"
+              totalLabel={totalLabel}
               totalValue={formattedViews}
-              deltaLabel="vs previous 30d"
+              deltaLabel={deltaLabel}
               deltaValue={formattedDelta}
+              actionLabel={canToggleRange ? toggleLabel : undefined}
+              onAction={canToggleRange ? handleToggleRange : undefined}
             />
           </div>
         </nav>
@@ -297,10 +331,12 @@ export default function Nav({ viewMetric, viewDeltaPct }: NavProps) {
             <ViewsStatCard
               className="w-full"
               orientation="vertical"
-              totalLabel="Last 30 days"
+              totalLabel={totalLabel}
               totalValue={formattedViews}
-              deltaLabel="vs previous 30d"
+              deltaLabel={deltaLabel}
               deltaValue={formattedDelta}
+              actionLabel={canToggleRange ? toggleLabel : undefined}
+              onAction={canToggleRange ? handleToggleRange : undefined}
             />
             <ul className="flex flex-col gap-2 text-sm font-medium text-[rgb(var(--text))]">{renderPrimaryLinks(() => setIsMenuOpen(false))}</ul>
             <div className="flex flex-col gap-3 pt-1">

@@ -138,7 +138,7 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
-          <Nav viewMetric={viewStats.current} viewDeltaPct={viewStats.deltaPct} />
+          <Nav viewStats={viewStats} />
           {children}
         </ThemeProvider>
         <Analytics />
