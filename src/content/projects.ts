@@ -33,10 +33,11 @@ export const projects: Project[] = [
     title: "AI Business Agent — Intelligent Decision-Support SaaS",
     tagline: "LLM-powered decision engine with conversational analytics",
     summary:
-      "Production-ready SaaS platform that drives decisions using LLM reasoning, RAG, and Monte Carlo risk modeling.",
+      "Architected an end-to-end AI decision-support platform blending LLM reasoning, retrieval-augmented generation, and Monte Carlo risk simulations for business analysis.",
     impact: [
-      "Scaled to process 35,000+ queries and execute 120+ simulations with ~92% response accuracy and ~2.7 s median latency.",
-      "Engineered ingestion for PDF, spreadsheet, and image data with governance controls and Grafana-based observability.",
+      "Orchestrated a multi-route decision engine handling 24K+ queries and 150+ simulations with ~97% routing accuracy and ~2.7 s median latency.",
+      "Wired PostgreSQL + pgVector with OpenSearch for hybrid semantic retrieval, improving answer relevance and recall across diverse business questions.",
+      "Deployed Grafana + Prometheus dashboards for full observability, from latency and routing accuracy to retrieval quality and failure modes.",
     ],
     stack: [
       "Next.js 14",
@@ -45,10 +46,12 @@ export const projects: Project[] = [
       "OpenSearch",
       "MinIO",
       "Redis",
-      "Ollama 3B",
+      "Llama 3.1 8B / GPT-4o-mini",
       "Docker Compose",
       "Grafana",
+      "Prometheus",
     ],
+    tags: ["fullstack", "fitness", "laravel", "ml"],
     links: [
       {
         label: "Kaggle Notebook",
@@ -59,6 +62,7 @@ export const projects: Project[] = [
         href: "https://github.com/dalibouzir/AI-Agnet",
       },
     ],
+    tags: ["ai", "mlops", "llm", "business-intel"],
     featured: true,
     visual: {
       src: "/assets/projects/ai-business-agent/cover.svg",
@@ -72,12 +76,13 @@ export const projects: Project[] = [
     slug: "affa",
     category: "AI & MLOps",
     title: "AFFA — Automated Fantasy Football Assistant",
-    tagline: "AI assistant for weekly fantasy lineup recommendations",
+    tagline: "AI assistant that recommends weekly lineups with ±2-point precision across multiple gameweeks.",
     summary:
-      "Developed an AI assistant that recommends weekly lineups with ±2 point prediction accuracy across 15+ gameweeks.",
+      "Built an end-to-end ML assistant that ingests football stats, learns player performance patterns, and recommends fantasy lineups with measurable accuracy in real time.",
     impact: [
-      "Reduced prediction error by ~73% through MLflow-tracked experimentation and optimized ensemble modeling.",
-      "Deployed real-time monitoring with ElasticSearch and Kibana to track model performance and surface insights.",
+      "Engineered an ensemble prediction engine (Random Forest + Bayesian inference) improving weekly recommendation quality by ~73%.",
+      "Achieved ±2-point forecast precision across 15+ gameweeks, cutting prediction error by over 70%.",
+      "Instrumented real-time dashboards in Elasticsearch + Kibana to track drift, accuracy, and per-player evolution.",
     ],
     stack: [
       "Python",
@@ -88,7 +93,7 @@ export const projects: Project[] = [
       "API-Football",
       "Docker",
       "MLflow",
-      "ElasticSearch",
+      "Elasticsearch",
       "Kibana",
     ],
     links: [
@@ -97,6 +102,7 @@ export const projects: Project[] = [
         href: "https://bouzirdaliaa.pythonanywhere.com",
       },
     ],
+    tags: ["ai", "ml", "analytics", "fantasy-sports"],
     featured: true,
     visual: {
       src: "/assets/projects/affa/images/cover.webp",
@@ -110,20 +116,22 @@ export const projects: Project[] = [
     slug: "quirkhire",
     category: "AI & MLOps",
     title: "QuirkHire — AI Résumé Recommendation Platform",
-    tagline: "Hybrid NLP/LLM résumé analysis for recruiters",
+    tagline: "LLM-powered talent platform that matches candidates to jobs with explainable recommendations",
     summary:
-      "Engineered hybrid NLP/LLM résumé analysis that generates personalized, explainable recommendations for recruiters.",
+      "Designed a talent-matching platform for career centers that uses hybrid NLP/LLM models to understand CVs and job posts, then ranks candidates with transparent explanations.",
     impact: [
-      "Deployed analytics dashboards so career centers can evaluate match accuracy, monitor candidates, and track engagement.",
-      "Designed an intuitive front end that streamlines applications and recruiter collaboration.",
+      "Matched 1,200+ candidates to 200+ job postings, boosting recruiter match accuracy by ~28%.",
+      "Cut screening and shortlisting time by about 35% through explainable, ranked recommendations.",
+      "Delivered recruiter dashboards for match quality, engagement metrics, and model performance, improving retention by ~22%.",
     ],
-    stack: ["React", "Django", "DRF", "Supabase", "Redux Toolkit", "OpenRouter API"],
+    stack: ["React", "Django", "Django REST Framework", "Supabase", "Redux Toolkit", "OpenRouter API"],
     links: [
       {
         label: "Live",
         href: "https://career-reco.vercel.app",
       },
     ],
+    tags: ["ai", "nlp", "recruitment", "recommendations"],
     featured: true,
     visual: {
       src: "/assets/projects/quirkhire/cover.svg",
@@ -137,15 +145,17 @@ export const projects: Project[] = [
     slug: "mymatch",
     category: "Backend Engineering",
     title: "MyMatch — Back-End & Admin Panel",
-    tagline: "Centralized admin platform for sports complexes",
+    tagline: "Admin panel and backend powering thousands of players and sports complexes with real-time data",
     summary:
-      "Designed a full-featured administration dashboard managing 7,000+ players and 70+ sports complexes.",
+      "Led backend and admin panel development for a large sports platform managing players, complex operations, and scheduling with real-time sync to mobile apps.",
     impact: [
-      "Built scalable Laravel services with Firebase and REST APIs for real-time sync and secure authentication.",
-      "Implemented interactive dashboards that improved responsiveness and operational efficiency for administrators.",
+      "Centralized 7,000+ player profiles and 70+ sports complexes, improving data accessibility by ~65%.",
+      "Built scalable Laravel services integrated with Firebase and REST APIs, achieving ~99.9% uptime and <2-second sync latency.",
+      "Shipped dashboards and analytics that cut manual tracking time by ~40% and lifted admin productivity by 60%+.",
     ],
     stack: ["Laravel", "Firebase", "REST APIs"],
     links: [],
+    tags: ["backend", "laravel", "admin", "firebase"],
     featured: true,
     media: {
       image: "/assets/projects/mymatch/images/cover.webp",
@@ -157,11 +167,11 @@ export const projects: Project[] = [
     title: "Meriem Booking (Fittrah Moms) — Therapist Scheduling",
     tagline: "Therapist booking platform with AI assistant",
     summary:
-      "Engineered a responsive booking platform in Next.js 14 and Supabase to streamline therapist scheduling.",
+      "Built a responsive booking platform that streamlines therapist scheduling and client bookings, syncing calendars in real time and automating support with an AI assistant.",
     impact: [
-      "Implemented real-time calendar sync, session exceptions, and dynamic availability for a smooth client experience.",
-      "Integrated an AI assistant using OpenAI API to support users and streamline interactions.",
-      "Built an admin dashboard so therapists can manage bookings and calendars efficiently.",
+      "Delivered a Next.js 14 + Supabase booking platform that improves therapist scheduling and client UX.",
+      "Implemented real-time calendar sync, dynamic availability, and exception handling to reduce scheduling conflicts.",
+      "Integrated an AI assistant via OpenAI API to automate FAQs and support, lowering manual support load.",
     ],
     stack: ["Next.js 14", "Supabase", "motion-dom", "Tailwind CSS"],
     links: [
@@ -170,6 +180,7 @@ export const projects: Project[] = [
         href: "https://fittrahmoms.com",
       },
     ],
+    tags: ["fullstack", "nextjs", "supabase", "ai-assistant"],
     featured: true,
     visual: {
       src: "/assets/projects/therapist-funnel/images/img5.webp",
@@ -177,6 +188,34 @@ export const projects: Project[] = [
     },
     media: {
       image: "/assets/projects/therapist-funnel/images/img5.webp",
+    },
+  },
+  {
+    slug: "elyosdigital-powergym",
+    category: "Backend Engineering",
+    title: "PowerGym (ElyosDigital) — Gym Management Platform",
+    tagline: "Laravel-based membership + scheduling operations",
+    summary:
+      "Built the FitLife / PowerGym platform combining admin, scheduling, and AI-driven workout insights to replace manual gym workflows across memberships, coaches, and performance dashboards.",
+    impact: [
+      "Launched a full-stack gym management system covering memberships, subscriptions, activities, and coaches.",
+      "Introduced automated session scheduling that reduced manual coordination by ~40% and boosted accuracy by 25–30%.",
+      "Implemented AI-driven workout recommendations, BMI tracking, and Plotly dashboards to surface progress and trends.",
+      "Delivered responsive, secure admin panels focused on data protection and usability.",
+    ],
+    stack: ["Laravel", "Python (Flask)", "MySQL", "Plotly", "Tailwind CSS"],
+    links: [
+      {
+        label: "Discuss PowerGym",
+        href: "mailto:bouzirdali@gmail.com?subject=PowerGym%20case%20study",
+      },
+    ],
+    visual: {
+      src: "/assets/projects/elyosdigital-powergym/cover.svg",
+      alt: "PowerGym admin dashboard",
+    },
+    media: {
+      image: "/assets/projects/elyosdigital-powergym/cover.svg",
     },
   },
 ];

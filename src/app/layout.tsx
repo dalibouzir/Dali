@@ -2,10 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import Nav from "@/components/Nav";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import Nav from "@/components/Nav";
 import { SITE } from "@/config/site";
-import { getViewStats } from "@/lib/viewStats";
+import { THEME_STORAGE_KEY } from "@/config/theme";
 
 const bodyFont = Inter({
   subsets: ["latin"],
@@ -97,7 +98,7 @@ export const viewport: Viewport = {
 const themeInitScript = `
 (function () {
   var root = document.documentElement;
-  var storageKey = "dali-theme";
+  var storageKey = "${THEME_STORAGE_KEY}";
   var theme = "dark";
 
   try {
@@ -120,8 +121,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const viewStats = await getViewStats();
-
   return (
     <html
       lang="en"
@@ -138,7 +137,8 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
-          <Nav viewStats={viewStats} />
+          <SmoothScrollProvider />
+          <Nav />
           {children}
         </ThemeProvider>
         <Analytics />

@@ -1,34 +1,12 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { profile } from "@/data/profile";
-
-type Turnstile = {
-  render: (
-    container: HTMLElement,
-    options: {
-      sitekey: string;
-      callback: (token: string) => void;
-      "expired-callback"?: () => void;
-      "error-callback"?: () => void;
-      theme?: "light" | "dark" | "auto";
-    },
-  ) => string;
-  reset: (id?: string) => void;
-};
-
-declare global {
-  interface Window {
-    turnstile?: Turnstile;
-  }
-}
+import { useId, useMemo, useState } from "react";
 
 type FormState = {
   name: string;
   email: string;
   message: string;
   company: string;
-  honeypot: string;
 };
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -38,10 +16,7 @@ const initialState: FormState = {
   email: "",
   message: "",
   company: "",
-  honeypot: "",
 };
-
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
 
 function validateEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -51,87 +26,11 @@ export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-
-  const widgetRef = useRef<HTMLDivElement | null>(null);
-  const widgetIdRef = useRef<string | null>(null);
 
   const nameId = useId();
   const emailId = useId();
   const companyId = useId();
   const messageId = useId();
-  const honeypotId = useId();
-  const verificationId = useId();
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    let cancelled = false;
-
-    const mountTurnstile = () => {
-      if (!widgetRef.current || !window.turnstile || cancelled) {
-        return;
-      }
-      widgetIdRef.current = window.turnstile.render(widgetRef.current, {
-        sitekey: TURNSTILE_SITE_KEY,
-        callback: (token) => {
-          setTurnstileToken(token);
-          setError(null);
-        },
-        "expired-callback": () => setTurnstileToken(null),
-        "error-callback": () => setTurnstileToken(null),
-        theme: "auto",
-      });
-    };
-
-    const ensureScript = () => {
-      const scriptId = "turnstile-script";
-      const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
-      if (existing) {
-        if (existing.dataset.loaded === "true") {
-          mountTurnstile();
-        } else {
-          existing.addEventListener("load", () => {
-            existing.dataset.loaded = "true";
-            mountTurnstile();
-          }, { once: true });
-        }
-        return;
-      }
-
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        script.dataset.loaded = "true";
-        mountTurnstile();
-      };
-      document.head.appendChild(script);
-    };
-
-    // @improvement: lazy-load Turnstile widget with explicit render
-    ensureScript();
-
-    const poll = window.setInterval(() => {
-      if (window.turnstile && widgetRef.current && !widgetIdRef.current) {
-        mountTurnstile();
-        window.clearInterval(poll);
-      }
-    }, 120);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(poll);
-      if (widgetIdRef.current) {
-        window.turnstile?.reset(widgetIdRef.current);
-        widgetIdRef.current = null;
-      }
-    };
-  }, []);
 
   const statusMessage = useMemo(() => {
     switch (status) {
@@ -142,7 +41,7 @@ export default function ContactForm() {
       case "error":
         return error ?? "Something went wrong. Try again or email me directly.";
       default:
-        return "Complete the form and verification. I typically reply within one business day.";
+        return "Complete the form and I'll reply within one business day.";
     }
   }, [status, error]);
 
@@ -155,21 +54,8 @@ export default function ContactForm() {
     }
   }
 
-  const resetTurnstile = () => {
-    if (widgetIdRef.current) {
-      window.turnstile?.reset(widgetIdRef.current);
-    }
-    setTurnstileToken(null);
-  };
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (form.honeypot.trim().length > 0) {
-      setStatus("error");
-      setError("Spam detected. If this is a mistake, drop me a note at the email below.");
-      return;
-    }
 
     if (form.name.trim().length < 2) {
       setStatus("error");
@@ -189,12 +75,6 @@ export default function ContactForm() {
       return;
     }
 
-    if (!turnstileToken) {
-      setStatus("error");
-      setError("Please complete the verification before sending.");
-      return;
-    }
-
     setStatus("loading");
 
     try {
@@ -208,7 +88,6 @@ export default function ContactForm() {
           email: form.email.trim(),
           message: form.message.trim(),
           company: form.company.trim(),
-          token: turnstileToken,
         }),
       });
 
@@ -220,164 +99,73 @@ export default function ContactForm() {
 
       setStatus("success");
       setForm(initialState);
-      setError(null);
-      resetTurnstile();
-    } catch (submitError) {
-      console.error(submitError);
+    } catch (deliveryError) {
+      console.error(deliveryError);
       setStatus("error");
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : `Unable to send your message. You can reach me directly at ${profile.email}.`,
-      );
-      resetTurnstile();
+      setError("I couldn't send that. Try again or reach out directly via email.");
     }
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-6"
-      noValidate
-      aria-describedby="contact-status"
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <label htmlFor={nameId} className="text-sm font-semibold text-[rgb(var(--text))]">
-            Name <span className="text-[rgb(var(--brand))]">*</span>
-          </label>
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="space-y-1 text-sm text-white/70" htmlFor={nameId}>
+          Your name
           <input
             id={nameId}
             name="name"
             type="text"
-            autoComplete="name"
             required
             value={form.name}
             onChange={handleChange}
-            className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-4 py-3 text-sm text-[rgb(var(--text))] shadow-sm transition focus:border-[rgb(var(--brand)/0.45)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring)/0.4)]"
-            placeholder="Your name"
+            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
           />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor={emailId} className="text-sm font-semibold text-[rgb(var(--text))]">
-            Email <span className="text-[rgb(var(--brand))]">*</span>
-          </label>
+        </label>
+        <label className="space-y-1 text-sm text-white/70" htmlFor={emailId}>
+          Email
           <input
             id={emailId}
             name="email"
             type="email"
-            autoComplete="email"
             required
             value={form.email}
             onChange={handleChange}
-            className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-4 py-3 text-sm text-[rgb(var(--text))] shadow-sm transition focus:border-[rgb(var(--brand)/0.45)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring)/0.4)]"
-            placeholder="you@example.com"
+            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
           />
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor={companyId} className="text-sm font-semibold text-[rgb(var(--text))]">
-          Company or organization (optional)
         </label>
+      </div>
+      <label className="space-y-1 text-sm text-white/70" htmlFor={companyId}>
+        Company (optional)
         <input
           id={companyId}
           name="company"
           type="text"
-          autoComplete="organization"
           value={form.company}
           onChange={handleChange}
-          className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-4 py-3 text-sm text-[rgb(var(--text))] shadow-sm transition focus:border-[rgb(var(--brand)/0.45)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring)/0.4)]"
-          placeholder="Team, product, or company"
+          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor={messageId} className="text-sm font-semibold text-[rgb(var(--text))]">
-          How can I help? <span className="text-[rgb(var(--brand))]">*</span>
-        </label>
+      </label>
+      <label className="space-y-1 text-sm text-white/70" htmlFor={messageId}>
+        Message
         <textarea
           id={messageId}
           name="message"
-          rows={5}
+          rows={6}
           required
           value={form.message}
           onChange={handleChange}
-          className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] px-4 py-3 text-sm text-[rgb(var(--text))] shadow-sm transition focus:border-[rgb(var(--brand)/0.45)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring)/0.4)]"
-          placeholder="Project context, goals, timelines, or anything else that will help me prepare."
+          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
         />
-      </div>
-
-      {/* Honeypot */}
-      <div className="hidden">
-        <label htmlFor={honeypotId}>
-          Leave this field blank
-          <input
-            id={honeypotId}
-            name="honeypot"
-            tabIndex={-1}
-            autoComplete="off"
-            value={form.honeypot}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
-
-      <div className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] bg-[rgb(var(--surface))] p-4">
-        <p id={verificationId} className="sr-only">
-          Complete the verification challenge before submitting the form.
-        </p>
-        <div ref={widgetRef} className="min-h-[70px]" aria-labelledby={verificationId} />
-      </div>
-
-      <div className="flex flex-wrap items-center gap-4">
+      </label>
+      <div className="flex flex-col gap-2 text-xs text-white/70">
+        <p>{statusMessage}</p>
         <button
           type="submit"
-          className="btn btn-accent"
+          className="inline-flex items-center justify-center rounded-2xl bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
           disabled={status === "loading"}
         >
           {status === "loading" ? "Sending…" : "Send message"}
         </button>
-        <div
-          id="contact-status"
-          role="status"
-          aria-live="polite"
-          className={`text-sm ${status === "error" ? "text-red-500" : "text-[rgb(var(--text-secondary))]"}`}
-        >
-          {statusMessage}
-        </div>
-      </div>
-
-      <p className="text-xs text-[rgb(var(--muted))]">
-        We store messages for up to 30 days, never share.
-      </p>
-
-      <div className="rounded-3xl border border-[rgb(var(--surface-muted)/0.55)] bg-[rgb(var(--surface-muted)/0.3)] p-4 text-sm text-[rgb(var(--text-secondary))]">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">
-          Prefer direct contact?
-        </p>
-        <div className="mt-3 flex flex-wrap gap-3">
-          <a
-            className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] px-3 py-2 font-semibold text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
-            href={`mailto:${profile.email}`}
-          >
-            {profile.email}
-          </a>
-          <a
-            className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] px-3 py-2 font-semibold text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
-            href={`tel:${profile.phone.replace(/\s+/g, "")}`}
-          >
-            {profile.phone}
-          </a>
-          <a
-            className="rounded-2xl border border-[rgb(var(--surface-muted)/0.6)] px-3 py-2 font-semibold text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-        </div>
       </div>
     </form>
   );

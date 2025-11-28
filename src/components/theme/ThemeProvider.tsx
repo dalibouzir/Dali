@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { THEME_STORAGE_KEY } from "@/config/theme";
 
 type Theme = "light" | "dark";
 
@@ -19,64 +20,32 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-const STORAGE_KEY = "dali-theme";
-
-function readStoredTheme(): Theme | null {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "light" || stored === "dark") {
-      return stored;
-    }
-  } catch {
-    // Intentionally ignore storage errors (Safari private mode, etc.)
-  }
-  return null;
-}
-
-function getSystemTheme(): Theme {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [userPreference, setUserPreference] = useState<Theme | null>(() => {
-    if (typeof window === "undefined") {
-      return null;
-    }
-    return readStoredTheme();
-  });
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") {
-      return "dark";
-    }
-    const stored = readStoredTheme();
-    if (stored) {
-      return stored;
-    }
-    const datasetTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-    return datasetTheme ?? "dark";
-  });
-  const [systemTheme, setSystemTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") {
-      return "dark";
-    }
-    return getSystemTheme();
-  });
+  const [userPreference, setUserPreference] = useState<Theme | null>(null);
+  const [theme, setThemeState] = useState<Theme>("dark");
+  const [systemTheme, setSystemTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
-
-    const updateSystemTheme = (matches: boolean) => {
-      setSystemTheme(matches ? "dark" : "light");
-    };
+    const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "light" || stored === "dark") {
+      setUserPreference(stored);
+      setThemeState(stored);
+    }
+  }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    updateSystemTheme(mediaQuery.matches);
-
-    const listener = (event: MediaQueryListEvent) => updateSystemTheme(event.matches);
+    const listener = (event: MediaQueryListEvent) => {
+      setSystemTheme(event.matches ? "dark" : "light");
+    };
+    setSystemTheme(mediaQuery.matches ? "dark" : "light");
     mediaQuery.addEventListener("change", listener);
-
     return () => mediaQuery.removeEventListener("change", listener);
   }, []);
 
@@ -105,9 +74,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
     try {
       if (userPreference) {
-        window.localStorage.setItem(STORAGE_KEY, userPreference);
+        window.localStorage.setItem(THEME_STORAGE_KEY, userPreference);
       } else {
-        window.localStorage.removeItem(STORAGE_KEY);
+        window.localStorage.removeItem(THEME_STORAGE_KEY);
       }
     } catch {
       // Ignore storage errors

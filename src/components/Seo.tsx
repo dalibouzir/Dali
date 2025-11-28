@@ -28,6 +28,7 @@ export function Seo({ title, description, path, image }: SeoProps) {
 
   return (
     <>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>{metaTitle}</title>
       <meta name="description" content={metaDescription} />
       <link rel="canonical" href={canonical} />

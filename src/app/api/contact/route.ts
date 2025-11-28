@@ -6,7 +6,6 @@ type ContactPayload = {
   email: string;
   message: string;
   company?: string;
-  token: string;
 };
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -54,37 +53,6 @@ function consumeToken(ip: string) {
   return true;
 }
 
-async function verifyTurnstile(token: string, ip: string) {
-  const secret = process.env.TURNSTILE_SECRET_KEY ?? "1x0000000000000000000000000000000AA";
-  if (!token) {
-    return false;
-  }
-
-  try {
-    const form = new FormData();
-    form.append("secret", secret);
-    form.append("response", token);
-    if (ip && ip !== "unknown") {
-      form.append("remoteip", ip);
-    }
-
-    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body: form,
-    });
-
-    if (!response.ok) {
-      return false;
-    }
-
-    const data = (await response.json()) as { success: boolean };
-    return Boolean(data.success);
-  } catch (error) {
-    console.error("Turnstile verification failed", error);
-    return false;
-  }
-}
-
 function validatePayload(payload: ContactPayload) {
   const errors: string[] = [];
 
@@ -99,10 +67,6 @@ function validatePayload(payload: ContactPayload) {
 
   if (!payload.message || payload.message.trim().length < 20) {
     errors.push("Please provide a bit more detail in the message.");
-  }
-
-  if (!payload.token) {
-    errors.push("Verification token missing.");
   }
 
   return errors;
@@ -125,11 +89,6 @@ export async function POST(request: Request) {
   const errors = validatePayload(payload);
   if (errors.length > 0) {
     return NextResponse.json({ success: false, error: errors.join(" ") }, { status: 400 });
-  }
-
-  const isHuman = await verifyTurnstile(payload.token, ip);
-  if (!isHuman) {
-    return NextResponse.json({ success: false, error: "Verification failed." }, { status: 400 });
   }
 
   console.info("[contact]", {

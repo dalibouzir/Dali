@@ -7,6 +7,7 @@ import { ContactBar } from "@/components/ContactBar";
 import { SITE } from "@/config/site";
 import { buildMetadata } from "@/components/Seo";
 import { projects } from "@/content/projects";
+import { getProjectAssets } from "@/lib/projectAssets";
 
 type Params = {
   slug: string;
@@ -43,6 +44,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   }
 
   const projectUrl = new URL(`/projects/${project.slug}`, SITE.url).toString();
+  const assets = getProjectAssets(project.slug, project.media?.image ?? project.visual?.src);
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
@@ -118,23 +120,76 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 </div>
               </div>
 
-              {project.visual ? (
-                <figure className="overflow-hidden rounded-[2.25rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface-muted)/0.15)] p-3">
-                  <Image
-                    src={project.visual.src}
-                    alt={project.visual.alt}
-                    width={600}
-                    height={450}
-                    className="h-auto w-full rounded-[1.75rem] object-cover"
-                  />
-                  <figcaption className="mt-3 text-xs text-[rgb(var(--text-secondary))]">
-                    {project.visual.alt}
-                  </figcaption>
-                </figure>
-              ) : null}
+              <figure className="overflow-hidden rounded-[2.25rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface-muted)/0.15)] p-3">
+                <Image
+                  src={assets.cover}
+                  alt={project.visual?.alt ?? `${project.title} preview`}
+                  width={600}
+                  height={450}
+                  className="h-auto w-full rounded-[1.75rem] object-cover"
+                />
+                <figcaption className="mt-3 text-xs text-[rgb(var(--text-secondary))]">
+                  {project.visual?.alt ?? `${project.title} preview`}
+                </figcaption>
+              </figure>
             </div>
           </div>
         </section>
+
+        {(assets.images.length > 0 || assets.videos.length > 0) && (
+          <Section
+            id="project-media"
+            eyebrow="Media"
+            title="See it in action"
+            description={<p>Captured visuals and recordings from {project.title}. Assets originate from the /public/assets/projects directory.</p>}
+          >
+            <div className="space-y-8">
+              {assets.images.length > 0 ? (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {assets.images.map((image, index) => (
+                    <figure
+                      key={image}
+                      className="overflow-hidden rounded-[1.75rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface-muted)/0.2)]"
+                    >
+                      <Image
+                        src={image}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        width={900}
+                        height={600}
+                        className="h-full w-full object-cover"
+                      />
+                      <figcaption className="px-4 py-2 text-xs text-[rgb(var(--text-secondary))]">
+                        {project.title} — view {index + 1}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              ) : null}
+
+              {assets.videos.length > 0 ? (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {assets.videos.map((video) => (
+                    <div
+                      key={video}
+                      className="overflow-hidden rounded-[1.75rem] border border-[rgb(var(--surface-muted)/0.45)] bg-[rgb(var(--surface-muted)/0.2)]"
+                    >
+                      <video
+                        controls
+                        playsInline
+                        poster={assets.cover}
+                        className="h-full w-full rounded-[1.75rem] rounded-b-none bg-black"
+                      >
+                        <source src={video} />
+                        Your browser does not support the video tag.
+                      </video>
+                      <div className="px-4 py-2 text-xs text-[rgb(var(--text-secondary))]">Demo recording</div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </Section>
+        )}
 
         <Section
           id="project-details"
