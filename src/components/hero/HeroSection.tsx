@@ -84,9 +84,6 @@ export function HeroSection() {
   const noteY = useTransform(scrollYProgress, [0.48, 0.66], [24, 0]);
   const noteOpacity = useTransform(scrollYProgress, [0.48, 0.66], [0, 1]);
 
-  const statsY = useTransform(scrollYProgress, [0.58, 0.76], [50, 0]);
-  const statsOpacity = useTransform(scrollYProgress, [0.58, 0.76], [0, 1]);
-
   const { theme } = useTheme();
   const heroBackgroundClass =
     theme === "dark"
@@ -165,13 +162,6 @@ export function HeroSection() {
                   </motion.div>
                 </div>
                 <div className="flex-1 space-y-5">
-                  <motion.div style={motionEnabled ? { y: statsY, opacity: statsOpacity } : undefined}>
-                    <div className="rounded-2xl border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] p-4 text-[rgb(var(--text-secondary))] shadow-inner shadow-cyan-500/10">
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--muted))]">All time views</p>
-                      <p className="mt-2 text-3xl font-semibold tracking-tight text-[rgb(var(--text))]">0</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.3em] text-[rgb(var(--muted))]">since launch —</p>
-                    </div>
-                  </motion.div>
                   <motion.div
                     style={motionEnabled ? { x: portraitX, opacity: portraitOpacity } : undefined}
                     className="rounded-[2rem] border border-[rgb(var(--surface-muted)/0.6)] bg-gradient-to-b from-[rgb(var(--surface-muted)/0.35)] via-[rgb(var(--surface-muted)/0.2)] to-[rgb(var(--surface))] p-3 text-center shadow-2xl shadow-slate-900/50"
