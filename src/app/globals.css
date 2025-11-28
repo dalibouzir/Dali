@@ -1,26 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light;
-  --bg: 248 249 252;
-  --surface: 255 255 255;
-  --surface-muted: 237 240 245;
-  --surface-subtle: 225 229 237;
-  --surface-elevated: 214 219 230;
-  --text: 17 24 39;
-  --text-secondary: 71 85 105;
-  --muted: 100 116 139;
-  --brand: 79 70 229;
-  --brand-soft: 59 130 246;
-  --ring: 79 70 229;
-  --shadow-soft: 0 28px 70px -38px rgb(15 23 42 / 0.38);
-  --shadow-lift: 0 38px 82px -36px rgb(15 23 42 / 0.45);
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-pill: 999px;
-}
-
-.dark {
   color-scheme: dark;
   --bg: 10 12 18;
   --surface: 16 20 30;
@@ -35,6 +15,26 @@
   --ring: 125 211 252;
   --shadow-soft: 0 32px 80px -38px rgb(2 6 23 / 0.72);
   --shadow-lift: 0 38px 96px -32px rgb(2 6 23 / 0.85);
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+}
+
+.light {
+  color-scheme: light;
+  --bg: 248 249 252;
+  --surface: 255 255 255;
+  --surface-muted: 237 240 245;
+  --surface-subtle: 225 229 237;
+  --surface-elevated: 214 219 230;
+  --text: 17 24 39;
+  --text-secondary: 71 85 105;
+  --muted: 100 116 139;
+  --brand: 79 70 229;
+  --brand-soft: 59 130 246;
+  --ring: 79 70 229;
+  --shadow-soft: 0 28px 70px -38px rgb(15 23 42 / 0.38);
+  --shadow-lift: 0 38px 82px -36px rgb(15 23 42 / 0.45);
 }
 
 *,
