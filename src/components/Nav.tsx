@@ -17,6 +17,40 @@ const PRIMARY_LINKS = [
   { href: "#contact", label: "Contact" },
 ];
 
+const VIEW_METRIC = {
+  label: "Total Page Views",
+  value: "89.4K",
+};
+
+type ViewsStatCardProps = {
+  className?: string;
+  orientation?: "horizontal" | "vertical";
+};
+
+const ViewsStatCard = ({ className = "", orientation = "horizontal" }: ViewsStatCardProps) => (
+  <div
+    className={`relative isolate rounded-2xl border border-[rgb(var(--surface-muted)/0.45)] px-3 py-2 text-sm shadow-[0_18px_40px_-24px_rgba(15,23,42,0.35)] transition-colors ${orientation === "vertical" ? "flex flex-col gap-2.5" : "flex items-center gap-2.5"} ${className}`}
+    aria-label="Site view stats"
+  >
+    <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[rgb(var(--brand)/0.12)] text-[rgb(var(--brand))]">
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <path
+          d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6S2.5 12 2.5 12z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
+      </svg>
+    </div>
+    <div className="text-left leading-tight">
+      <p className="text-[0.6rem] font-semibold uppercase tracking-[0.34em] text-[rgb(var(--muted))]">{VIEW_METRIC.label}</p>
+      <p className="text-lg font-semibold text-[rgb(var(--text))]">{VIEW_METRIC.value}</p>
+    </div>
+  </div>
+);
+
 export default function Nav() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
@@ -151,18 +185,18 @@ export default function Nav() {
   return (
     <header className={`sticky top-0 z-50 px-4 pt-4 transition-transform duration-300 sm:px-8 ${headerVisibilityClass}`}>
       <div className={`mx-auto w-full max-w-[min(100%,1200px)] rounded-[2.5rem] ${navBackgroundClass}`}>
-        <nav aria-label="Primary" className="flex items-center justify-between gap-6 px-4 py-3 sm:px-6 sm:py-4">
+        <nav aria-label="Primary" className="flex flex-nowrap items-center justify-between gap-6 px-4 py-3 sm:px-6 sm:py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-base font-semibold uppercase tracking-[0.24em] text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--text))]"
+            className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-base font-semibold uppercase tracking-[0.24em] text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--text))]"
             onClick={() => setIsMenuOpen(false)}
           >
           {owner.name}
         </Link>
 
-        <ul className="hidden items-center gap-8 text-sm font-medium xl:flex">{renderPrimaryLinks()}</ul>
+        <ul className="hidden flex-nowrap items-center gap-6 whitespace-nowrap text-sm font-medium xl:flex">{renderPrimaryLinks()}</ul>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex flex-nowrap items-center gap-2 whitespace-nowrap md:gap-3">
             <Link
               href={owner.cvUrl}
               className="hidden rounded-full border border-transparent bg-[rgb(var(--surface-muted)/0.7)] px-4 py-2 text-sm font-semibold text-[rgb(var(--text))] shadow-soft transition hover:border-[rgb(var(--brand)/0.3)] hover:text-[rgb(var(--text))] md:inline-flex md:items-center md:justify-center"
@@ -195,6 +229,7 @@ export default function Nav() {
             >
               <span aria-hidden>{theme === "dark" ? "☾" : "☀"}</span>
             </button>
+            <ViewsStatCard className="hidden shrink-0 justify-between md:flex" />
           </div>
         </nav>
 
@@ -202,6 +237,7 @@ export default function Nav() {
           className={`xl:hidden ${isMenuOpen ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"} overflow-hidden transition-[max-height,opacity] duration-300 ease-out`}
         >
           <div className="flex flex-col gap-3 px-4 pb-6 sm:px-6">
+            <ViewsStatCard className="w-full" orientation="vertical" />
             <ul className="flex flex-col gap-2 text-sm font-medium text-[rgb(var(--text))]">{renderPrimaryLinks(() => setIsMenuOpen(false))}</ul>
             <div className="flex flex-col gap-3 pt-1">
               <Link
