@@ -51,7 +51,6 @@ export const projects: Project[] = [
       "Grafana",
       "Prometheus",
     ],
-    tags: ["fullstack", "fitness", "laravel", "ml"],
     links: [
       {
         label: "Kaggle Notebook",

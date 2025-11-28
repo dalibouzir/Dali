@@ -12,8 +12,8 @@ type TimelineItem =
 export function ExperienceSection() {
   const cards = useMemo<TimelineItem[]>(
     () => [
-      ...experiences.map((experience, index) => ({ type: "experience", id: experience.id, experience, index })),
-      ...educationItems.map((education) => ({ type: "education", id: education.id, education })),
+      ...experiences.map((experience, index) => ({ type: "experience" as const, id: experience.id, experience, index })),
+      ...educationItems.map((education) => ({ type: "education" as const, id: education.id, education })),
     ],
     [],
   );

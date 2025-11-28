@@ -1,10 +1,10 @@
-type ProjectFiltersProps = {
-  filters: readonly string[];
-  activeFilter: string;
-  onChange: (value: string) => void;
+type ProjectFiltersProps<Filter extends string> = {
+  filters: readonly Filter[];
+  activeFilter: Filter;
+  onChange: (value: Filter) => void;
 };
 
-export function ProjectFilters({ filters, activeFilter, onChange }: ProjectFiltersProps) {
+export function ProjectFilters<Filter extends string>({ filters, activeFilter, onChange }: ProjectFiltersProps<Filter>) {
   return (
     <div className="flex flex-wrap gap-3">
       {filters.map((filter) => {
