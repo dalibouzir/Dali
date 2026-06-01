@@ -149,9 +149,9 @@ export default async function RootLayout({
         </a>
         <ThemeProvider>
           <PageIntro />
+          <FuturisticCursor />
           <div className="app-shell">
             <SmoothScrollProvider />
-            <FuturisticCursor />
             <Nav initialLocale={locale} />
             {children}
           </div>
