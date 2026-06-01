@@ -1,8 +1,8 @@
-// @improvement: centralize site identity and contact data
 export const SITE = {
   name: "Mohamed Ali Bouzir",
-  title: "Data Product Engineer · AI & MLOps",
-  tagline: "I build measurable AI products end-to-end.",
+  title: "Mohamed Ali Bouzir — Junior AI Engineer",
+  tagline:
+    "Junior AI Engineer focused on LLM/RAG, ML advisory systems, FastAPI, PostgreSQL/pgvector, and evidence-first decision support.",
   email: "bouzirdali@gmail.com",
   phone: "+216 56 815 716",
   url: "https://dali-eight.vercel.app",

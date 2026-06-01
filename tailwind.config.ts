@@ -21,6 +21,7 @@ const config: Config = {
       boxShadow: {
         soft: "var(--shadow-soft)",
         lift: "var(--shadow-lift)",
+        deep: "var(--shadow-deep)",
       },
       borderRadius: {
         "3xl": "var(--radius-xl)",
@@ -30,6 +31,14 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-display)", "Space Grotesk", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "Inter", "system-ui", "sans-serif"],
+      },
+      fontSize: {
+        /* Premium typography scale with better hierarchy */
+        xs: ["0.8125rem", { lineHeight: "1.5rem" }],
+        sm: ["0.9375rem", { lineHeight: "1.5rem" }],
+        base: ["1.0625rem", { lineHeight: "1.6rem" }],
+        lg: ["1.1875rem", { lineHeight: "1.75rem" }],
+        xl: ["1.3125rem", { lineHeight: "1.875rem" }],
       },
     },
   },

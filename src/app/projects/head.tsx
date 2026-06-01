@@ -6,7 +6,7 @@ export default function Head() {
   return (
     <Seo
       title={`Projects · ${SITE.title}`}
-      description="Full catalogue of AI, data, and engineering work shipped by Dali Ben."
+      description="Selected AI engineering projects focused on LLM/RAG systems, ML advisory signals, and evidence-first decision support."
       path="/projects"
     />
   );

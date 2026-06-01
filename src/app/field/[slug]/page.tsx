@@ -166,7 +166,7 @@ export default async function FieldPage({ params }: { params: Promise<Params> })
           id="projects"
           eyebrow="Relevant Projects"
           title="Projects tailored to this field."
-          description={<p>Selected builds aligned with the field focus—showing stacks, metrics, and outcomes documented in the CV.</p>}
+          description={<p>Selected builds aligned with the field focus—showing stacks, workflow scope, and validation notes.</p>}
         >
           <div className="grid gap-5 lg:grid-cols-2">
             {fieldProjects.map((project) => (
@@ -187,7 +187,7 @@ export default async function FieldPage({ params }: { params: Promise<Params> })
           id="experience"
           eyebrow="Experience"
           title="Roles and engagements delivering these outcomes."
-          description={<p>Hands-on experience from internships and freelance work that connects requirements to production-ready releases.</p>}
+          description={<p>Hands-on experience from internships and project work that connects requirements to practical delivery outcomes.</p>}
         >
           <div className="grid gap-5">
             {fieldExperiences.map((experience) => (

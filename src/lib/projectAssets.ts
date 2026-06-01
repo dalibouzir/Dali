@@ -36,7 +36,7 @@ export function getProjectAssets(slug: string, fallbackImage?: string): ProjectA
   const nestedVideos = readFiles(["videos"], videoExtensions);
   const videos = [...rootVideos, ...nestedVideos];
 
-  const cover = images[0] ?? fallbackImage ?? "/og.jpg";
+  const cover = images[0] ?? fallbackImage ?? "/assets/projects/default.svg";
   const normalizedImages = images.length > 0 ? images : fallbackImage ? [fallbackImage] : [];
 
   return {

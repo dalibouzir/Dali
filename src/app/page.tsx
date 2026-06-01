@@ -1,40 +1,27 @@
 import type { Metadata } from "next";
-import { SITE } from "@/config/site";
+import { PortfolioHome } from "@/components/home/PortfolioHome";
 import { buildMetadata } from "@/components/Seo";
-import { HeroSection } from "@/components/hero/HeroSection";
-import { HighlightsSection } from "@/components/highlights/HighlightsSection";
-import { ProjectsSection } from "@/components/projects/ProjectsSection";
-import { ExperienceSection } from "@/components/experience/ExperienceSection";
-import { ResearchSection } from "@/components/research/ResearchSection";
-import { SkillsSection } from "@/components/skills/SkillsSection";
-import { CertsAndLanguagesSection } from "@/components/meta/CertsAndLanguagesSection";
-import { ContactSection } from "@/components/contact/ContactSection";
-import { owner } from "@/content/siteMeta";
+import { SITE } from "@/config/site";
+import { getServerLocale } from "@/lib/serverLocale";
 
-// @improvement: homepage metadata derived from SITE config
 export const metadata: Metadata = buildMetadata({
   title: SITE.title,
   description: SITE.tagline,
   path: "/",
 });
 
-// @improvement: structured data for Person + WebSite + breadcrumbs
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Mohamed Ali Bouzir",
-  jobTitle: "Data Product Engineer · AI & MLOps",
+  name: SITE.name,
+  jobTitle: "Junior AI Engineer",
   url: SITE.url,
-  sameAs: [
-    SITE.github,
-    SITE.linkedin,
-    `https://twitter.com/${SITE.twitter.replace("@", "")}`,
-  ],
+  sameAs: [SITE.github, SITE.linkedin],
   email: `mailto:${SITE.email}`,
   telephone: SITE.phone,
   address: {
     "@type": "PostalAddress",
-    addressLocality: owner.location,
+    addressLocality: "Monastir",
     addressCountry: "TN",
   },
 };
@@ -46,44 +33,18 @@ const websiteSchema = {
   name: SITE.name,
   description: SITE.tagline,
   url: SITE.url,
-  potentialAction: {
-    "@type": "ContactAction",
-    target: `mailto:${SITE.email}`,
-  },
 };
 
-const breadcrumbs = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: SITE.url,
-    },
-  ],
-};
+export default async function HomePage() {
+  const locale = await getServerLocale();
 
-export default function Home() {
   return (
     <>
-      <main id="main">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([personSchema, websiteSchema, breadcrumbs]),
-          }}
-        />
-        <HeroSection />
-        <HighlightsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <ResearchSection />
-        <SkillsSection />
-        <CertsAndLanguagesSection />
-        <ContactSection />
-      </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, websiteSchema]) }}
+      />
+      <PortfolioHome locale={locale} />
     </>
   );
 }

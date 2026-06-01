@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
+import { SITE } from "@/config/site";
 
 type FormState = {
   name: string;
@@ -35,13 +36,13 @@ export default function ContactForm() {
   const statusMessage = useMemo(() => {
     switch (status) {
       case "loading":
-        return "Sending your brief…";
+        return "Preparing your email draft…";
       case "success":
-        return "Message received—I'll reply within one business day.";
+        return "Email draft opened. Send it and I'll reply within one business day.";
       case "error":
         return error ?? "Something went wrong. Try again or email me directly.";
       default:
-        return "Complete the form and I'll reply within one business day.";
+        return "Complete the form to open a prefilled email draft.";
     }
   }, [status, error]);
 
@@ -78,31 +79,25 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          email: form.email.trim(),
-          message: form.message.trim(),
-          company: form.company.trim(),
-        }),
-      });
+      const subject = `Portfolio inquiry from ${form.name.trim()}`;
+      const body = [
+        `Name: ${form.name.trim()}`,
+        `Email: ${form.email.trim()}`,
+        `Company: ${form.company.trim() || "N/A"}`,
+        "",
+        "Message:",
+        form.message.trim(),
+      ].join("\n");
+      const mailtoUrl = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-      const payload = (await response.json()) as { success?: boolean; error?: string; message?: string };
-
-      if (!response.ok || payload.success !== true) {
-        throw new Error(payload.error ?? "Unable to send your message right now.");
-      }
+      window.location.href = mailtoUrl;
 
       setStatus("success");
       setForm(initialState);
     } catch (deliveryError) {
       console.error(deliveryError);
       setStatus("error");
-      setError("I couldn't send that. Try again or reach out directly via email.");
+      setError("I couldn't open your email client. Reach out directly using the email link below.");
     }
   }
 
@@ -118,7 +113,7 @@ export default function ContactForm() {
             required
             value={form.name}
             onChange={handleChange}
-            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
+            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-[rgb(var(--brand))] focus:outline-none"
           />
         </label>
         <label className="space-y-1 text-sm text-white/70" htmlFor={emailId}>
@@ -130,7 +125,7 @@ export default function ContactForm() {
             required
             value={form.email}
             onChange={handleChange}
-            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
+            className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-[rgb(var(--brand))] focus:outline-none"
           />
         </label>
       </div>
@@ -142,7 +137,7 @@ export default function ContactForm() {
           type="text"
           value={form.company}
           onChange={handleChange}
-          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
+          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-[rgb(var(--brand))] focus:outline-none"
         />
       </label>
       <label className="space-y-1 text-sm text-white/70" htmlFor={messageId}>
@@ -154,17 +149,20 @@ export default function ContactForm() {
           required
           value={form.message}
           onChange={handleChange}
-          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-cyan-400 focus:outline-none"
+          className="w-full rounded-2xl border border-white/20 bg-[rgb(var(--surface))] px-4 py-2 text-sm text-[rgb(var(--text))] focus:border-[rgb(var(--brand))] focus:outline-none"
         />
       </label>
       <div className="flex flex-col gap-2 text-xs text-white/70">
         <p>{statusMessage}</p>
+        <a href={`mailto:${SITE.email}`} className="underline underline-offset-4 hover:text-[rgb(var(--brand))]">
+          {SITE.email}
+        </a>
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-2xl bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          className="inline-flex items-center justify-center rounded-2xl bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:brightness-110"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Sending…" : "Send message"}
+          {status === "loading" ? "Opening…" : "Open Email Draft"}
         </button>
       </div>
     </form>

@@ -1,7 +1,7 @@
 import { owner, siteLinks } from "@/content/siteMeta";
 import ContactForm from "@/components/ContactForm";
 
-// @improvement: contact section pairs quick actions with secure contact form
+// @improvement: contact section pairs quick actions with a prefilled email draft flow
 export function ContactBar() {
   return (
     <section
@@ -30,15 +30,15 @@ export function ContactBar() {
               >
                 {owner.phone}
               </a>
-              . Happy to discuss fractional leadership, project-based delivery, or embedded product teams.
+              . The form on this page opens your email client with a prefilled draft for reliable contact.
             </p>
           </div>
           <div className="flex flex-wrap gap-2.5">
             <a
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-sm font-semibold text-white transition hover:shadow-lift"
+              href={`mailto:${owner.email}`}
+              className="inline-flex items-center justify-center rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-sm font-semibold text-slate-950 transition hover:shadow-lift"
             >
-              Hire me
+              Email me
             </a>
             <a
               href={owner.cvUrl}

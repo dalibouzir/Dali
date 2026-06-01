@@ -24,9 +24,9 @@ export const fields: Field[] = [
     hero: {
       title: "Transforming complex datasets into actionable intelligence.",
       intro: [
-        `${SITE.title} partnering with product teams to translate complex datasets into decisions, dashboards, and automated workflows.`,
+        `${SITE.name}, Junior AI Engineer, partnering with product teams to translate complex datasets into decisions, dashboards, and automated workflows.`,
         "Proficient in transforming complex datasets into actionable insights, automating workflows, and deploying intelligent systems that enhance decision-making and operational efficiency.",
-        "Flagship projects such as the AI Business Agent and AFFA demonstrate production-ready analytics, experiment tracking, and explainable recommendations that stay accountable to accuracy and latency targets.",
+        "Flagship projects such as WeeFarm, AI Business Agent, and AFFA demonstrate validation-backed analytics, experiment tracking, and explainable advisory recommendations.",
       ],
     },
     projectTags: ["ai", "data-science", "analytics", "nlp", "llm"],
@@ -47,7 +47,7 @@ export const fields: Field[] = [
       "Python for Data Science, AI & Development",
       "What is Data Science?",
     ],
-    metaDescription: `Data Science & AI portfolio for ${SITE.name}—production-grade analytics, LLM solutions, and measurable ML impact.`,
+    metaDescription: `Data Science & AI portfolio for ${SITE.name}—LLM/RAG systems, validation-backed ML advisory workflows, and evidence-first decision support.`,
   },
   {
     slug: "backend-engineering",
@@ -55,9 +55,9 @@ export const fields: Field[] = [
     hero: {
       title: "Back-end systems that keep data and operations flowing.",
       intro: [
-        `${SITE.title} with a strong focus on back-end development for scalable, data-driven products.`,
+        `${SITE.name}, Junior AI Engineer, with a strong focus on back-end development for scalable, data-driven products.`,
         "Experienced in automating workflows, securing authentication, and building resilient APIs that power real-time dashboards and admin tooling.",
-        "Freelance and internship engagements like MyMatch and ElyosDigital show how Laravel, Firebase, and REST APIs come together to support 7,000+ players, sports complexes, and coach scheduling.",
+        "Internship and project engagements show how Laravel, FastAPI, PostgreSQL, and REST APIs support operational workflows with clear service boundaries.",
       ],
     },
     projectTags: ["backend", "api", "laravel", "fastapi", "flask"],
@@ -72,9 +72,9 @@ export const fields: Field[] = [
     hero: {
       title: "Full-stack experiences that balance UX craft and data rigor.",
       intro: [
-        `${SITE.title} delivering responsive web platforms with React, Next.js, and Laravel.`,
+        `${SITE.name}, Junior AI Engineer, delivering responsive web platforms with React, Next.js, and Laravel.`,
         "Applies AI, analytics, and secure workflows to craft experiences that streamline bookings, admin operations, and stakeholder decision-making.",
-        "Recent launches such as Meriem Booking, QuirkHire, and MyMatch pair intuitive interfaces with data-backed insights for therapists, recruiters, and sports operators.",
+        "Recent prototypes such as QuirkHire and internship builds pair user-facing interfaces with data-backed operational workflows.",
       ],
     },
     projectTags: ["fullstack", "react", "nextjs", "supabase", "ui"],
@@ -89,9 +89,9 @@ export const fields: Field[] = [
     hero: {
       title: "Operationalizing machine learning with reliable data pipelines.",
       intro: [
-        `${SITE.title} focused on deploying intelligent systems that enhance decision-making and operational efficiency.`,
+        `${SITE.name}, Junior AI Engineer, focused on deploying intelligent systems that enhance decision-making and operational efficiency.`,
         "Builds data engineering and MLOps workflows with FastAPI, MLflow, PostgreSQL (pgVector), OpenSearch, and observability across Grafana, ElasticSearch, and Kibana.",
-        "Production systems like the AI Business Agent and AFFA pair containerized inference, Monte Carlo simulations, and real-time monitoring to keep ML accountable in the field.",
+        "Projects such as WeeFarm, AI Business Agent, and AFFA pair containerized inference workflows, retrieval orchestration, and validation-aware monitoring.",
       ],
     },
     projectTags: ["mlops", "data-eng", "mlflow", "elasticsearch", "kibana", "pgvector", "opensearch"],

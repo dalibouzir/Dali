@@ -1,16 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Outfit, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { PageIntro } from "@/components/PageIntro";
 import Nav from "@/components/Nav";
+import { FuturisticCursor } from "@/components/FuturisticCursor";
 import { SITE } from "@/config/site";
 import { THEME_STORAGE_KEY } from "@/config/theme";
+import { isRtl } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/serverLocale";
 
-const bodyFont = Inter({
+const bodyFont = Outfit({
   subsets: ["latin"],
   variable: "--font-body",
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -22,21 +27,21 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  // @improvement: base metadata derived from SITE config
   metadataBase: new URL(SITE.url),
-  title: {
-    default: SITE.title,
-    template: `%s | ${SITE.name}`,
-  },
+  title: SITE.title,
   description: SITE.tagline,
   keywords: [
-    SITE.name,
-    SITE.title,
+    "AI Engineer",
+    "LLM",
+    "RAG",
+    "FastAPI",
+    "PostgreSQL",
+    "pgvector",
     "Machine Learning",
-    "MLOps",
-    "Data Platform Engineering",
-    "AI Product Delivery",
-    "LLM Applications",
+    "Next.js",
+    "Supabase",
+    "Decision Support",
+    "AI Software Engineer",
   ],
   category: "technology",
   authors: [{ name: SITE.name, url: SITE.url }],
@@ -121,9 +126,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getServerLocale();
+  const direction = isRtl(locale) ? "rtl" : "ltr";
+  const skipLinkLabel =
+    locale === "fr" ? "Aller au contenu principal" : locale === "ar" ? "الانتقال إلى المحتوى الرئيسي" : "Skip to main content";
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={direction}
       suppressHydrationWarning
       className={`dark ${bodyFont.variable} ${displayFont.variable}`}
     >
@@ -134,12 +145,16 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">
         <a href="#main" className="skip-link">
-          Skip to main content
+          {skipLinkLabel}
         </a>
         <ThemeProvider>
-          <SmoothScrollProvider />
-          <Nav />
-          {children}
+          <PageIntro />
+          <div className="app-shell">
+            <SmoothScrollProvider />
+            <FuturisticCursor />
+            <Nav initialLocale={locale} />
+            {children}
+          </div>
         </ThemeProvider>
         <Analytics />
       </body>

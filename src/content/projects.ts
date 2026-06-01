@@ -14,7 +14,14 @@ export type Project = {
   title: string;
   tagline: string;
   summary: string;
+  role: string;
+  status: string;
+  problem: string;
+  architecture: string[];
+  features: string[];
   impact: string[];
+  validation?: string[];
+  limitations: string[];
   stack: string[];
   links: ProjectLink[];
   tags?: string[];
@@ -28,44 +35,121 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "weefarm",
+    category: "AI & MLOps",
+    title: "WeeFarm — AI-Assisted Decision-Support Platform",
+    tagline: "Validation-backed prototype for agricultural cooperative operations",
+    summary:
+      "Built an evidence-first assistant workflow combining SQL factual analytics, RAG contextual retrieval, ML advisory signals, and structured response composition with human manager review.",
+    role: "AI Engineer Intern — Verdanova Solutions",
+    status: "Validation-backed prototype (PFE/demo-ready)",
+    problem:
+      "Cooperative operations required structured decision support across stock, lots, traceability, treasury, and exports while preserving factual evidence and manager oversight.",
+    architecture: [
+      "Operational PostgreSQL/Supabase data",
+      "SQL factual layer",
+      "RAG contextual layer",
+      "ML advisory layer",
+      "LLM response composition",
+      "Human manager review",
+    ],
+    features: [
+      "Role-scoped workflows for stock, lots, traceability, treasury, exports, document uploads, and manager operations.",
+      "Evidence-first orchestration separating SQL facts, RAG context, ML advisory signals, and final response composition.",
+      "Feedback-driven improvements from project meetings into backend, frontend, workflow, and assistant layers.",
+    ],
+    impact: [
+      "Built with FastAPI, Next.js, PostgreSQL/Supabase, pgvector, SQLAlchemy, Alembic, Docker, Azure Container Apps, and Vercel.",
+      "Validated baseline behavior with 20/20 executed cases, 17 PASS / 3 PARTIAL / 0 FAIL, 100% route accuracy, and 0 runtime errors.",
+      "Integrated readiness-gated ML advisory signals with strict train/test validation, reaching 0.8412 high-risk recall.",
+    ],
+    validation: [
+      "20/20 executed assistant audit cases",
+      "17 PASS / 3 PARTIAL / 0 FAIL",
+      "100% route accuracy",
+      "0 runtime errors",
+      "0.8412 high-risk recall",
+    ],
+    limitations: [
+      "Validation-backed prototype; not positioned as production-ready enterprise automation.",
+      "ML signals are advisory and readiness-gated rather than autonomous control.",
+      "Human manager review remains required before operational execution.",
+    ],
+    stack: [
+      "FastAPI",
+      "Next.js",
+      "PostgreSQL/Supabase",
+      "pgvector",
+      "SQLAlchemy",
+      "Alembic",
+      "Docker",
+      "Azure Container Apps",
+      "Vercel",
+    ],
+    links: [{ label: "Case Study", href: "/projects/weefarm" }],
+    tags: ["ai", "llm", "rag", "decision-support", "fastapi", "pgvector", "mlops"],
+    featured: true,
+    visual: {
+      src: "/assets/projects/weefarm/cover.svg",
+      alt: "WeeFarm architecture overview card",
+    },
+    media: {
+      image: "/assets/projects/weefarm/cover.svg",
+    },
+  },
+  {
     slug: "ai-business-agent",
     category: "AI & MLOps",
     title: "AI Business Agent — Intelligent Decision-Support SaaS",
-    tagline: "LLM-powered decision engine with conversational analytics",
+    tagline: "RAG retrieval, orchestration, and simulation workflows",
     summary:
-      "Architected an end-to-end AI decision-support platform blending LLM reasoning, retrieval-augmented generation, and Monte Carlo risk simulations for business analysis.",
+      "AI decision-support project combining RAG retrieval, LLM orchestration, simulation workflows, and web interfaces with FastAPI, PostgreSQL/pgvector, OpenSearch, MinIO, Redis, and Docker.",
+    role: "AI Engineering Project",
+    status: "Prototype + architecture demo",
+    problem:
+      "Business users needed traceable assistant responses across mixed structured and semi-structured data while maintaining deterministic retrieval and decision support transparency.",
+    architecture: [
+      "FastAPI orchestration services",
+      "PostgreSQL + pgvector factual/semantic retrieval",
+      "OpenSearch and MinIO contextual storage",
+      "Simulation and routing workflows",
+      "Structured response composition UI",
+    ],
+    features: [
+      "Separated retrieval, route planning, and response-composition responsibilities for clearer assistant behavior.",
+      "Integrated hybrid data workflow across PostgreSQL/pgvector, OpenSearch, and object storage.",
+      "Implemented observability hooks for route behavior and latency inspections.",
+    ],
     impact: [
-      "Orchestrated a multi-route decision engine handling 24K+ queries and 150+ simulations with ~97% routing accuracy and ~2.7 s median latency.",
-      "Wired PostgreSQL + pgVector with OpenSearch for hybrid semantic retrieval, improving answer relevance and recall across diverse business questions.",
-      "Deployed Grafana + Prometheus dashboards for full observability, from latency and routing accuracy to retrieval quality and failure modes.",
+      "Shipped end-to-end architecture with backend orchestration and web delivery surfaces.",
+      "Enabled scenario-oriented workflows for operational decision support experiments.",
+      "Provided measurable traceability through structured response and retrieval boundaries.",
+    ],
+    limitations: [
+      "Prototype framing with advisory output posture.",
+      "Evaluation outcomes are context-dependent and require workflow-specific validation.",
+      "Operational decisions require human review.",
     ],
     stack: [
-      "Next.js 14",
       "FastAPI",
-      "PostgreSQL + pgVector",
+      "PostgreSQL + pgvector",
       "OpenSearch",
       "MinIO",
       "Redis",
-      "Llama 3.1 8B / GPT-4o-mini",
-      "Docker Compose",
-      "Grafana",
-      "Prometheus",
+      "Docker",
+      "Next.js",
     ],
     links: [
-      {
-        label: "Kaggle Notebook",
-        href: "https://www.kaggle.com/code/mohamedalibouzir/kaggle-llama31-refined/",
-      },
       {
         label: "GitHub",
         href: "https://github.com/dalibouzir/AI-Agnet",
       },
     ],
-    tags: ["ai", "mlops", "llm", "business-intel"],
+    tags: ["ai", "llm", "rag", "decision-support", "fastapi", "pgvector", "mlops"],
     featured: true,
     visual: {
       src: "/assets/projects/ai-business-agent/cover.svg",
-      alt: "AI Business Agent dashboard with conversational analytics",
+      alt: "AI Business Agent dashboard with assistant workflows",
     },
     media: {
       image: "/assets/projects/ai-business-agent/cover.svg",
@@ -75,62 +159,92 @@ export const projects: Project[] = [
     slug: "affa",
     category: "AI & MLOps",
     title: "AFFA — Automated Fantasy Football Assistant",
-    tagline: "AI assistant that recommends weekly lineups with ±2-point precision across multiple gameweeks.",
+    tagline: "ML-based recommendation prototype for weekly decisions",
     summary:
-      "Built an end-to-end ML assistant that ingests football stats, learns player performance patterns, and recommends fantasy lineups with measurable accuracy in real time.",
+      "ML-based recommendation prototype using Python services, API-driven data flows, player comparison, and recommendation workflows.",
+    role: "ML Advisory Prototype",
+    status: "Experiment + product prototype",
+    problem:
+      "Fantasy football users needed explainable weekly lineup recommendations from changing player statistics and fixture conditions.",
+    architecture: [
+      "Python data ingestion services",
+      "Feature engineering and player scoring",
+      "Recommendation API layer (Flask/FastAPI)",
+      "Evaluation and monitoring with MLflow, Elasticsearch, and Kibana",
+    ],
+    features: [
+      "Built advisory recommendation flows with model experiments and evaluation tracking.",
+      "Implemented API-driven data ingestion for structured feature generation.",
+      "Added monitoring views for trend inspection and decision-support iteration.",
+    ],
     impact: [
-      "Engineered an ensemble prediction engine (Random Forest + Bayesian inference) improving weekly recommendation quality by ~73%.",
-      "Achieved ±2-point forecast precision across 15+ gameweeks, cutting prediction error by over 70%.",
-      "Instrumented real-time dashboards in Elasticsearch + Kibana to track drift, accuracy, and per-player evolution.",
+      "Delivered a working recommendation prototype with demo-ready API and UI surfaces.",
+      "Established experiment traceability and iteration workflows through monitoring stack.",
+      "Connected data feeds and recommendation logic into repeatable advisory loop.",
     ],
-    stack: [
-      "Python",
-      "Flask",
-      "FastAPI",
-      "NLTK",
-      "MongoDB",
-      "API-Football",
-      "Docker",
-      "MLflow",
-      "Elasticsearch",
-      "Kibana",
+    limitations: [
+      "Recommendation output remains advisory and not guaranteed competitive performance.",
+      "Data freshness and league dynamics can affect result quality.",
+      "Prototype evaluation scope is narrower than production league operations.",
     ],
+    stack: ["Python", "Flask", "FastAPI", "MLflow", "Elasticsearch", "Kibana"],
     links: [
       {
         label: "Live Demo",
         href: "https://bouzirdaliaa.pythonanywhere.com",
       },
     ],
-    tags: ["ai", "ml", "analytics", "fantasy-sports"],
+    tags: ["ai", "ml", "advisory", "analytics"],
     featured: true,
     visual: {
       src: "/assets/projects/affa/images/cover.webp",
-      alt: "AFFA fantasy football assistant lineup recommendations",
+      alt: "AFFA recommendation interface",
     },
     media: {
       image: "/assets/projects/affa/images/cover.webp",
+      video: "/assets/projects/affa/videos/demo.mov",
     },
   },
   {
     slug: "quirkhire",
     category: "AI & MLOps",
-    title: "QuirkHire — AI Résumé Recommendation Platform",
-    tagline: "LLM-powered talent platform that matches candidates to jobs with explainable recommendations",
+    title: "QuirkHire — Resume Recommendation Prototype",
+    tagline: "Recruiter-facing recommendation workflows",
     summary:
-      "Designed a talent-matching platform for career centers that uses hybrid NLP/LLM models to understand CVs and job posts, then ranks candidates with transparent explanations.",
-    impact: [
-      "Matched 1,200+ candidates to 200+ job postings, boosting recruiter match accuracy by ~28%.",
-      "Cut screening and shortlisting time by about 35% through explainable, ranked recommendations.",
-      "Delivered recruiter dashboards for match quality, engagement metrics, and model performance, improving retention by ~22%.",
+      "AI-based resume recommendation prototype with recruiter workflows using React, Django/DRF, and Supabase.",
+    role: "AI Product Prototype",
+    status: "Workflow prototype",
+    problem:
+      "Recruiters and career-center operators needed structured support to triage CVs and shortlist candidates with clearer ranking rationale.",
+    architecture: [
+      "React recruiter interface",
+      "Django/DRF backend APIs",
+      "Supabase data workflow",
+      "Recommendation pipeline for shortlist ranking",
     ],
-    stack: ["React", "Django", "Django REST Framework", "Supabase", "Redux Toolkit", "OpenRouter API"],
+    features: [
+      "Designed recruiter workflow screens for recommendation review and candidate shortlisting.",
+      "Implemented recommendation logic with manual review-friendly outputs.",
+      "Integrated web product flow for practical hiring support experimentation.",
+    ],
+    impact: [
+      "Delivered a role-oriented recommendation workflow prototype.",
+      "Improved recruiter-side comparison flow with clearer recommendation presentation.",
+      "Demonstrated AI-assisted ranking integration in practical UI workflow.",
+    ],
+    limitations: [
+      "Prototype recommendation layer requires further domain calibration.",
+      "Final hiring decisions remain human-reviewed.",
+      "Evaluation depth depends on available labeled hiring outcomes.",
+    ],
+    stack: ["React", "Django", "Django REST Framework", "Supabase"],
     links: [
       {
         label: "Live",
         href: "https://career-reco.vercel.app",
       },
     ],
-    tags: ["ai", "nlp", "recruitment", "recommendations"],
+    tags: ["ai", "llm", "nlp", "recruitment", "recommendations"],
     featured: true,
     visual: {
       src: "/assets/projects/quirkhire/cover.svg",
@@ -141,84 +255,92 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "mymatch",
+    slug: "elyosdigital-powergym",
     category: "Backend Engineering",
-    title: "MyMatch — Back-End & Admin Panel",
-    tagline: "Admin panel and backend powering thousands of players and sports complexes with real-time data",
+    title: "PowerGym — ElyosDigital Internship Platform",
+    tagline: "Gym management workflows with real operational media",
     summary:
-      "Led backend and admin panel development for a large sports platform managing players, complex operations, and scheduling with real-time sync to mobile apps.",
-    impact: [
-      "Centralized 7,000+ player profiles and 70+ sports complexes, improving data accessibility by ~65%.",
-      "Built scalable Laravel services integrated with Firebase and REST APIs, achieving ~99.9% uptime and <2-second sync latency.",
-      "Shipped dashboards and analytics that cut manual tracking time by ~40% and lifted admin productivity by 60%+.",
+      "Laravel-based internship project for memberships, subscriptions, scheduling, and secure administrative operations.",
+    role: "Web Development Intern",
+    status: "Delivered internship system",
+    problem:
+      "Gym operators required database-backed workflows for memberships, sessions, coach planning, and daily administration.",
+    architecture: [
+      "Laravel backend modules",
+      "MySQL persistence",
+      "Admin interfaces for memberships and sessions",
+      "Secure back-office operations",
     ],
-    stack: ["Laravel", "Firebase", "REST APIs"],
+    features: [
+      "Implemented membership, subscription, and coach scheduling workflows.",
+      "Built CRUD administration surfaces for members, coaches, sessions, and operations.",
+      "Captured real interface and process recordings during internship delivery.",
+    ],
+    impact: [
+      "Digitized operational tasks that were previously managed manually.",
+      "Improved visibility of schedules and administrative updates.",
+      "Shipped a secure back-office workflow baseline for operational coordination.",
+    ],
+    limitations: [
+      "Web operations project; not positioned as core AI case study.",
+      "Media and workflow scope tied to internship context.",
+      "Future AI augmentation would require additional domain-specific modeling.",
+    ],
+    stack: ["Laravel", "MySQL", "REST APIs", "Back-office workflows"],
     links: [],
-    tags: ["backend", "laravel", "admin", "firebase"],
-    featured: true,
+    tags: ["backend", "laravel", "operations"],
+    featured: false,
     visual: {
-      src: "/assets/projects/default.svg",
-      alt: "Placeholder preview for MyMatch",
+      src: "/assets/projects/elyosdigital-powergym/images/img5.webp",
+      alt: "PowerGym admin interface snapshot",
     },
     media: {
-      image: "/assets/projects/default.svg",
+      image: "/assets/projects/elyosdigital-powergym/images/img5.webp",
+      video: "/assets/projects/elyosdigital-powergym/videos/demo-1.mov",
     },
   },
   {
     slug: "meriem-booking",
     category: "Full-Stack Applications",
-    title: "Meriem Booking (Fittrah Moms) — Therapist Scheduling",
-    tagline: "Therapist booking platform with AI assistant",
+    title: "Meriem Booking (Fittrah Moms)",
+    tagline: "Therapist scheduling and booking workflow platform",
     summary:
-      "Built a responsive booking platform that streamlines therapist scheduling and client bookings, syncing calendars in real time and automating support with an AI assistant.",
+      "Next.js and Supabase booking workflow project for therapist scheduling, user booking, and operational administration.",
+    role: "Full-stack Delivery Project",
+    status: "Shipped web workflow",
+    problem:
+      "The platform needed a practical scheduling and booking flow for therapists and clients with operational visibility for administrators.",
+    architecture: [
+      "Next.js front-end flow",
+      "Supabase data and auth integration",
+      "Dynamic availability and booking logic",
+      "Administrative scheduling operations",
+    ],
+    features: [
+      "Implemented calendar-aligned therapist booking and availability workflows.",
+      "Built responsive UI paths for user booking and operator oversight.",
+      "Added operational administration views for schedule and appointment coordination.",
+    ],
     impact: [
-      "Delivered a Next.js 14 + Supabase booking platform that improves therapist scheduling and client UX.",
-      "Implemented real-time calendar sync, dynamic availability, and exception handling to reduce scheduling conflicts.",
-      "Integrated an AI assistant via OpenAI API to automate FAQs and support, lowering manual support load.",
+      "Delivered a complete booking workflow from user request to session tracking.",
+      "Improved operational clarity by centralizing scheduling operations.",
+      "Provided reusable full-stack architecture patterns for service-style platforms.",
     ],
-    stack: ["Next.js 14", "Supabase", "motion-dom", "Tailwind CSS"],
-    links: [
-      {
-        label: "Live",
-        href: "https://fittrahmoms.com",
-      },
+    limitations: [
+      "Workflow platform project, not positioned as an AI flagship case study.",
+      "Further AI augmentation would require additional domain-specific evaluation.",
+      "Production-level telemetry and stress validation were outside current scope.",
     ],
-    tags: ["fullstack", "nextjs", "supabase", "ai-assistant"],
-    featured: true,
+    stack: ["Next.js", "Supabase", "Scheduling workflows", "Responsive UI"],
+    links: [],
+    tags: ["fullstack", "nextjs", "supabase", "workflow"],
+    featured: false,
     visual: {
       src: "/assets/projects/therapist-funnel/images/img5.webp",
-      alt: "Therapist scheduling interface for Fittrah Moms",
+      alt: "Therapist booking interface preview",
     },
     media: {
       image: "/assets/projects/therapist-funnel/images/img5.webp",
-    },
-  },
-  {
-    slug: "elyosdigital-powergym",
-    category: "Backend Engineering",
-    title: "PowerGym (ElyosDigital) — Gym Management Platform",
-    tagline: "Laravel-based membership + scheduling operations",
-    summary:
-      "Built the FitLife / PowerGym platform combining admin, scheduling, and AI-driven workout insights to replace manual gym workflows across memberships, coaches, and performance dashboards.",
-    impact: [
-      "Launched a full-stack gym management system covering memberships, subscriptions, activities, and coaches.",
-      "Introduced automated session scheduling that reduced manual coordination by ~40% and boosted accuracy by 25–30%.",
-      "Implemented AI-driven workout recommendations, BMI tracking, and Plotly dashboards to surface progress and trends.",
-      "Delivered responsive, secure admin panels focused on data protection and usability.",
-    ],
-    stack: ["Laravel", "Python (Flask)", "MySQL", "Plotly", "Tailwind CSS"],
-    links: [
-      {
-        label: "Discuss PowerGym",
-        href: "mailto:bouzirdali@gmail.com?subject=PowerGym%20case%20study",
-      },
-    ],
-    visual: {
-      src: "/assets/projects/elyosdigital-powergym/cover.svg",
-      alt: "PowerGym admin dashboard",
-    },
-    media: {
-      image: "/assets/projects/elyosdigital-powergym/cover.svg",
     },
   },
 ];

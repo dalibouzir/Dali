@@ -8,7 +8,7 @@ import { caseStudies } from "@/content/caseStudies";
 // @improvement: overview page listing all available case studies
 export const metadata: Metadata = buildMetadata({
   title: `Case Studies · ${SITE.title}`,
-  description: "Product deep dives showcasing measurable AI and MLOps outcomes.",
+  description: "Case studies covering validation-backed AI decision-support systems and assistant architecture.",
   path: "/case-studies",
 });
 
@@ -16,7 +16,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "Case Studies",
-  description: "Deep dives authored by Dali Ben covering AI product delivery, decision intelligence, and MLOps.",
+  description: "Deep dives authored by Mohamed Ali Bouzir covering AI decision support and assistant orchestration.",
   url: `${SITE.url}/case-studies`,
   hasPart: caseStudies.map((study) => ({
     "@type": "CreativeWork",
@@ -37,8 +37,8 @@ export default function CaseStudiesIndex() {
           title="Case studies"
           description={
             <p>
-              Strategic breakdowns of how {SITE.name} ships AI and data products to production—covering constraints, architecture,
-              and measurable wins.
+              Strategic breakdowns of how {SITE.name} designs evidence-first AI assistants, with architecture choices,
+              constraints, and validation considerations.
             </p>
           }
         >

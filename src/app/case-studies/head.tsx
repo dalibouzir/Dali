@@ -6,7 +6,7 @@ export default function Head() {
   return (
     <Seo
       title={`Case Studies · ${SITE.title}`}
-      description="Deep dives showcasing measurable AI and MLOps delivery across data products."
+      description="Case studies on validation-backed AI decision-support systems and SQL-grounded assistant architecture."
       path="/case-studies"
     />
   );

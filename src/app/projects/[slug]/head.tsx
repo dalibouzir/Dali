@@ -11,7 +11,7 @@ export default async function Head({ params }: { params: Promise<{ slug: string 
     return <Seo title={SITE.title} description={SITE.tagline} path="/projects" />;
   }
 
-  const description = project.summary[0] ?? SITE.tagline;
+  const description = project.summary ?? SITE.tagline;
 
   return (
     <Seo

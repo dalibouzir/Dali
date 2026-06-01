@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: path.join(__dirname),
   images: {
     // Prefer modern formats where supported
     formats: ["image/avif", "image/webp"],
@@ -25,20 +27,6 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=604800" },
         ],
-      },
-    ];
-  },
-  async redirects() {
-    return [
-      {
-        source: "/case-studies/ai-business-agent",
-        destination: "/field/data-science-ai",
-        permanent: true,
-      },
-      {
-        source: "/case-studies/ai-business-agent.html",
-        destination: "/field/data-science-ai",
-        permanent: true,
       },
     ];
   },

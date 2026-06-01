@@ -19,7 +19,8 @@ for (const { path, label } of pages) {
         }
       });
 
-      await page.goto(path, { waitUntil: "networkidle" });
+      await page.goto(path, { waitUntil: "domcontentloaded" });
+      await page.locator("main").first().waitFor({ state: "visible" });
 
       expect(consoleErrors, "No console errors should surface").toHaveLength(0);
 
@@ -56,7 +57,8 @@ for (const { path, label } of pages) {
     });
 
     test(`should have zero serious/critical axe violations — ${label}`, async ({ page }) => {
-      await page.goto(path, { waitUntil: "networkidle" });
+      await page.goto(path, { waitUntil: "domcontentloaded" });
+      await page.locator("main").first().waitFor({ state: "visible" });
 
       const axe = new AxeBuilder({ page });
       const results = await axe.analyze();

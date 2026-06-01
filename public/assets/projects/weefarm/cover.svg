@@ -1,0 +1,95 @@
+<svg width="1200" height="780" viewBox="0 0 1200 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="20" y1="10" x2="1160" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071126" />
+      <stop offset="0.45" stop-color="#0A2D4A" />
+      <stop offset="1" stop-color="#081829" />
+    </linearGradient>
+    <linearGradient id="pulse" x1="165" y1="200" x2="1020" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A4E8FF" stop-opacity="0.92" />
+      <stop offset="1" stop-color="#75F6D2" stop-opacity="0.88" />
+    </linearGradient>
+    <linearGradient id="card" x1="140" y1="410" x2="1116" y2="666" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11406A" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#195278" stop-opacity="0.42"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 110) rotate(35) scale(460 260)">
+      <stop stop-color="#58A8FF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#58A8FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(990 720) rotate(-35) scale(430 220)">
+      <stop stop-color="#DF2B5F" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#DF2B5F" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="58" y="50" width="1088" height="674" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#020611" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="780" rx="42" fill="url(#bg)"/>
+  <rect width="1200" height="780" rx="42" fill="url(#glowA)"/>
+  <rect width="1200" height="780" rx="42" fill="url(#glowB)"/>
+
+  <g filter="url(#softShadow)">
+    <rect x="58" y="56" width="1084" height="668" rx="32" fill="rgba(255,255,255,0.03)"/>
+    <rect x="58" y="56" width="1084" height="668" rx="32" stroke="rgba(214,239,255,0.18)"/>
+  </g>
+
+  <g opacity="0.16">
+    <path d="M102 102H1104" stroke="white"/>
+    <path d="M102 146H1104" stroke="white"/>
+    <path d="M102 190H1104" stroke="white"/>
+    <path d="M102 234H1104" stroke="white"/>
+    <path d="M102 278H1104" stroke="white"/>
+  </g>
+
+  <text x="98" y="145" fill="#E6F2FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="60" font-weight="700" letter-spacing="0.4">WeeFarm</text>
+  <text x="98" y="191" fill="#BFE6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="25" font-weight="500">AI-Assisted Decision-Support Platform</text>
+
+  <g>
+    <rect x="92" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <text x="126" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="35" font-weight="600">SQL</text>
+
+    <rect x="318" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <text x="364" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="35" font-weight="600">RAG</text>
+
+    <rect x="544" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <text x="572" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="600">ML Signal</text>
+
+    <rect x="770" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <text x="798" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="600">LLM Craft</text>
+
+    <rect x="996" y="236" width="146" height="68" rx="20" fill="rgba(117,246,210,0.2)" stroke="rgba(117,246,210,0.6)"/>
+    <text x="1018" y="278" fill="#EEFFFB" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">Manager</text>
+  </g>
+
+  <path d="M274 270H316M500 270H542M726 270H768M952 270H996" stroke="url(#pulse)" stroke-width="5" stroke-linecap="round"/>
+  <g>
+    <circle cx="274" cy="270" r="4" fill="#B7ECFF"/>
+    <circle cx="500" cy="270" r="4" fill="#B7ECFF"/>
+    <circle cx="726" cy="270" r="4" fill="#B7ECFF"/>
+    <circle cx="952" cy="270" r="4" fill="#B7ECFF"/>
+  </g>
+
+  <rect x="92" y="372" width="1050" height="322" rx="26" fill="url(#card)" stroke="rgba(203,232,255,0.2)"/>
+
+  <g>
+    <rect x="114" y="398" width="342" height="270" rx="18" fill="rgba(7,26,45,0.55)" stroke="rgba(180,220,255,0.22)"/>
+    <text x="140" y="436" fill="#DDF1FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="33" font-weight="700">Validated Baseline</text>
+    <text x="140" y="478" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">20/20 executed cases</text>
+    <text x="140" y="516" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">17 PASS / 3 PARTIAL / 0 FAIL</text>
+    <text x="140" y="554" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">100% route accuracy</text>
+    <text x="140" y="592" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">0 runtime errors</text>
+    <text x="140" y="630" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">0.8412 high-risk recall</text>
+  </g>
+
+  <g>
+    <rect x="490" y="398" width="628" height="270" rx="18" fill="rgba(7,26,45,0.55)" stroke="rgba(180,220,255,0.22)"/>
+    <text x="518" y="436" fill="#DDF1FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="33" font-weight="700">Core Stack</text>
+    <text x="518" y="480" fill="#CFEBFF" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">FastAPI · Next.js · PostgreSQL/Supabase · pgvector</text>
+    <text x="518" y="520" fill="#CFEBFF" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">SQLAlchemy · Alembic · Docker · Azure Container Apps · Vercel</text>
+    <text x="518" y="585" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="700">Evidence-first · Readiness-gated · Human-in-the-loop</text>
+  </g>
+</svg>

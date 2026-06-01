@@ -16,12 +16,6 @@ export const metadata: Metadata = buildMetadata({
 
 const CASE_STUDY_URL = `${SITE.url}/case-studies/${featuredCaseStudy.slug}`;
 
-const metricQuantValues = [
-  { name: "Queries answered", value: 35000, unitText: "questions" },
-  { name: "Median latency", value: 2.7, unitText: "seconds" },
-  { name: "Answer accuracy", value: 0.92, unitText: "ratio" },
-];
-
 const softwareSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
@@ -51,10 +45,10 @@ const softwareSchema = {
   image: new URL(featuredCaseStudy.architecture.src, SITE.url).toString(),
   keywords: [
     "AI Business Agent",
-    "Decision Intelligence",
+    "Decision Support",
     "RAG",
-    "Monte Carlo Simulation",
-    "MLOps",
+    "Assistant Orchestration",
+    "Validation-Backed Prototype",
   ],
   offers: {
     "@type": "Offer",
@@ -62,12 +56,6 @@ const softwareSchema = {
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
   },
-  workExample: metricQuantValues.map((metric) => ({
-    "@type": "QuantitativeValue",
-    name: metric.name,
-    value: metric.value,
-    unitText: metric.unitText,
-  })),
 };
 
 const breadcrumbs = {

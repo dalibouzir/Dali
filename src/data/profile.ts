@@ -3,7 +3,7 @@ import { SITE } from "@/config/site";
 // @improvement: align profile contact data with global SITE config
 export const profile = {
   name: SITE.name,
-  title: SITE.title,
+  title: "Junior AI Engineer",
   location: "Monastir, Tunisia",
   email: SITE.email,
   phone: SITE.phone,
@@ -13,8 +13,8 @@ export const profile = {
   facebook: "https://www.facebook.com/medali.bouzir",
   instagram: "https://www.instagram.com/dali.bouzir",
   cv: {
-    en: "/cv/Mohamed_Ali_Bouzir_CV_EN.pdf",
-    fr: "/cv/Mohamed_Ali_Bouzir_CV_FR.pdf",
+    en: "/cv/cv_ai_engineer_final_recruiter_2page.pdf",
+    fr: "/cv/BOUZIR_MohamedAli_CV_2026_Fr.pdf",
   },
   headline: "Data products that convert insight into impact",
   headlineAccent: "— shipped end to end",

@@ -26,7 +26,7 @@ const aboutBullets = [
 ];
 
 const heroActions = [
-  { label: "View CV (PDF)", href: "/cv.pdf", variant: "solid" as const },
+  { label: "Download CV", href: "/cv/cv_ai_engineer_final_recruiter_2page.pdf", variant: "solid" as const },
   { label: "Hire me", href: "#contact", variant: "solid" as const },
   { label: "View Projects", href: "#projects", variant: "ghost" as const },
 ];

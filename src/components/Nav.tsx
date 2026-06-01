@@ -1,222 +1,256 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
-import { owner } from "@/content/siteMeta";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  LOCALE_COOKIE_NAME,
+  LOCALE_LABELS,
+  NAV_COPY,
+  type Locale,
+} from "@/lib/i18n";
 
-// @improvement: single-page navigation anchored to sections
+const HOME_SECTION_IDS = ["about", "skills", "best-works", "contact"] as const;
 
-const PRIMARY_LINKS = [
-  { href: "#hero", label: "Intro" },
-  { href: "#highlights", label: "Highlights" },
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#research", label: "Research" },
-  { href: "#skills", label: "Skills" },
-  { href: "#certifications", label: "Credibility" },
-  { href: "#contact", label: "Contact" },
-];
+type NavProps = {
+  initialLocale: Locale;
+};
 
-export default function Nav() {
+export default function Nav({ initialLocale }: NavProps) {
+  const router = useRouter();
   const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [activeHash, setActiveHash] = useState<string | null>(null);
+  const isHomePage = pathname === "/";
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeHash, setActiveHash] = useState<string>("");
+  const languageMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
+    setLocale(initialLocale);
+  }, [initialLocale]);
 
-    let lastScrollY = window.scrollY;
+  const copy = NAV_COPY[locale];
+  const uiCopy = {
+    toggleMenuAria: locale === "fr" ? "Ouvrir le menu" : locale === "ar" ? "فتح القائمة" : "Toggle menu",
+    logoAria: locale === "fr" ? "Portfolio Mohamed Ali" : locale === "ar" ? "ملف أعمال محمد علي" : "Mohamed Ali portfolio",
+    logoSubline: locale === "ar" ? "ذكاء اصطناعي · FULL STACK · DESIGN" : "AI · FULL STACK · DESIGN",
+  };
 
-    const onScroll = () => {
-      const current = window.scrollY;
-      setIsScrolled(current > 8);
+  const homeLinks = useMemo(
+    () => [
+      { href: "#about", label: copy.homeLinks.about },
+      { href: "#skills", label: copy.homeLinks.skills },
+      { href: "#best-works", label: copy.homeLinks.bestWorks },
+      { href: "#contact", label: copy.homeLinks.contacts },
+    ],
+    [copy.homeLinks],
+  );
 
-      if (isMenuOpen) {
-        setIsNavVisible(true);
-        lastScrollY = current;
+  const pageLinks = useMemo(
+    () => [
+      { href: "/", label: copy.pageLinks.home },
+      { href: "/projects", label: copy.pageLinks.projects },
+      { href: "/#contact", label: copy.pageLinks.contact },
+    ],
+    [copy.pageLinks],
+  );
+
+  const links = isHomePage ? homeLinks : pageLinks;
+
+  useEffect(() => {
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 16);
+
+      if (!isHomePage) {
+        setActiveHash("");
         return;
       }
 
-      // Update active section for hash-based nav on scroll
-      const sectionIds = ["hero", "highlights", "projects", "experience", "research", "skills", "certifications", "contact"];
-      const offset = 160;
-      let bestId: string | null = null;
-      let bestDistance = Number.POSITIVE_INFINITY;
-
-      for (const id of sectionIds) {
-        const element = document.getElementById(id);
-        if (!element) continue;
-        const rect = element.getBoundingClientRect();
-        const distance = Math.abs(rect.top - offset);
-        if (distance < bestDistance && rect.bottom > 80) {
-          bestDistance = distance;
-          bestId = id;
+      let nextActive = "#about";
+      for (const id of HOME_SECTION_IDS) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+        const top = section.getBoundingClientRect().top;
+        if (top <= 180) {
+          nextActive = `#${id}`;
         }
       }
 
-      setActiveHash(bestId ? `#${bestId}` : null);
-
-      if (current < 96) {
-        setIsNavVisible(true);
-      } else if (current > lastScrollY + 12 && current > 144) {
-        setIsNavVisible(false);
-      } else if (current < lastScrollY - 12) {
-        setIsNavVisible(true);
-      }
-
-      lastScrollY = current;
+      setActiveHash(nextActive);
     };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isMenuOpen]);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [isHomePage]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (!menuOpen) return;
+    const old = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = old;
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!languageOpen) {
       return;
     }
 
-    if (isMenuOpen) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
-    }
+    const onPointerDown = (event: MouseEvent) => {
+      if (!languageMenuRef.current?.contains(event.target as Node)) {
+        setLanguageOpen(false);
+      }
+    };
 
-    return;
-  }, [isMenuOpen]);
-
-  const navBackgroundClass = useMemo(
-    () =>
-      isScrolled || isMenuOpen
-        ? "backdrop-blur-xl border border-white/15 bg-white/16 shadow-[0_18px_46px_-24px_rgba(15,23,42,0.45)] transition-all duration-300 dark:border-white/10 dark:bg-white/12"
-        : "backdrop-blur-xl border border-white/10 bg-white/12 shadow-[0_14px_38px_-24px_rgba(15,23,42,0.32)] transition-all duration-300 dark:border-white/8 dark:bg-white/10",
-    [isScrolled, isMenuOpen],
-  );
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [languageOpen]);
 
   const isActive = (href: string) => {
-    if (!href.startsWith("#")) {
-      return pathname === href;
-    }
-    // During SSR, activeHash is null so no link is active, avoiding mismatch.
-    return activeHash === href;
+    if (href.startsWith("#")) return activeHash === href;
+    if (href === "/#contact") return pathname === "/";
+    return pathname === href;
   };
 
-  const renderPrimaryLinks = (onClick?: () => void) =>
-    PRIMARY_LINKS.map((item) => {
-      const active = isActive(item.href);
-      return (
-        <li key={item.href} className="relative">
-          <a
-            href={item.href}
-            className={`inline-flex items-center text-sm transition-colors ${
-              active ? "text-[rgb(var(--text))]" : "text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
-            }`}
-            aria-current={active ? "page" : undefined}
-            onClick={(event) => {
-              onClick?.();
-              if (item.href.startsWith("#")) {
-                event.preventDefault();
-                const target = document.querySelector<HTMLElement>(item.href);
-                if (target) {
-                  const headerOffset = 96;
-                  const elementPosition = target.getBoundingClientRect().top + window.scrollY;
-                  const offsetPosition = elementPosition - headerOffset;
-                  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+  const onNavigate = (href: string) => {
+    setMenuOpen(false);
+
+    if (!isHomePage || !href.startsWith("#")) return;
+
+    const target = document.querySelector<HTMLElement>(href);
+    if (!target) return;
+
+    const lenis = window.__lenis;
+    if (lenis) {
+      lenis.scrollTo(target, {
+        offset: -90,
+        duration: 1.04,
+      });
+      return;
+    }
+
+    const offsetTop = target.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top: offsetTop, behavior: "smooth" });
+  };
+
+  const applyLocale = (nextLocale: Locale) => {
+    if (nextLocale === locale) {
+      setLanguageOpen(false);
+      return;
+    }
+
+    setLocale(nextLocale);
+    setLanguageOpen(false);
+    document.cookie = `${LOCALE_COOKIE_NAME}=${nextLocale}; Max-Age=31536000; Path=/; SameSite=Lax`;
+    document.documentElement.lang = nextLocale;
+    document.documentElement.dir = nextLocale === "ar" ? "rtl" : "ltr";
+    router.refresh();
+  };
+
+  return (
+    <header className={`anton-header ${scrolled || menuOpen ? "is-scrolled" : ""}`}>
+      <div className="anton-nav-shell">
+        <Link href="/" className="anton-logo" onClick={() => setMenuOpen(false)}>
+          <span className="anton-logo-word" aria-label={uiCopy.logoAria}>
+            <span className="anton-logo-primary">MOHAMED</span>
+            <span aria-hidden>&nbsp;</span>
+            <span className="anton-logo-secondary">ALI</span>
+          </span>
+          <span className="anton-logo-sub">{uiCopy.logoSubline}</span>
+        </Link>
+
+        <nav className="anton-nav-desktop" aria-label={copy.menuAria}>
+          {links.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`anton-nav-link ${isActive(item.href) ? "is-active" : ""}`}
+              onClick={(event) => {
+                if (isHomePage && item.href.startsWith("#")) {
+                  event.preventDefault();
+                  onNavigate(item.href);
                 }
+              }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="anton-nav-actions" ref={languageMenuRef}>
+          <button
+            type="button"
+            className="anton-lang-pill"
+            aria-label={copy.openLanguageMenuAria}
+            aria-haspopup="menu"
+            aria-expanded={languageOpen}
+            onClick={() => setLanguageOpen((prev) => !prev)}
+          >
+            {LOCALE_LABELS[locale].short} <span aria-hidden>⇄</span>
+          </button>
+
+          <div className={`anton-lang-menu ${languageOpen ? "is-open" : ""}`} role="menu" aria-label={copy.selectLanguageAria}>
+            {(Object.keys(LOCALE_LABELS) as Locale[]).map((entry) => {
+              const isCurrent = entry === locale;
+              return (
+                <button
+                  key={entry}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={isCurrent}
+                  className={`anton-lang-option ${isCurrent ? "is-active" : ""}`}
+                  onClick={() => applyLocale(entry)}
+                >
+                  <span>{LOCALE_LABELS[entry].short}</span>
+                  <span>{LOCALE_LABELS[entry].name}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            className="anton-menu-btn"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label={uiCopy.toggleMenuAria}
+            aria-expanded={menuOpen}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </div>
+
+      <div className={`anton-mobile-menu ${menuOpen ? "is-open" : ""}`}>
+        {links.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={`anton-mobile-link ${isActive(item.href) ? "is-active" : ""}`}
+            onClick={(event) => {
+              if (isHomePage && item.href.startsWith("#")) {
+                event.preventDefault();
+                onNavigate(item.href);
+                return;
               }
+
+              setMenuOpen(false);
             }}
           >
             {item.label}
-            <span
-              aria-hidden
-              className={`absolute left-0 right-0 -bottom-2 mx-auto h-[3px] w-8 rounded-full bg-[rgb(var(--brand))] ${
-                active ? "opacity-100" : "opacity-0"
-              } transition-opacity duration-300 ease-out`}
-            />
           </a>
-        </li>
-      );
-    });
-
-  const headerVisibilityClass = isNavVisible ? "translate-y-0" : "-translate-y-full";
-  return (
-    <header className={`sticky top-0 z-50 bg-transparent transition-transform duration-300 ${headerVisibilityClass}`}>
-      <div className="mx-auto w-full max-w-6xl px-4 pb-2 pt-3 sm:px-6 lg:max-w-7xl lg:px-10">
-        <div className={`rounded-[2.5rem] ${navBackgroundClass}`}>
-          <nav aria-label="Primary" className="flex flex-nowrap items-center justify-between gap-6 px-4 py-3 sm:px-6 sm:py-4">
-            <Link
-              href="/"
-              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-base font-semibold uppercase tracking-[0.24em] text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--text))]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {owner.name}
-            </Link>
-
-            <ul className="hidden flex-nowrap items-center gap-6 whitespace-nowrap text-sm font-medium xl:flex">{renderPrimaryLinks()}</ul>
-
-            <div className="flex flex-nowrap items-center gap-2 whitespace-nowrap md:gap-3">
-              <Link
-                href={owner.cvUrl}
-                className="hidden rounded-full border border-transparent bg-[rgb(var(--surface-muted)/0.7)] px-4 py-2 text-sm font-semibold text-[rgb(var(--text))] shadow-soft transition hover:border-[rgb(var(--brand)/0.3)] hover:text-[rgb(var(--text))] md:inline-flex md:items-center md:justify-center"
-                prefetch={false}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View CV
-              </Link>
-              <a
-                href="#contact"
-                className="hidden rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:shadow-lift md:inline-flex md:items-center md:justify-center"
-              >
-                Hire me
-              </a>
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] text-base text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)] focus:outline-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--ring))] md:hidden"
-                onClick={() => setIsMenuOpen((prev) => !prev)}
-                aria-expanded={isMenuOpen}
-                aria-label="Toggle navigation menu"
-              >
-                <span aria-hidden>{isMenuOpen ? "✕" : "☰"}</span>
-              </button>
-            </div>
-          </nav>
-
-          <div
-            className={`xl:hidden ${isMenuOpen ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"} overflow-hidden transition-[max-height,opacity] duration-300 ease-out`}
-          >
-            <div className="flex flex-col gap-3 px-4 pb-6 sm:px-6">
-              <ul className="flex flex-col gap-2 text-sm font-medium text-[rgb(var(--text))]">{renderPrimaryLinks(() => setIsMenuOpen(false))}</ul>
-              <div className="flex flex-col gap-3 pt-1">
-                <Link
-                  href={owner.cvUrl}
-                  prefetch={false}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-[rgb(var(--surface-muted)/0.65)] bg-[rgb(var(--surface))] px-4 py-2 text-sm font-semibold text-[rgb(var(--text))] transition hover:border-[rgb(var(--brand)/0.45)]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  View CV
-                </Link>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center rounded-full border border-transparent bg-[rgb(var(--brand))] px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:shadow-lift"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Hire me
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </header>
   );

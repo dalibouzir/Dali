@@ -40,111 +40,112 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-business-agent",
     title: "AI Business Agent",
-    heroEyebrow: "Decision Intelligence Case Study",
+    heroEyebrow: "Decision Support Case Study",
     heroIntro:
-      "An internal SaaS that fuses RAG, analytics, and simulation to answer operator questions in seconds.",
-    summary: `${SITE.name} modernized weekly insight delivery by orchestrating ingestion, retrieval, and guardrailed reasoning so business operators can self-serve answers with audit trails.`,
-    seoDescription: `How ${SITE.name} shipped an AI Business Agent that processes 35k+ questions with 2.7 s responses, 92% accuracy, and Monte Carlo-backed decisions.`,
+      "A validation-backed prototype combining retrieval, orchestration, and simulation-oriented assistant flows for business operators.",
+    summary: `${SITE.name} designed a structured assistant workflow that separates factual evidence, contextual retrieval, and response composition for human-reviewed operational decisions.`,
+    seoDescription:
+      "AI Business Agent case study covering SQL-grounded retrieval, assistant orchestration, and validation-aware decision-support delivery.",
     metrics: [
       {
-        label: "Queries answered",
-        value: "35k+",
-        detail: "LLM-backed responses shipped across 7 internal teams.",
+        label: "Assistant framing",
+        value: "Evidence-first",
+        detail: "Responses are composed from explicit evidence layers rather than direct free-form generation.",
       },
       {
-        label: "Median latency",
-        value: "2.7 s",
-        detail: "Down from an 8.9 s prototype and 12 h human turnaround.",
+        label: "Operational mode",
+        value: "Human-reviewed",
+        detail: "Recommendations remain advisory and are reviewed by an operator before action.",
       },
       {
-        label: "Answer accuracy",
-        value: "92%",
-        detail: "Validated against finance and operations benchmarks (↑14%).",
+        label: "Workflow scope",
+        value: "Multi-route",
+        detail: "Assistant can route between retrieval-heavy, analytics, and simulation-style paths.",
       },
     ],
     beforeAfter: [
       {
-        metric: "Insight turnaround",
-        before: "Manual analyst reports in ~12 hours",
-        after: "Operator Q&A resolved in 2.7 s median",
+        metric: "Information access",
+        before: "Manual report lookup and fragmented documents",
+        after: "Unified assistant workflow with traceable evidence context",
       },
       {
-        metric: "Forecast confidence",
-        before: "Single-point spreadsheets, no scenarios",
-        after: "Monte Carlo 10k runs w/ P95 bands + alerting",
+        metric: "Decision narrative",
+        before: "Ad-hoc explanations without structured sourcing",
+        after: "Response composition tied to explicit retrieval and data layers",
       },
       {
-        metric: "Traceability",
-        before: "Email threads & screenshots",
-        after: "Versioned narratives with Grafana dashboards",
+        metric: "Operational confidence",
+        before: "Opaque outputs and low traceability",
+        after: "Validation-backed prototype behavior with review checkpoints",
       },
     ],
     architecture: {
       src: "/diagrams/ai-business-agent-architecture.svg",
-      alt: "Architecture diagram showing ingestion, retrieval, agent, simulation, and delivery surfaces",
+      alt: "Architecture diagram showing retrieval, orchestration, and assistant response composition",
       caption:
-        "Ingestion normalizes PDFs, spreadsheets, and images into pgVector + OpenSearch. An orchestration layer routes prompts through guardrails, Monte Carlo simulations, and Grafana instrumentation before pushing signed responses back to the operator UI.",
+        "Data ingestion and retrieval feed a guarded orchestration layer, then response composition is surfaced to operators with evidence context.",
     },
     sections: [
       {
         id: "problem",
         title: "Problem",
         summary:
-          "Operations, finance, and risk teams relied on analysts for every question, producing a 12-hour turnaround and inconsistent narratives.",
+          "Business users needed faster operational answers without sacrificing evidence traceability and review controls.",
         bullets: [
-          "35+ recurring weekly questions across forecasting, scenario planning, and ad-hoc audits.",
-          "Fragmented knowledge in PDFs, Sheets, and image captures with no unified retrieval layer.",
-          "Exec stakeholders wanted explainability, not just a chat bubble output.",
+          "Knowledge was spread across structured tables and semi-structured documents.",
+          "Decision support required explainability for operational confidence.",
+          "The workflow needed to remain advisory with human approval gates.",
         ],
       },
       {
         id: "constraints",
         title: "Constraints",
-        summary: "Accuracy, auditability, and privacy requirements shaped the approach.",
+        summary: "Accuracy posture and transparency were prioritized over automation volume.",
         bullets: [
-          "Data residency mandated private inference (Ollama 3B) and local embeddings.",
-          "Responses required source citations and scenario numbers for finance sign-off.",
-          "Latency budget of <3 seconds to outperform analyst turnaround dramatically.",
+          "Outputs required clear evidence context.",
+          "Response composition had to separate data and narrative responsibilities.",
+          "Operator review remained mandatory for sensitive decision paths.",
         ],
       },
       {
         id: "options",
         title: "Options considered",
-        summary: "Multiple prototypes were evaluated before landing on the final stack.",
+        summary: "Several alternatives were compared before final architecture selection.",
         bullets: [
-          "Fine-tuned GPT-4 w/ hosted embeddings — rejected due to vendor lock-in + PII risk.",
-          "Rules-based DSL feeding BI dashboards — accurate but could not handle ambiguity.",
-          "Notebook-powered analyst copilot — fast to build but required deep analyst adoption.",
+          "Single-model direct answering without retrieval boundaries.",
+          "Rules-only approach without assistant composition.",
+          "Hybrid retrieval + orchestration + advisory response composition.",
         ],
       },
       {
         id: "approach",
         title: "Why this approach worked",
-        summary: "Hybrid architecture aligned with privacy, guardrails, and performance goals.",
+        summary: "A layered assistant architecture aligned with evidence-first goals.",
         bullets: [
-          "Dual-store retrieval (pgVector + OpenSearch) keeps structured + semi-structured content searchable.",
-          "Agentic planner chooses between direct retrieval, simulation jobs, or report generation workflows.",
-          "Monte Carlo simulator (10k runs) writes metrics to Redis + Grafana for visual QA before surfacing to the operator.",
+          "Structured and contextual retrieval are handled separately.",
+          "Assistant route selection keeps response paths explicit.",
+          "Advisory outputs remain human-reviewed before operational use.",
         ],
       },
       {
         id: "failures",
         title: "Failure modes & mitigations",
-        summary: "Anticipating breakdowns was key to sustaining trust.",
+        summary: "Expected weak points were handled through guardrails and review loops.",
         bullets: [
-          "Hallucination guardrails catch missing citations and escalate to an analyst queue.",
-          "RAG freshness alerts trigger when ingestion jobs miss a scheduled window.",
-          "Simulation divergence reports compare live telemetry vs. Monte Carlo distributions to flag drift.",
+          "Low-confidence responses trigger clarification-oriented behavior.",
+          "Missing context prompts retrieval fallback checks.",
+          "Operator notes are fed back into refinement cycles.",
         ],
       },
       {
         id: "next-steps",
         title: "Next steps",
-        summary: "Roadmap items keep accuracy and adoption trending upward.",
+        summary: "Future iterations focus on validation breadth and workflow depth.",
         bullets: [
-          "Expand ingestion to S3 image archives with OCR quality scoring.",
-          "Add reinforcement learning loop based on operator satisfaction ratings.",
-          "Roll out sandbox mode so analysts can stage new guardrails before production.",
+          "Expand scenario coverage in validation scripts.",
+          "Improve retrieval explainability for edge-case queries.",
+          "Formalize feedback loops for stakeholder review sessions.",
         ],
       },
     ],
@@ -156,5 +157,3 @@ export function getCaseStudy(slug: string) {
 }
 
 export const featuredCaseStudy = caseStudies[0];
-
-// @improvement: case study content centralised for pages + homepage card
