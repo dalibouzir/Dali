@@ -197,11 +197,11 @@ export const projects: Project[] = [
     tags: ["ai", "ml", "advisory", "analytics"],
     featured: true,
     visual: {
-      src: "/assets/projects/affa/images/cover.webp",
+      src: "/assets/projects/affa/cover.svg",
       alt: "AFFA recommendation interface",
     },
     media: {
-      image: "/assets/projects/affa/images/cover.webp",
+      image: "/assets/projects/affa/cover.svg",
       video: "/assets/projects/affa/videos/demo.mov",
     },
   },
@@ -291,11 +291,11 @@ export const projects: Project[] = [
     tags: ["backend", "laravel", "operations"],
     featured: false,
     visual: {
-      src: "/assets/projects/elyosdigital-powergym/images/img5.webp",
+      src: "/assets/projects/elyosdigital-powergym/cover.svg",
       alt: "PowerGym admin interface snapshot",
     },
     media: {
-      image: "/assets/projects/elyosdigital-powergym/images/img5.webp",
+      image: "/assets/projects/elyosdigital-powergym/cover.svg",
       video: "/assets/projects/elyosdigital-powergym/videos/demo-1.mov",
     },
   },
@@ -336,11 +336,11 @@ export const projects: Project[] = [
     tags: ["fullstack", "nextjs", "supabase", "workflow"],
     featured: false,
     visual: {
-      src: "/assets/projects/therapist-funnel/images/img5.webp",
+      src: "/assets/projects/meriem-booking/cover.svg",
       alt: "Therapist booking interface preview",
     },
     media: {
-      image: "/assets/projects/therapist-funnel/images/img5.webp",
+      image: "/assets/projects/meriem-booking/cover.svg",
     },
   },
 ];

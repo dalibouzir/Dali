@@ -158,7 +158,7 @@ export default function Nav({ initialLocale }: NavProps) {
   };
 
   return (
-    <header className={`anton-header ${scrolled || menuOpen ? "is-scrolled" : ""}`}>
+    <header className={`anton-header ${!isHomePage ? "is-page" : ""} ${scrolled || menuOpen ? "is-scrolled" : ""}`}>
       <div className="anton-nav-shell">
         <Link href="/" className="anton-logo" onClick={() => setMenuOpen(false)}>
           <span className="anton-logo-word" aria-label={uiCopy.logoAria}>

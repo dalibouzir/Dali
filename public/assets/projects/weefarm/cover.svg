@@ -1,95 +1,88 @@
-<svg width="1200" height="780" viewBox="0 0 1200 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="20" y1="10" x2="1160" y2="760" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#071126" />
-      <stop offset="0.45" stop-color="#0A2D4A" />
-      <stop offset="1" stop-color="#081829" />
+    <linearGradient id="bg" x1="120" y1="60" x2="1080" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111f"/>
+      <stop offset="0.52" stop-color="#11365a"/>
+      <stop offset="1" stop-color="#070a12"/>
     </linearGradient>
-    <linearGradient id="pulse" x1="165" y1="200" x2="1020" y2="200" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#A4E8FF" stop-opacity="0.92" />
-      <stop offset="1" stop-color="#75F6D2" stop-opacity="0.88" />
-    </linearGradient>
-    <linearGradient id="card" x1="140" y1="410" x2="1116" y2="666" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#11406A" stop-opacity="0.48"/>
-      <stop offset="1" stop-color="#195278" stop-opacity="0.42"/>
-    </linearGradient>
-    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 110) rotate(35) scale(460 260)">
-      <stop stop-color="#58A8FF" stop-opacity="0.32"/>
-      <stop offset="1" stop-color="#58A8FF" stop-opacity="0"/>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(860 225) rotate(135) scale(410 330)">
+      <stop stop-color="#fff9e6" stop-opacity=".86"/>
+      <stop offset=".34" stop-color="#c2e9ff" stop-opacity=".48"/>
+      <stop offset=".74" stop-color="#2a6fb6" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#2a6fb6" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(990 720) rotate(-35) scale(430 220)">
-      <stop stop-color="#DF2B5F" stop-opacity="0.28"/>
-      <stop offset="1" stop-color="#DF2B5F" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="58" y="50" width="1088" height="674" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#020611" flood-opacity="0.45"/>
+    <linearGradient id="panel" x1="120" y1="120" x2="1040" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102b48" stop-opacity=".96"/>
+      <stop offset="1" stop-color="#06131f" stop-opacity=".96"/>
+    </linearGradient>
+    <filter id="soft" x="-80" y="-80" width="1360" height="920" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="20"/>
     </filter>
   </defs>
-
-  <rect width="1200" height="780" rx="42" fill="url(#bg)"/>
-  <rect width="1200" height="780" rx="42" fill="url(#glowA)"/>
-  <rect width="1200" height="780" rx="42" fill="url(#glowB)"/>
-
-  <g filter="url(#softShadow)">
-    <rect x="58" y="56" width="1084" height="668" rx="32" fill="rgba(255,255,255,0.03)"/>
-    <rect x="58" y="56" width="1084" height="668" rx="32" stroke="rgba(214,239,255,0.18)"/>
+  <rect width="1200" height="760" rx="44" fill="url(#bg)"/>
+  <rect width="1200" height="760" rx="44" fill="url(#sun)"/>
+  <g filter="url(#soft)" opacity=".42">
+    <ellipse cx="255" cy="610" rx="300" ry="145" fill="#c8102e"/>
+    <ellipse cx="920" cy="580" rx="320" ry="160" fill="#2a6fb6"/>
   </g>
-
-  <g opacity="0.16">
-    <path d="M102 102H1104" stroke="white"/>
-    <path d="M102 146H1104" stroke="white"/>
-    <path d="M102 190H1104" stroke="white"/>
-    <path d="M102 234H1104" stroke="white"/>
-    <path d="M102 278H1104" stroke="white"/>
+  <path d="M0 610c130-58 243-83 340-74 120 12 178 66 300 70 136 5 206-55 342-48 76 4 143 28 218 73v129H0V610Z" fill="#08111c" opacity=".72"/>
+  <rect x="122" y="92" width="956" height="558" rx="34" fill="url(#panel)" stroke="#7dd3fc" stroke-opacity=".24"/>
+  <rect x="158" y="126" width="884" height="48" rx="16" fill="#06131f" stroke="#ffffff" stroke-opacity=".08"/>
+  <circle cx="184" cy="150" r="7" fill="#c8102e"/>
+  <circle cx="206" cy="150" r="7" fill="#f6f7fb"/>
+  <circle cx="228" cy="150" r="7" fill="#2a6fb6"/>
+  <rect x="888" y="139" width="82" height="10" rx="5" fill="#9bdcff" opacity=".48"/>
+  <rect x="982" y="139" width="28" height="10" rx="5" fill="#ffffff" opacity=".22"/>
+  <g opacity=".2" stroke="#ffffff">
+    <path d="M170 220h860"/>
+    <path d="M170 310h860"/>
+    <path d="M170 400h860"/>
+    <path d="M170 490h860"/>
+    <path d="M250 198v412"/>
+    <path d="M410 198v412"/>
+    <path d="M570 198v412"/>
+    <path d="M730 198v412"/>
+    <path d="M890 198v412"/>
   </g>
-
-  <text x="98" y="145" fill="#E6F2FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="60" font-weight="700" letter-spacing="0.4">WeeFarm</text>
-  <text x="98" y="191" fill="#BFE6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="25" font-weight="500">AI-Assisted Decision-Support Platform</text>
-
-  <g>
-    <rect x="92" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
-    <text x="126" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="35" font-weight="600">SQL</text>
-
-    <rect x="318" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
-    <text x="364" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="35" font-weight="600">RAG</text>
-
-    <rect x="544" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
-    <text x="572" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="600">ML Signal</text>
-
-    <rect x="770" y="236" width="182" height="68" rx="20" fill="rgba(255,255,255,0.08)"/>
-    <text x="798" y="278" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="600">LLM Craft</text>
-
-    <rect x="996" y="236" width="146" height="68" rx="20" fill="rgba(117,246,210,0.2)" stroke="rgba(117,246,210,0.6)"/>
-    <text x="1018" y="278" fill="#EEFFFB" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">Manager</text>
+  <rect x="171" y="210" width="248" height="214" rx="24" fill="#0d2742" stroke="#7dd3fc" stroke-opacity=".22"/>
+  <path d="M204 360c48-92 115-118 198-78" stroke="#6ee7b7" stroke-width="9" stroke-linecap="round"/>
+  <path d="M207 360c32-26 71-38 116-38 36 0 70 7 101 22" stroke="#c8102e" stroke-opacity=".7" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="250" cy="314" r="12" fill="#f8fafc"/>
+  <circle cx="313" cy="292" r="10" fill="#6ee7b7"/>
+  <circle cx="365" cy="306" r="9" fill="#7dd3fc"/>
+  <rect x="200" y="238" width="116" height="13" rx="6.5" fill="#ffffff" opacity=".72"/>
+  <rect x="200" y="262" width="70" height="10" rx="5" fill="#ffffff" opacity=".28"/>
+  <rect x="455" y="210" width="418" height="214" rx="24" fill="#071a2d" stroke="#ffffff" stroke-opacity=".1"/>
+  <g stroke-linecap="round" stroke-width="5">
+    <path d="M508 338h92" stroke="#7dd3fc"/>
+    <path d="M624 338h92" stroke="#7dd3fc"/>
+    <path d="M740 338h92" stroke="#7dd3fc"/>
   </g>
-
-  <path d="M274 270H316M500 270H542M726 270H768M952 270H996" stroke="url(#pulse)" stroke-width="5" stroke-linecap="round"/>
-  <g>
-    <circle cx="274" cy="270" r="4" fill="#B7ECFF"/>
-    <circle cx="500" cy="270" r="4" fill="#B7ECFF"/>
-    <circle cx="726" cy="270" r="4" fill="#B7ECFF"/>
-    <circle cx="952" cy="270" r="4" fill="#B7ECFF"/>
+  <g fill="#102f4f" stroke="#7dd3fc" stroke-opacity=".36">
+    <rect x="466" y="294" width="112" height="74" rx="20"/>
+    <rect x="596" y="294" width="112" height="74" rx="20"/>
+    <rect x="726" y="294" width="112" height="74" rx="20"/>
   </g>
-
-  <rect x="92" y="372" width="1050" height="322" rx="26" fill="url(#card)" stroke="rgba(203,232,255,0.2)"/>
-
-  <g>
-    <rect x="114" y="398" width="342" height="270" rx="18" fill="rgba(7,26,45,0.55)" stroke="rgba(180,220,255,0.22)"/>
-    <text x="140" y="436" fill="#DDF1FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="33" font-weight="700">Validated Baseline</text>
-    <text x="140" y="478" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">20/20 executed cases</text>
-    <text x="140" y="516" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">17 PASS / 3 PARTIAL / 0 FAIL</text>
-    <text x="140" y="554" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">100% route accuracy</text>
-    <text x="140" y="592" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">0 runtime errors</text>
-    <text x="140" y="630" fill="#EAF5FF" font-family="'Outfit', 'Inter', sans-serif" font-size="30" font-weight="600">0.8412 high-risk recall</text>
+  <g fill="#ffffff" opacity=".7">
+    <rect x="494" y="318" width="56" height="10" rx="5"/>
+    <rect x="624" y="318" width="56" height="10" rx="5"/>
+    <rect x="754" y="318" width="56" height="10" rx="5"/>
+    <rect x="510" y="340" width="24" height="8" rx="4"/>
+    <rect x="640" y="340" width="24" height="8" rx="4"/>
+    <rect x="770" y="340" width="24" height="8" rx="4"/>
   </g>
-
-  <g>
-    <rect x="490" y="398" width="628" height="270" rx="18" fill="rgba(7,26,45,0.55)" stroke="rgba(180,220,255,0.22)"/>
-    <text x="518" y="436" fill="#DDF1FF" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="33" font-weight="700">Core Stack</text>
-    <text x="518" y="480" fill="#CFEBFF" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">FastAPI · Next.js · PostgreSQL/Supabase · pgvector</text>
-    <text x="518" y="520" fill="#CFEBFF" font-family="'Outfit', 'Inter', sans-serif" font-size="31" font-weight="600">SQLAlchemy · Alembic · Docker · Azure Container Apps · Vercel</text>
-    <text x="518" y="585" fill="#EAF6FF" font-family="'Outfit', 'Inter', sans-serif" font-size="33" font-weight="700">Evidence-first · Readiness-gated · Human-in-the-loop</text>
+  <rect x="902" y="210" width="140" height="214" rx="24" fill="#10321f" stroke="#6ee7b7" stroke-opacity=".32"/>
+  <path d="M936 344l32 32 52-82" stroke="#6ee7b7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="171" y="456" width="318" height="116" rx="22" fill="#071a2d" stroke="#ffffff" stroke-opacity=".1"/>
+  <rect x="520" y="456" width="522" height="116" rx="22" fill="#071a2d" stroke="#ffffff" stroke-opacity=".1"/>
+  <rect x="198" y="487" width="84" height="14" rx="7" fill="#ffffff" opacity=".68"/>
+  <rect x="198" y="518" width="210" height="12" rx="6" fill="#7dd3fc" opacity=".42"/>
+  <rect x="198" y="544" width="142" height="12" rx="6" fill="#6ee7b7" opacity=".36"/>
+  <rect x="552" y="486" width="182" height="14" rx="7" fill="#ffffff" opacity=".72"/>
+  <rect x="552" y="520" width="392" height="12" rx="6" fill="#ffffff" opacity=".38"/>
+  <rect x="552" y="546" width="300" height="12" rx="6" fill="#6ee7b7" opacity=".34"/>
+  <g opacity=".44" stroke="#6ee7b7" stroke-width="2">
+    <path d="M88 690c42-44 83-68 124-72 54-5 86 23 142 17 65-7 88-52 151-58 54-5 108 18 160 70"/>
+    <path d="M740 682c63-56 119-78 167-67 61 14 91 79 164 79 40 0 76-16 109-49"/>
   </g>
 </svg>
