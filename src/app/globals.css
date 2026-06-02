@@ -601,7 +601,7 @@ html.cursor-visible .ai-cursor-ring {
 
 .anton-hero {
   position: relative;
-  min-height: 100svh;
+  min-height: 88svh;
   display: grid;
   place-items: center;
   padding-top: 6.25rem;
@@ -784,6 +784,8 @@ html.cursor-visible .ai-cursor-ring {
 }
 
 .anton-about {
+  padding-top: clamp(2.8rem, 5vw, 5.4rem);
+  scroll-margin-top: 5.8rem;
   background:
     linear-gradient(180deg, rgb(8 14 20 / 0.75), rgb(8 14 20 / 0.95));
 }
@@ -803,6 +805,7 @@ html.cursor-visible .ai-cursor-ring {
   font-size: clamp(2.4rem, 6vw, 4.6rem);
   letter-spacing: -0.03em;
   line-height: 1.05;
+  color: rgb(235 242 255 / 0.96);
 }
 
 .anton-section-title span {
@@ -856,11 +859,12 @@ html.cursor-visible .ai-cursor-ring {
   margin: 0.45rem 0 0;
   font-family: var(--font-display, "Space Grotesk", sans-serif);
   font-size: 2rem;
+  color: #fff;
 }
 
 .anton-avatar-card p {
   margin: 0.25rem 0 0;
-  color: var(--color-muted);
+  color: rgb(219 228 241 / 0.82);
 }
 
 .anton-about-card {
@@ -880,6 +884,7 @@ html.cursor-visible .ai-cursor-ring {
   font-family: var(--font-display, "Space Grotesk", sans-serif);
   font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1.1;
+  color: rgb(229 238 255 / 0.96);
 }
 
 .anton-about-head h3 span {
@@ -1611,6 +1616,18 @@ html.cursor-visible .ai-cursor-ring {
 
   .anton-hero-title {
     line-height: 1.08;
+  }
+
+  .anton-hero {
+    min-height: 82svh;
+  }
+
+  .anton-about {
+    padding-top: 2.4rem;
+  }
+
+  .anton-section-header {
+    margin-bottom: 1.8rem;
   }
 
   .anton-hero-actions {

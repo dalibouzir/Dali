@@ -563,7 +563,7 @@ export function PortfolioHome({ locale }: PortfolioHomeProps) {
           >
             <motion.figure className="anton-avatar-card glass-panel" variants={staggerRevealVariants}>
               <Image
-                src="/profile/mohamed-ali-bouzir.jpg"
+                src="/profile/mohamed-ali-bouzir-enhanced-natural.jpg"
                 alt={owner.name}
                 width={840}
                 height={1040}
