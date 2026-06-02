@@ -80,7 +80,7 @@ export function HomeHero() {
               {/* Image container */}
               <div className="relative overflow-hidden rounded-3xl border-2 border-[rgb(var(--brand)/0.5)] bg-[rgb(var(--surface))] p-2">
                 <Image
-                  src="/profile/mohamed-ali-bouzir-enhanced-natural.jpg"
+                  src="/profile/Dali.jpg"
                   alt={`Professional portrait of ${owner.name}, Junior AI Engineer`}
                   width={400}
                   height={400}

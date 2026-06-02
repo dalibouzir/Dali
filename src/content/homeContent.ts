@@ -68,7 +68,7 @@ export const heroContent = {
   paragraph:
     "I build evidence-first AI decision-support systems that combine FastAPI backend services, PostgreSQL/Supabase data workflows, pgvector-backed RAG, ML advisory signals, and structured LLM response composition for human-reviewed operational decisions.",
   photo: {
-    src: "/profile/mohamed-ali-bouzir-enhanced-natural.jpg",
+    src: "/profile/Dali.jpg",
     alt: "Mohamed Ali Bouzir",
   },
   ctas: [
