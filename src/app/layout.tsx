@@ -4,7 +4,6 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
-import { PageIntro } from "@/components/PageIntro";
 import Nav from "@/components/Nav";
 import { FuturisticCursor } from "@/components/FuturisticCursor";
 import { SITE } from "@/config/site";
@@ -148,7 +147,6 @@ export default async function RootLayout({
           {skipLinkLabel}
         </a>
         <ThemeProvider>
-          <PageIntro />
           <FuturisticCursor />
           <div className="app-shell">
             <SmoothScrollProvider />

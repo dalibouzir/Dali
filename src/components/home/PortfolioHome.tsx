@@ -474,7 +474,7 @@ export function PortfolioHome({ locale }: PortfolioHomeProps) {
           className="anton-hero-inner"
           initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
           animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.86, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.86, delay: prefersReducedMotion ? 0 : 1.05, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1 className="anton-hero-title">
             <span className="anton-word-primary">{copy.hero.primary}</span>
@@ -490,7 +490,7 @@ export function PortfolioHome({ locale }: PortfolioHomeProps) {
               hidden: {},
               visible: {
                 transition: {
-                  delayChildren: 0.18,
+                  delayChildren: 1.22,
                   staggerChildren: 0.1,
                 },
               },
